@@ -1,7 +1,7 @@
 {
-  "name": "my-webpack-project",
+  "name": "tsnes",
   "version": "1.0.0",
-  "description": "My webpack project",
+  "description": "A NES emulator written in TypeScript",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

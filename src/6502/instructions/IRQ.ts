@@ -1,13 +1,9 @@
+import { AddressingMode } from "../AddressingMode";
 import { Instruction } from "../Instruction";
 import { uint8 } from "../types";
-import { AddressingMode } from "./../AddressingMode"
 
-export default class IRQ implements Instruction {
-    addressingMode: AddressingMode;
-    name: string;
-    opcode: number;
-
-    execute() {
-
+export default class IRQ extends Instruction {
+    constructor(opcode: number, addressingMode: AddressingMode) {
+        super("IRQ", opcode, addressingMode);
     }
 }

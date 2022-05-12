@@ -320,8 +320,9 @@ describe("CPU - LEGAL OPCODES", () => {
         cpu.y = 0xEF;
         cpu.stkp = 0x37;
 
-        // NOP should do nothing, just check that it does not change any values
+        // NOP should do nothing, just check that it does not change any registers
         // NOP takes 2 cycles
+        ram.write(0x8000, 0x9C);
 
         cpu.clock();
         cpu.clock();

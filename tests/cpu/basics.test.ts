@@ -1,6 +1,6 @@
-import Bus from "../src/mos6502/Bus";
-import CPU from "../src/mos6502/CPU";
-import RAM from "../src/mos6502/RAM";
+import Bus from "../../src/mos6502/Bus";
+import CPU from "../../src/mos6502/CPU";
+import RAM from "../../src/mos6502/RAM";
 
 let bus: Bus;
 let ram: RAM;

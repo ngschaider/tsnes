@@ -1,4 +1,4 @@
-import { AddressingMode } from "../AddressingMode";
+import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
 import { Instruction } from "../Instruction";
 import { uint8, uint16 } from "../types";
@@ -12,7 +12,6 @@ export default class TXA extends Instruction {
     }
 
     execute(cpu: CPU): void {
-		super.execute(cpu);
         super.execute(cpu);
         cpu.a = cpu.x;
         cpu.status.Z = cpu.a == 0x00;

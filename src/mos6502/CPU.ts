@@ -4,7 +4,9 @@ import { Instruction } from "./Instruction";
 import getInstructionByOpcode from "./getInstructionByOpcode";
 import IBusDevice from "./IBusDevice";
 import Bus from "./Bus";
-import { cpuUsage } from "process";
+
+const INITIAL_STKP: uint8 = 0xFD;
+const RESET_VECTOR: uint16 = 0xFFCC;
 
 export default class CPU implements IBusDevice {
     
@@ -43,8 +45,8 @@ export default class CPU implements IBusDevice {
 
     status: StatusRegister = new StatusRegister();
 
-    stkp: uint8;
-    pc: uint16;
+    stkp: uint8 = INITIAL_STKP;
+    pc: uint16 = 0x0000;
 
     cycles: number = 0;
     
@@ -64,7 +66,6 @@ export default class CPU implements IBusDevice {
             // Read next instruction byte. This 8-bit value is used to determine
             // the instruction to execute
             let opcode = this.bus.read(this.pc);
-            console.log("read opcode " + opcode.toString(16));
             this.pc++;
 
             // Always set the unused status flag bit
@@ -73,7 +74,6 @@ export default class CPU implements IBusDevice {
             this.status.U = true;
 
             let instruction: Instruction = getInstructionByOpcode(opcode);
-            console.log("executing " + instruction.name);
             instruction.execute(this);
 
             // Always set the unused status flag bit
@@ -87,9 +87,8 @@ export default class CPU implements IBusDevice {
 
     reset() {
         // Get address to set the program counter to
-        let resetVector = 0xFFCC;
-        let low = this.bus.read(resetVector);
-        let high = this.bus.read(resetVector + 1);
+        let low = this.bus.read(RESET_VECTOR);
+        let high = this.bus.read(RESET_VECTOR + 1);
         this.pc = (high << 8) | low;
 
         // Reset registers
@@ -97,7 +96,7 @@ export default class CPU implements IBusDevice {
         this.x = 0x00;
         this.y = 0x00;
 
-        this.stkp = 0xFD;
+        this.stkp = INITIAL_STKP;
 
         // The unused status bit is always set
         this.status = new StatusRegister();

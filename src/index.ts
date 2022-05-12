@@ -35,7 +35,7 @@ let p = new p5((p: p5) => {
 
         p.push();
         p.translate(800, 40);
-        dumpRam(ram, 0xC000);
+        dumpRam(ram, 0x8000);
         p.pop();
     
         p.push();
@@ -62,8 +62,8 @@ let p = new p5((p: p5) => {
         p.text("PC: 0x" + cpu.pc.toString(16), 40, 400);
         p.text("STKP: 0x" + cpu.stkp.toString(16), 40, 440);
         p.text("A: 0x" + cpu.a.toString(16), 40, 480);
-        p.text("X: 0x" + cpu.a.toString(16), 40, 520);
-        p.text("Y: 0x" + cpu.a.toString(16), 40, 560);
+        p.text("X: 0x" + cpu.x.toString(16), 40, 520);
+        p.text("Y: 0x" + cpu.y.toString(16), 40, 560);
         p.text("Cycles: " + cpu.cycles, 40, 600);
     };
 
@@ -72,10 +72,14 @@ let p = new p5((p: p5) => {
             cpu.clock();
         } else if(p.key == "r") {
             cpu.reset();
+            cpu.x = 0x3D;
         } else if(p.key == "l") {
-            ram.load("A9 01 8D 00 02 A9 05 8D 01 02 A9 08 8D 02 02", 0x8000);
-            ram.bytes[0xFFCC] = 0x00;
-            ram.bytes[0xFFCD] = 0x80;
+            ram.load("8A", 0x8000);
+            ram.load("00 80", 0xFFCC);
+
+            //ram.load("A9 01 8D 00 02 A9 05 8D 01 02 A9 08 8D 02 02", 0x8000);
+            //ram.bytes[0xFFCC] = 0x00;
+            //ram.bytes[0xFFCD] = 0x80;
         } else if(p.key == 'p') {
             running = !running
         }

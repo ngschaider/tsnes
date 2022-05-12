@@ -68,8 +68,6 @@ import TXA from "./instructions/TXA"
 import TXS from "./instructions/TXS"
 import TYA from "./instructions/TYA"
 import XXX from "./instructions/XXX"
-import { uint8 } from "./types";
-
 
 /*
 00,BRK,IMM,7

@@ -7,11 +7,12 @@ import { uint8, uint16 } from "../types";
 // Function:    X = X - 1
 // Flags Out:   N, Z
 export default class DEX extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("DEX", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("DEX", opcode, addressingMode, cycles);
     }
 
-    execute(cpu: CPU) {
+    execute(cpu: CPU): void {
+		super.execute(cpu);
         cpu.x--;
         cpu.status.Z = cpu.x === 0x00;
         cpu.status.N = (cpu.x & 0x80) !== 0x00;

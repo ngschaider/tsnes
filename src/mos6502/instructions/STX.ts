@@ -6,11 +6,12 @@ import { uint8, uint16 } from "../types";
 // Instruction: Store X Register at Address
 // Function:    M = X
 export default class STX extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("STX", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("STX", opcode, addressingMode, cycles);
     }
 
     execute(cpu: CPU): void {
+		super.execute(cpu);
         let address = this.addressingMode.fetch(cpu);
         cpu.bus.write(address, cpu.x);
     }

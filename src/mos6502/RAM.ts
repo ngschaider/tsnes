@@ -41,4 +41,10 @@ export default class RAM implements IBusDevice {
         }
     }
 
+    reset() {
+        for(let i = 0; i < this.size; i++) {
+            this.bytes[i] = 0x00;
+        }
+    }
+
 }

@@ -1,7 +1,7 @@
 import StatusRegister from "./StatusRegister";
 import { uint16, uint8 } from "./types";
 import { Instruction } from "./Instruction";
-import { getInstructionByOpcode } from "./instructionList";
+import getInstructionByOpcode from "./getInstructionByOpcode";
 import IBusDevice from "./IBusDevice";
 import Bus from "./Bus";
 import { cpuUsage } from "process";
@@ -73,15 +73,13 @@ export default class CPU implements IBusDevice {
             this.status.U = true;
 
             let instruction: Instruction = getInstructionByOpcode(opcode);
-            console.log("executin " + instruction.name);
+            console.log("executing " + instruction.name);
             instruction.execute(this);
 
             // Always set the unused status flag bit
             // Is this line even needed?
             // It seems that the unused flag is never cleared
             this.status.U = true;
-
-            this.cycles++;
         }
 
         this.cycles--;

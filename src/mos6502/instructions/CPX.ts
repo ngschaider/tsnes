@@ -7,11 +7,12 @@ import { uint8, uint16 } from "../types";
 // Function:    C <- X >= M      Z <- (X - M) == 0
 // Flags Out:   N, C, Z
 export default class CPX extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("CPX", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("CPX", opcode, addressingMode, cycles);
     }
 
-    execute(cpu: CPU) {
+    execute(cpu: CPU): void {
+		super.execute(cpu);
         let address: uint16 = this.addressingMode.fetch(cpu);
         let data: uint8 = cpu.bus.read(address);
 

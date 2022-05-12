@@ -1,4 +1,4 @@
-import { AddressingMode } from "../AddressingMode";
+import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
 import { uint16, uint8 } from "../types";
 

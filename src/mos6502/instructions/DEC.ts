@@ -7,11 +7,12 @@ import { uint8, uint16 } from "../types";
 // Function:    M = M - 1
 // Flags Out:   N, Z
 export default class DEC extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("DEC", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("DEC", opcode, addressingMode, cycles);
     }
 
-    execute(cpu: CPU) {
+    execute(cpu: CPU): void {
+		super.execute(cpu);
         let address: uint16 = this.addressingMode.fetch(cpu);
         let data: uint8 = cpu.bus.read(address);
 

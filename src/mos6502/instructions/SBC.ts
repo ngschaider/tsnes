@@ -29,11 +29,12 @@ import { uint8, uint16 } from "../types";
 // of M, the data(!) therfore we can simply add, exactly the same way we did 
 // before.
 export default class SBC extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("SBC", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("SBC", opcode, addressingMode, cycles);
     }
 
     execute(cpu: CPU): void {
+		super.execute(cpu);
         let address = this.addressingMode.fetch(cpu);
         let data = cpu.bus.read(address);
         
@@ -47,5 +48,9 @@ export default class SBC extends Instruction {
         cpu.status.V = ((temp ^ cpu.a) & (temp ^ value) & 0x0080) !== 0x0000;
         cpu.status.N = (temp & 0x0080) !== 0x0000;
         cpu.a = temp & 0x00FF;
+
+        if(["IZY", "ABY", "ABX"].includes(this.addressingMode.name) && this.addressingMode.pageBoundaryCrossed) {
+            cpu.cycles++;
+        }
     }
 }

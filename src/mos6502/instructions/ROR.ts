@@ -4,11 +4,12 @@ import { Instruction } from "../Instruction";
 import { uint8, uint16 } from "../types";
 
 export default class ROR extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("ROR", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("ROR", opcode, addressingMode, cycles);
     }
 
     execute(cpu: CPU): void {
+		super.execute(cpu);
         let address: uint16 = this.addressingMode.fetch(cpu);
         let data: uint8 = cpu.bus.read(address);
         

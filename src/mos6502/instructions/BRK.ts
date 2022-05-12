@@ -6,11 +6,12 @@ import { uint8, uint16 } from "../types";
 // Instruction: Break
 // Function:    Program Sourced Interrupt
 export default class BRK extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("BRK", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("BRK", opcode, addressingMode, cycles);
     }
 
-    execute(cpu: CPU) {
+    execute(cpu: CPU): void {
+		super.execute(cpu);
         cpu.pc++;
 
         cpu.status.I = true;

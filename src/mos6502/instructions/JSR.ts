@@ -6,11 +6,12 @@ import { uint8, uint16 } from "../types";
 // Instruction: Jump To Sub-Routine
 // Function:    Push current pc to stack, pc = address
 export default class JSR extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("JSR", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("JSR", opcode, addressingMode, cycles);
     }
 
     execute(cpu: CPU): void {
+		super.execute(cpu);
         let address = this.addressingMode.fetch(cpu);
         cpu.pc--;
 

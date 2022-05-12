@@ -7,11 +7,12 @@ import { uint8, uint16 } from "../types";
 // Instruction: Disable Interrupts / Clear Interrupt Flag
 // Function:    I = 0
 export default class CLI extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("CLI", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("CLI", opcode, addressingMode, cycles);
     }
 
-    execute(cpu: CPU) {
+    execute(cpu: CPU): void {
+		super.execute(cpu);
         cpu.status.I = false;
     }
 }

@@ -4,11 +4,12 @@ import { Instruction } from "../Instruction";
 import { uint8, uint16 } from "../types";
 
 export default class LSR extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("LSR", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("LSR", opcode, addressingMode, cycles);
     }
 
     execute(cpu: CPU): void {
+		super.execute(cpu);
         let address = this.addressingMode.fetch(cpu);
         let data = cpu.bus.read(address);
 

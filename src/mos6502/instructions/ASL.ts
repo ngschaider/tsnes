@@ -8,11 +8,12 @@ import { uint8, uint16 } from "../types";
 // Function: A = C <- (A << 1) <- 0
 // Flags Out: N, Z, C
 export default class ASL extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("ASL", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("ASL", opcode, addressingMode, cycles);
     }
 
-    execute(cpu: CPU) {
+    execute(cpu: CPU): void {
+		super.execute(cpu);
         let address = this.addressingMode.fetch(cpu);
         let data = cpu.bus.read(address);
 

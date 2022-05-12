@@ -1,14 +1,15 @@
-import { AddressingMode } from "../AddressingMode";
+import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
 import { Instruction } from "../Instruction";
 import { uint8, uint16 } from "../types";
 
 export default class ADC extends Instruction {
-    constructor(opcode: number, addressingMode: AddressingMode) {
-        super("ADC", opcode, addressingMode);
+    constructor(opcode: number, addressingMode: AddressingMode, cycles: number) {
+        super("ADC", opcode, addressingMode, cycles);
     }
 
-    execute(cpu: CPU) {
+    execute(cpu: CPU): void {
+		super.execute(cpu);
         let address = this.addressingMode.fetch(cpu);
         let data: uint8 = cpu.bus.read(address);
 
@@ -28,5 +29,9 @@ export default class ADC extends Instruction {
 
         // Load the result into the accumulator (it's 8-bit, don't forget!)
         cpu.a = temp & 0x00FF;
+
+        if(["IZY", "ABY", "ABX"].includes(this.addressingMode.name) && this.addressingMode.pageBoundaryCrossed) {
+            cpu.cycles++;
+        }
     }
 }

@@ -11,6 +11,10 @@ describe("CPU - DECREMENT", () => {
         expect(cycles).toBe(2);
     });
 
+    test("0xC6 - DEC (ZP0)", () => {
+    
+    });
+    
     test("0xCA - DEX (IMP)", () => {
         let {cpu, ram} = setupHardware();
         cpu.x = 0x3D;
@@ -20,4 +24,17 @@ describe("CPU - DECREMENT", () => {
         let cycles = countCycles(cpu, () => cpu.x === 0x3C);
         expect(cycles).toBe(2);
     });
+
+    test("0xCE - DEC (ABS)", () => {
+    
+    });
+    
+    test("0xD6 - DEC (ZPX)", () => {
+    
+    });
+    
+    test("0xDE - DEC (ABX)", () => {
+    
+    });
+    
 });

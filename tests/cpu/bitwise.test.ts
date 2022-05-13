@@ -192,4 +192,12 @@ describe("CPU - BITWISE", () => {
     
     });
 
+    test("0x76 - ROR (ZPX)", () => {
+    
+    });
+    
+    test("0x7E - ROR (ABX)", () => {
+    
+    });
+    
 });

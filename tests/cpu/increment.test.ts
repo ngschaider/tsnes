@@ -20,4 +20,21 @@ describe("CPU - INCREMENT", () => {
         let cycles = countCycles(cpu, () => cpu.y === 0x3E);
         expect(cycles).toBe(2);
     })
+    
+    test("0xE6 - INC (ZP0)", () => {
+    
+    });
+    
+    test("0xEE - INC (ABS)", () => {
+    
+    });
+    
+    test("0xF6 - INC (ZPX)", () => {
+    
+    });
+        
+    test("0xFE - INC (ABX)", () => {
+    
+    });
+
 });

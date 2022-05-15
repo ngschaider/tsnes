@@ -13,11 +13,10 @@ export default class DEC extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address: uint16 = this.addressingMode.fetch(cpu);
-        let data: uint8 = cpu.bus.read(address);
+        let data: uint8 = this.addressingMode.getData(cpu);
 
         let temp: uint8 = data - 1;
-        cpu.bus.write(address, temp & 0x00FF);
+        this.addressingMode.setData(cpu, temp & 0x00FF);
         cpu.status.Z = (temp & 0x00FF) === 0x0000;
         cpu.status.N = (temp & 0x0080) !== 0x0000;
     }

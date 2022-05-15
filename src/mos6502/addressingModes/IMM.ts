@@ -15,11 +15,26 @@ export default class IMM extends AddressingMode {
         super("IMM");
     }
 
-    fetch(cpu: CPU): uint16 {
-        let address: uint16 = cpu.pc;
+    getAddress(cpu: CPU): uint16 {
+        throw new Error("Immediate addressing does not support getAddress()");
+
+        /*let address: uint16 = cpu.pc;
         cpu.pc++;
 
-        return address;
+        return address;*/
+    }
+
+    private data: uint8;
+    getData(cpu: CPU): uint8 {
+        if(!this.data) {
+            this.data = cpu.bus.read(cpu.pc);
+            cpu.pc++;
+        }
+        return this.data;
+    }
+
+    setData(cpu: CPU, data: number): void {
+        throw new Error("Immediate addressing does not support setData()");
     }
 
 }

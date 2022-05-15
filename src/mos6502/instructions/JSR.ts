@@ -12,7 +12,7 @@ export default class JSR extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address = this.addressingMode.fetch(cpu);
+        let address = this.addressingMode.getAddress(cpu);
         cpu.pc--;
 
         cpu.pushStack((cpu.pc >> 8) & 0x00FF);

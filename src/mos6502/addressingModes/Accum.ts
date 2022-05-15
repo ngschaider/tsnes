@@ -13,21 +13,22 @@ import { uint16, uint8 } from "../types";
 // while the third byte specifies the eight high-order bits.
 // Therefore, this addressing mode allows access to the total
 // 64K bytes of addressable memory
-export default class ABY extends AddressingMode {
+export default class Accum extends AddressingMode {
+
     constructor() {
-        super("ABY");
+        super("Accum");
     }
 
-    fetch(cpu: CPU): uint16 {
-        let low: uint8 = cpu.bus.read(cpu.pc);
-        cpu.pc++;
-        let high: uint8 = cpu.bus.read(cpu.pc);
-        cpu.pc++;
+    getAddress(cpu: CPU): uint16 {
+        throw new Error("Accumulator addressing does not support getAddress()");
+    }
 
-        let address: uint16 = (high << 8) | low;
-        address += cpu.y;
+    getData(cpu: CPU): uint8 {
+        return cpu.a;
+    }
 
-        return address;
+    setData(cpu: CPU, data: number): void {
+        cpu.a = data;
     }
 
 }

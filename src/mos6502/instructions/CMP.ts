@@ -13,8 +13,7 @@ export default class CMP extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address: uint16 = this.addressingMode.fetch(cpu);
-        let data: uint8 = cpu.bus.read(address);
+        let data: uint8 = this.addressingMode.getData(cpu);
 
         let temp: uint16 = cpu.a - data;
 
@@ -22,7 +21,7 @@ export default class CMP extends Instruction {
         cpu.status.Z = (temp & 0x00FF) === 0x0000;
         cpu.status.N = (temp & 0x0080) !== 0x0000;
 
-        if(["IZY", "ABY", "ABX"].includes(this.addressingMode.name) && this.addressingMode.pageBoundaryCrossed) {
+        if(this.addressingMode.pageBoundaryCrossed) {
             cpu.cycles++;
         }
     }

@@ -10,13 +10,21 @@ import { uint16, uint8 } from "../types";
 // Implied Adressing (Implied)
 // In the implied adressing mode, the address containing the 
 // operand is implicitly stated in the operation code of the instruction
-export default class IMP extends AddressingMode {
+export default class Implied extends AddressingMode {
     constructor() {
-        super("IMP");
+        super("Implied");
     }
 
-    fetch(cpu: CPU): uint16 {
-        return 0x0000;
+    getAddress(cpu: CPU): uint16 {
+        throw new Error("Implied addressing does not support getAddress()");
+    }
+
+    getData(cpu: CPU): uint8 {
+        throw new Error("Implied addressing does not support getData()");
+    }
+
+    setData(cpu: CPU, data: number): void {
+        throw new Error("Implied addressing does not support setData()");
     }
 
 }

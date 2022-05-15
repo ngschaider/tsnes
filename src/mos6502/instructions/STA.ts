@@ -12,7 +12,6 @@ export default class STA extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address = this.addressingMode.fetch(cpu);
-        cpu.bus.write(address, cpu.a);
+        this.addressingMode.setData(cpu, cpu.a);
     }
 }

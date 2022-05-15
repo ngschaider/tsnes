@@ -14,14 +14,13 @@ export default class LDA extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address: uint16 = this.addressingMode.fetch(cpu);
-        let data: uint8 = cpu.bus.read(address);
+        let data: uint8 = this.addressingMode.getData(cpu);
 
         cpu.a = data;
         cpu.status.Z = cpu.a === 0x00;
         cpu.status.N = (cpu.a & 0x80) !== 0x00;
 
-        if(["INY", "ABY", "ABX"].includes(this.addressingMode.name) && this.addressingMode.pageBoundaryCrossed) {
+        if(this.addressingMode.pageBoundaryCrossed) {
             cpu.cycles++;
         }
     }

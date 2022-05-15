@@ -12,7 +12,6 @@ export default class STY extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address = this.addressingMode.fetch(cpu);
-        cpu.bus.write(address, cpu.y);
+        this.addressingMode.setData(cpu, cpu.y);
     }
 }

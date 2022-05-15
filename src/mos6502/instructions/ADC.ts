@@ -13,8 +13,7 @@ export default class ADC extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address = this.addressingMode.fetch(cpu);
-        let data: uint8 = cpu.bus.read(address);
+        let data: uint8 = this.addressingMode.getData(cpu);
 
         let temp: uint16 = cpu.a + data + (cpu.status.C ? 1 : 0);
 
@@ -33,7 +32,7 @@ export default class ADC extends Instruction {
         // Load the result into the accumulator (it's 8-bit, don't forget!)
         cpu.a = temp & 0x00FF;
 
-        if(["IZY", "ABY", "ABX"].includes(this.addressingMode.name) && this.addressingMode.pageBoundaryCrossed) {
+        if(this.addressingMode.pageBoundaryCrossed) {
             cpu.cycles++;
         }
     }

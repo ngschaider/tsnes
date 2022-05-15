@@ -15,18 +15,26 @@ import { uint16, uint8 } from "../types";
 // of the program counter when the counter is set at the next
 // instruction. The range of the offset is -128 to +127 bytes
 // from the next instruction.
-export default class REL extends AddressingMode {
+export default class Relative extends AddressingMode {
     constructor() {
-        super("REL");
+        super("Relative");
     }
 
-    fetch(cpu: CPU): uint16 {
+    getAddress(cpu: CPU): uint16 {
         let offset: uint8 = cpu.bus.read(cpu.pc);
         cpu.pc++;
 
         let address: uint16 = cpu.pc + offset;
 
         return address;
+    }
+
+    getData(cpu: CPU): uint8 {
+        throw new Error("Relative addressing does not support getData()");
+    }
+
+    setData(cpu: CPU, data: number): void {
+        throw new Error("Relative addressing does not support setData()");
     }
 
 }

@@ -10,9 +10,10 @@ export default class BIT extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address = this.addressingMode.fetch(cpu);
-        let data = cpu.bus.read(address);
+        let data: uint8 = this.addressingMode.getData(cpu);
+
         let temp: uint8 = cpu.a & data;
+        
         cpu.status.Z = (temp & 0x00FF) == 0x00;
         cpu.status.N = (data & (1 << 7)) > 0;
         cpu.status.V = (data & (1 << 6)) > 0;

@@ -1,5 +1,4 @@
 import AddressingMode from "./AddressingMode";
-import AddressingModeName from "./AddressingModeName";
 import CPU from "./CPU";
 import { uint8 } from "./types"
 

@@ -2,8 +2,10 @@ import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
 import { uint16, uint8 } from "../types";
 
-// Address Mode: Absolute 
-// A full 16-bit address is loaded and used
+// Address Mode: Absolute with Y Offset
+// Fundamentally the same as absolute addressing, but the contents of the Y Register
+// is added to the supplied two byte address. If the resulting address changes
+// the page, an additional clock cycle is required
 
 // From the Datasheet:
 // For absolute adressing, the second byte of the instruction
@@ -11,9 +13,9 @@ import { uint16, uint8 } from "../types";
 // while the third byte specifies the eight high-order bits.
 // Therefore, this addressing mode allows access to the total
 // 64K bytes of addressable memory
-export default class ABS extends AddressingMode {
+export default class ABS_Y extends AddressingMode {
     constructor() {
-        super("ABS");
+        super("ABS_Y");
     }
 
     private address: uint16;
@@ -25,6 +27,7 @@ export default class ABS extends AddressingMode {
             cpu.pc++;
     
             this.address = (high << 8) | low;
+            this.address += cpu.y;
         }
 
         return this.address;

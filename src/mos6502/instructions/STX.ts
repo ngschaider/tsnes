@@ -12,7 +12,6 @@ export default class STX extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address = this.addressingMode.fetch(cpu);
-        cpu.bus.write(address, cpu.x);
+        this.addressingMode.setData(cpu, cpu.x);
     }
 }

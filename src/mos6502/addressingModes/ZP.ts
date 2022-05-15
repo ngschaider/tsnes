@@ -13,16 +13,30 @@ import { uint16, uint8 } from "../types";
 // and assuming a zero high address byte. Careful use
 // of the zero page can result in significant increase in
 // code efficiency.
-export default class ZP0 extends AddressingMode {
+export default class ZP extends AddressingMode {
     constructor() {
-        super("ZP0");
+        super("ZP");
     }
 
-    fetch(cpu: CPU): uint16 {
-        let address: uint16 = cpu.bus.read(cpu.pc);
-        cpu.pc++;
+    private address: uint16;
 
-        return address;
+    getAddress(cpu: CPU): uint16 {
+        if(!this.address) {
+            this.address = cpu.bus.read(cpu.pc);
+            cpu.pc++;
+        }
+        
+        return this.address;
+    }
+
+    getData(cpu: CPU): uint8 {
+        let address = this.getAddress(cpu);
+        return cpu.bus.read(address);
+    }
+
+    setData(cpu: CPU, data: uint8): void {
+        let address = this.getAddress(cpu);
+        cpu.bus.write(address, data);
     }
 
 }

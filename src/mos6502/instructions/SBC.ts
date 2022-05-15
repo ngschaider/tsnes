@@ -35,8 +35,7 @@ export default class SBC extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address = this.addressingMode.fetch(cpu);
-        let data = cpu.bus.read(address);
+        let data: uint8 = this.addressingMode.getData(cpu);
         
         // We can invert the bottom 8 bits with bitwise xor
         let value: uint16 = data ^ 0x00FF;
@@ -49,7 +48,7 @@ export default class SBC extends Instruction {
         cpu.status.N = (temp & 0x0080) !== 0x0000;
         cpu.a = temp & 0x00FF;
 
-        if(["IZY", "ABY", "ABX"].includes(this.addressingMode.name) && this.addressingMode.pageBoundaryCrossed) {
+        if(this.addressingMode.pageBoundaryCrossed) {
             cpu.cycles++;
         }
     }

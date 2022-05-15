@@ -12,7 +12,7 @@ export default class JMP extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address = this.addressingMode.fetch(cpu);
+        let address = this.addressingMode.getAddress(cpu);
         cpu.pc = address;
     }
 }

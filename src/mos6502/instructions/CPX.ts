@@ -13,8 +13,7 @@ export default class CPX extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        let address: uint16 = this.addressingMode.fetch(cpu);
-        let data: uint8 = cpu.bus.read(address);
+        let data: uint8 = this.addressingMode.getData(cpu);
 
         let temp: uint16 = cpu.x - data;
 

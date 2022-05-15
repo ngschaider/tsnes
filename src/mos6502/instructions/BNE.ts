@@ -13,7 +13,7 @@ export default class BNE extends Instruction {
     execute(cpu: CPU): void {
 		super.execute(cpu);
         if(!cpu.status.Z) {
-            let address = this.addressingMode.fetch(cpu);
+            let address = this.addressingMode.getAddress(cpu);
 
             if((address & 0xFF00) === (cpu.pc & 0xFF00)) {
                 cpu.cycles += 1; // Add 1 to N if branch occurs to same page

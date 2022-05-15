@@ -17,18 +17,32 @@ import { uint16, uint8 } from "../types";
 // Additionally, due to the "Zero Page" addressing nature of this 
 // mode, no carry is added to the high-order eight bits of memory, 
 // and crossing of page boundaries does not occur.
-export default class ZPX extends AddressingMode {
+export default class ZP_X extends AddressingMode {
     constructor() {
-        super("ZPX");
+        super("ZP_X");
     }
 
-    fetch(cpu: CPU): uint16 {
-        let address: uint16 = cpu.bus.read(cpu.pc);
-        cpu.pc++;
+    private address: uint16;
 
-        let effectiveAddress = (address + cpu.x) & 0x00FF;
+    getAddress(cpu: CPU): uint16 {
+        if(!this.address) {
+            let baseAddress: uint16 = cpu.bus.read(cpu.pc);
+            cpu.pc++;
+    
+            this.address = (baseAddress + cpu.x) & 0x00FF;
+        }
+        
+        return this.address;
+    }
 
-        return effectiveAddress;
+    getData(cpu: CPU): uint8 {
+        let address = this.getAddress(cpu);
+        return cpu.bus.read(address);
+    }
+
+    setData(cpu: CPU, data: uint8): void {
+        let address = this.getAddress(cpu);
+        return cpu.bus.write(address, data);
     }
 
 }

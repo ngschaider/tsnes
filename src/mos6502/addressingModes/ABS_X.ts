@@ -13,21 +13,34 @@ import { uint16, uint8 } from "../types";
 // while the third byte specifies the eight high-order bits.
 // Therefore, this addressing mode allows access to the total
 // 64K bytes of addressable memory
-export default class ABX extends AddressingMode {
+export default class ABS_X extends AddressingMode {
     constructor() {
-        super("ABX");
+        super("ABS_X");
     }
 
-    fetch(cpu: CPU): uint16 {
-        let low: uint8 = cpu.bus.read(cpu.pc);
-        cpu.pc++;
-        let high: uint8 = cpu.bus.read(cpu.pc);
-        cpu.pc++;
+    private address: uint16;
+    getAddress(cpu: CPU): uint16 {
+        if(!this.address) {
+            let low: uint8 = cpu.bus.read(cpu.pc);
+            cpu.pc++;
+            let high: uint8 = cpu.bus.read(cpu.pc);
+            cpu.pc++;
+    
+            this.address = (high << 8) | low;
+            this.address += cpu.x;
+        }
 
-        let address: uint16 = (high << 8) | low;
-        address += cpu.x;
+        return this.address;
+    }
 
-        return address;
+    getData(cpu: CPU): uint8 {
+        let address = this.getAddress(cpu);
+        return cpu.bus.read(address);
+    }
+
+    setData(cpu: CPU, data: uint8): void {
+        let address = this.getAddress(cpu);
+        cpu.bus.write(address, data);
     }
 
 }

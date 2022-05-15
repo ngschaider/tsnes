@@ -2,14 +2,13 @@ import CPU from "./CPU";
 import { uint16, uint8 } from "./types";
 import AddressingModeName from "./AddressingModeName";
 
-export default class AddressingMode {
+export default abstract class AddressingMode {
+    pageBoundaryCrossed: boolean = false;
     name: AddressingModeName;
 
-    pageBoundaryCrossed: boolean = false;
-
-    fetch(cpu: CPU): uint16 {
-        throw new Error("Not implemented (name=" + this.name + ")");
-    }
+    abstract getAddress(cpu: CPU): uint16;
+    abstract getData(cpu: CPU): uint8;
+    abstract setData(cpu: CPU, data: uint8): void;
 
     constructor(name: AddressingModeName) {
         this.name = name;

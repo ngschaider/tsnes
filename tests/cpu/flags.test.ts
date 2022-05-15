@@ -2,7 +2,7 @@ import { setupHardware, countCycles } from "./utils";
 
 describe("CPU - FLAGS", () => {
 
-    test("0x18 - CLC (IMP)", () => {
+    test("0x18 - CLC (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.status.C = true;
 
@@ -12,7 +12,7 @@ describe("CPU - FLAGS", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0x38 - SEC (IMP)", () => {
+    test("0x38 - SEC (Implied)", () => {
         let {cpu, ram} = setupHardware();
 
         ram.load("38", 0x8000);
@@ -21,7 +21,7 @@ describe("CPU - FLAGS", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0x58 - CLI (IMP)", () => {
+    test("0x58 - CLI (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.status.I = true;
 
@@ -31,7 +31,7 @@ describe("CPU - FLAGS", () => {
         expect(cycles).toBe(2);
     })
 
-    test("0x78 - SEI (IMP)", () => {
+    test("0x78 - SEI (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.status.I = false;
 
@@ -41,7 +41,7 @@ describe("CPU - FLAGS", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0xB8 - CLV (IMP)", () => {
+    test("0xB8 - CLV (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.status.V = true;
 
@@ -51,7 +51,7 @@ describe("CPU - FLAGS", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0xD8 - CLD (IMP)", () => {
+    test("0xD8 - CLD (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.status.D = true;
 
@@ -61,7 +61,7 @@ describe("CPU - FLAGS", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0xF8 - SED (IMP)", () => {
+    test("0xF8 - SED (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.status.D = false;
 

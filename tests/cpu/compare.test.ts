@@ -8,15 +8,15 @@ describe("CPU - COMPARE", () => {
 
     });
 
-    test("0xC1 - CMP (IZX)", () => {
+    test("0xC1 - CMP (IND_X)", () => {
     
     });
     
-    test("0xC4 - CPY (ZP0)", () => {
+    test("0xC4 - CPY (ZP)", () => {
     
     });
     
-    test("0xC5 - CMP (ZP0)", () => {
+    test("0xC5 - CMP (ZP)", () => {
     
     });
     
@@ -32,7 +32,7 @@ describe("CPU - COMPARE", () => {
     
     });
 
-    test("0xD1 - CMP (IZY)", () => {
+    test("0xD1 - CMP (IND_Y)", () => {
     
     });
     
@@ -40,15 +40,15 @@ describe("CPU - COMPARE", () => {
     
     });
     
-    test("0xD9 - CMP (ABY)", () => {
+    test("0xD9 - CMP (ABS_Y)", () => {
     
     });
     
-    test("0xDD - CMP (ABX)", () => {
+    test("0xDD - CMP (ABS_X)", () => {
     
     });
         
-    test("0xE4 - CPX (ZP0)", () => {
+    test("0xE4 - CPX (ZP)", () => {
     
     });
     

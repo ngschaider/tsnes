@@ -1,11 +1,11 @@
 import { countCycles, setupHardware } from "./utils";
 
 describe("CPU - STACK", () => {
-    test("0x08 - PHP (IMP)", () => {
+    test("0x08 - PHP (Implied)", () => {
     
     });
     
-    test("0x28 - PLP (IMP)", () => {
+    test("0x28 - PLP (Implied)", () => {
         let {cpu, ram} = setupHardware();
 
         cpu.pushStack(0b11100011);
@@ -15,7 +15,7 @@ describe("CPU - STACK", () => {
         expect(cycles).toBe(4);
     });
 
-    test("0x48 - PHA (IMP)", () => {
+    test("0x48 - PHA (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0x3D;
 
@@ -25,7 +25,7 @@ describe("CPU - STACK", () => {
         expect(cycles).toBe(3);
     });
 
-    test("0x68 - PLA (IMP)", () => {
+    test("0x68 - PLA (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.pushStack(0x3D);
 

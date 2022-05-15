@@ -12,7 +12,7 @@ describe("CPU - LOAD", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0xA1 - LDA (IZX)", () => {
+    test("0xA1 - LDA (IND_X)", () => {
         let {cpu, ram} = setupHardware();
         ram.write(0xC0DE, 0x3D); // load this
 
@@ -35,7 +35,7 @@ describe("CPU - LOAD", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0xA4 - LDY (ZP0)", () => {
+    test("0xA4 - LDY (ZP)", () => {
         let {cpu, ram} = setupHardware();
 
         ram.write(0x00DE, 0x3D); // load this
@@ -45,7 +45,7 @@ describe("CPU - LOAD", () => {
         expect(cycles).toBe(3);
     });
     
-    test("0xA5 - LDA (ZP0)", () => {
+    test("0xA5 - LDA (ZP)", () => {
         let {cpu, ram} = setupHardware();
 
         ram.write(0x00DE, 0x3D); // load this
@@ -55,7 +55,7 @@ describe("CPU - LOAD", () => {
         expect(cycles).toBe(3);
     });
     
-    test("0xA6 - LDX (ZP0)", () => {
+    test("0xA6 - LDX (ZP)", () => {
         let {cpu, ram} = setupHardware();
 
         ram.write(0x00DE, 0x3D); // load this
@@ -105,7 +105,20 @@ describe("CPU - LOAD", () => {
         expect(cycles).toBe(4);
     });
 
-    test("0xB1 - LDA (IZY)", () => {
+    test("0xB1 - LDA (IND_Y)", () => {
+        let {cpu, ram} = setupHardware();
+        ram.write(0x0088, 0x3D); // load this
+
+        cpu.y = 0x04; // offset the supplied address with 0x04
+
+        ram.load("B1 22", 0x8000); // supply 0x22 as address
+        ram.load("88 00", 0x0022 + 0x04); // write the real address 0xC0DE at the ptr location
+
+        let cycles = countCycles(cpu, () => cpu.a === 0x3D);
+        expect(cycles).toBe(5);
+    });
+
+    test("0xB1 - LDA (IND_Y) - PAGE BOUNDARY CROSSING", () => {
         let {cpu, ram} = setupHardware();
         ram.write(0xC0DE, 0x3D); // load this
 
@@ -115,7 +128,7 @@ describe("CPU - LOAD", () => {
         ram.load("DE C0", 0x0022 + 0x04); // write the real address 0xC0DE at the ptr location
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
-        expect(cycles).toBe(5);
+        expect(cycles).toBe(6);
     });
     
     test("0xB4 - LDY (ZPX)", () => {
@@ -152,7 +165,7 @@ describe("CPU - LOAD", () => {
         expect(cycles).toBe(4);
     });
     
-    test("0xB9 - LDA (ABY)", () => {
+    test("0xB9 - LDA (ABS_Y)", () => {
         let {cpu, ram} = setupHardware();
         
         cpu.y = 0x04; // offset the supplied address with 0x04
@@ -164,7 +177,7 @@ describe("CPU - LOAD", () => {
         expect(cycles).toBe(4);
     });
     
-    test("0xBC - LDY (ABX)", () => {
+    test("0xBC - LDY (ABS_X)", () => {
         let {cpu, ram} = setupHardware();
         
         cpu.x = 0x04; // offset the supplied address with 0x04
@@ -176,7 +189,7 @@ describe("CPU - LOAD", () => {
         expect(cycles).toBe(4);
     });
     
-    test("0xBD - LDA (ABX)", () => {
+    test("0xBD - LDA (ABS_X)", () => {
         let {cpu, ram} = setupHardware();
         
         cpu.x = 0x04; // offset the supplied address with 0x04
@@ -188,7 +201,7 @@ describe("CPU - LOAD", () => {
         expect(cycles).toBe(4);
     });
     
-    test("0xBE - LDX (ABY)", () => {
+    test("0xBE - LDX (ABS_Y)", () => {
         let {cpu, ram} = setupHardware();
         
         cpu.y = 0x04; // offset the supplied address with 0x04

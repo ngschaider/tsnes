@@ -2,12 +2,12 @@ import { setupHardware, countCycles } from "./utils";
 
 describe("CPU - ARITHMETIC", () => {
 
-    test("0x61 - ADC (IZX)", () => {
+    test("0x61 - ADC (IND_X)", () => {
     
     });
     
         
-    test("0x65 - ADC (ZP0)", () => {
+    test("0x65 - ADC (ZP)", () => {
     
     });
 
@@ -22,7 +22,7 @@ describe("CPU - ARITHMETIC", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0x71 - ADC (IZY)", () => {
+    test("0x71 - ADC (IND_Y)", () => {
     
     });
     
@@ -30,19 +30,19 @@ describe("CPU - ARITHMETIC", () => {
     
     });
     
-    test("0x79 - ADC (ABY)", () => {
+    test("0x79 - ADC (ABS_Y)", () => {
     
     });
     
-    test("0x7D - ADC (ABX)", () => {
+    test("0x7D - ADC (ABS_X)", () => {
     
     });
     
-    test("0xE1 - SBC (IZX)", () => {
+    test("0xE1 - SBC (IND_X)", () => {
     
     });
 
-    test("0xE5 - SBC (ZP0)", () => {
+    test("0xE5 - SBC (ZP)", () => {
     
     });
 
@@ -50,7 +50,7 @@ describe("CPU - ARITHMETIC", () => {
         
     });
     
-    test("0xEB - SBC (IMP)", () => {
+    test("0xEB - SBC (Implied)", () => {
     
     });
     
@@ -58,7 +58,7 @@ describe("CPU - ARITHMETIC", () => {
     
     });
     
-    test("0xF1 - SBC (IZY)", () => {
+    test("0xF1 - SBC (IND_Y)", () => {
     
     });
     
@@ -66,11 +66,11 @@ describe("CPU - ARITHMETIC", () => {
     
     });
     
-    test("0xF9 - SBC (ABY)", () => {
+    test("0xF9 - SBC (ABS_Y)", () => {
     
     });
 
-    test("0xFD - SBC (ABX)", () => {
+    test("0xFD - SBC (ABS_X)", () => {
     
     });
     

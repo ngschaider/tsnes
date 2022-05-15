@@ -11,7 +11,7 @@ import { uint16, uint8 } from "../types";
 // This form of addressing is usually referred to as Indirect, Y.
 // The second byte of the instruction points to a memory location
 // in page zero. The contents of this memory location are added
-// to the contents of the Y index register, the result beingt the
+// to the contents of the Y index register, the result being the
 // low-order eight bits of the effective address. The carry from
 // this addition is added to the contents of the next page zero
 // location, the result being the high-order eight bits of the 

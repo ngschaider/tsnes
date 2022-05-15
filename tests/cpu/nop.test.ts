@@ -1,119 +1,119 @@
 import { countCycles, setupHardware } from "./utils";
 
 describe("CPU - NOP", () => {    
-    test("0x04 - NOP (IMP)", () => {
+    test("0x04 - NOP (Implied)", () => {
     
     });
     
-    test("0x0C - NOP (IMP)", () => {
-    
-    });
-
-    test("0x14 - NOP (IMP)", () => {
+    test("0x0C - NOP (Implied)", () => {
     
     });
 
-    test("0x1A - NOP (IMP)", () => {
-    
-    });
-    
-    test("0x1C - NOP (IMP)", () => {
+    test("0x14 - NOP (Implied)", () => {
     
     });
 
-    test("0x34 - NOP (IMP)", () => {
+    test("0x1A - NOP (Implied)", () => {
     
     });
     
-    test("0x3A - NOP (IMP)", () => {
-    
-    });
-    
-    test("0x3C - NOP (IMP)", () => {
-    
-    });
-    
-    test("0x44 - NOP (IMP)", () => {
+    test("0x1C - NOP (Implied)", () => {
     
     });
 
-    test("0x54 - NOP (IMP)", () => {
+    test("0x34 - NOP (Implied)", () => {
+    
+    });
+    
+    test("0x3A - NOP (Implied)", () => {
+    
+    });
+    
+    test("0x3C - NOP (Implied)", () => {
+    
+    });
+    
+    test("0x44 - NOP (Implied)", () => {
     
     });
 
-    test("0x5A - NOP (IMP)", () => {
-    
-    });
-    
-    test("0x5C - NOP (IMP)", () => {
+    test("0x54 - NOP (Implied)", () => {
     
     });
 
-    test("0x64 - NOP (IMP)", () => {
+    test("0x5A - NOP (Implied)", () => {
     
     });
     
-    test("0x74 - NOP (IMP)", () => {
-    
-    });
-
-    test("0x7A - NOP (IMP)", () => {
-    
-    });
-    
-    test("0x7C - NOP (IMP)", () => {
-    
-    });
-    
-    test("0x80 - NOP (IMP)", () => {
-    
-    });
-    
-    test("0x82 - NOP (IMP)", () => {
-    
-    });
-    
-    test("0x89 - NOP (IMP)", () => {
-    
-    });
-    
-    test("0x9C - NOP (IMP)", () => {
-    
-    });
-    
-    test("0xC2 - NOP (IMP)", () => {
-    
-    });
-    
-    test("0xD4 - NOP (IMP)", () => {
-    
-    });
-    
-    test("0xDA - NOP (IMP)", () => {
-    
-    });
-    
-    test("0xDC - NOP (IMP)", () => {
-    
-    });
-    
-    test("0xE2 - NOP (IMP)", () => {
-    
-    });
-    
-    test("0xF4 - NOP (IMP)", () => {
-    
-    });
-    
-    test("0xFA - NOP (IMP)", () => {
-    
-    });
-    
-    test("0xFC - NOP (IMP)", () => {
+    test("0x5C - NOP (Implied)", () => {
     
     });
 
-    test("0xEA - NOP (IMP)", () => {
+    test("0x64 - NOP (Implied)", () => {
+    
+    });
+    
+    test("0x74 - NOP (Implied)", () => {
+    
+    });
+
+    test("0x7A - NOP (Implied)", () => {
+    
+    });
+    
+    test("0x7C - NOP (Implied)", () => {
+    
+    });
+    
+    test("0x80 - NOP (Implied)", () => {
+    
+    });
+    
+    test("0x82 - NOP (Implied)", () => {
+    
+    });
+    
+    test("0x89 - NOP (Implied)", () => {
+    
+    });
+    
+    test("0x9C - NOP (Implied)", () => {
+    
+    });
+    
+    test("0xC2 - NOP (Implied)", () => {
+    
+    });
+    
+    test("0xD4 - NOP (Implied)", () => {
+    
+    });
+    
+    test("0xDA - NOP (Implied)", () => {
+    
+    });
+    
+    test("0xDC - NOP (Implied)", () => {
+    
+    });
+    
+    test("0xE2 - NOP (Implied)", () => {
+    
+    });
+    
+    test("0xF4 - NOP (Implied)", () => {
+    
+    });
+    
+    test("0xFA - NOP (Implied)", () => {
+    
+    });
+    
+    test("0xFC - NOP (Implied)", () => {
+    
+    });
+
+    test("0xEA - NOP (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.status.fromUint8(0x3D);
         cpu.a = 0xAB;

@@ -2,7 +2,7 @@ import { countCycles, setupHardware } from "./utils";
 
 describe("CPU - STORE", () => {
 
-    test("0x81 - STA (IZX)", () => {
+    test("0x81 - STA (IND_X)", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0x3D; // store this
 
@@ -15,7 +15,7 @@ describe("CPU - STORE", () => {
         expect(cycles).toBe(6);
     });
     
-    test("0x84 - STY (ZP0)", () => {
+    test("0x84 - STY (ZP)", () => {
         let {cpu, ram} = setupHardware();
         cpu.y = 0x3D; // store this
 
@@ -25,7 +25,7 @@ describe("CPU - STORE", () => {
         expect(cycles).toBe(3);
     });
     
-    test("0x85 - STA (ZP0)", () => {
+    test("0x85 - STA (ZP)", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0x3D; // store this
 
@@ -35,7 +35,7 @@ describe("CPU - STORE", () => {
         expect(cycles).toBe(3);
     });
     
-    test("0x86 - STX (ZP0)", () => {
+    test("0x86 - STX (ZP)", () => {
         let {cpu, ram} = setupHardware();
         cpu.x = 0x3D; // store this
 
@@ -75,7 +75,7 @@ describe("CPU - STORE", () => {
         expect(cycles).toBe(4);
     });
     
-    test("0x91 - STA (IZY)", () => {
+    test("0x91 - STA (IND_Y)", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0x3D; // store this
 
@@ -121,7 +121,7 @@ describe("CPU - STORE", () => {
         expect(cycles).toBe(4);
     });
     
-    test("0x99 - STA (ABY)", () => {
+    test("0x99 - STA (ABS_Y)", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0x3D; // store this
 
@@ -133,7 +133,7 @@ describe("CPU - STORE", () => {
         expect(cycles).toBe(5);
     });
 
-    test("0x9D - STA (ABX)", () => {
+    test("0x9D - STA (ABS_X)", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0x3D; // store this
 

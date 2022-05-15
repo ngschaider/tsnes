@@ -15,7 +15,7 @@ export const setupHardware = () => {
     cpu.reset();
     cpu.workInstruction();
 
-    return {cpu, bus, ram};
+    return {cpu, bus, ram}
 }
 
 export const countCycles = (cpu: CPU, until: () => boolean, max: number = 100) => {

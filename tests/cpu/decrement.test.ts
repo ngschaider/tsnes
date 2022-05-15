@@ -1,7 +1,7 @@
 import { setupHardware, countCycles } from "./utils";
 
 describe("CPU - DECREMENT", () => {
-    test("0x88 - DEY (IMP)", () => {
+    test("0x88 - DEY (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.y = 0x3D;
 
@@ -11,11 +11,11 @@ describe("CPU - DECREMENT", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0xC6 - DEC (ZP0)", () => {
+    test("0xC6 - DEC (ZP)", () => {
     
     });
     
-    test("0xCA - DEX (IMP)", () => {
+    test("0xCA - DEX (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.x = 0x3D;
 
@@ -33,7 +33,7 @@ describe("CPU - DECREMENT", () => {
     
     });
     
-    test("0xDE - DEC (ABX)", () => {
+    test("0xDE - DEC (ABS_X)", () => {
     
     });
     

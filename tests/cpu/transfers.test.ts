@@ -2,7 +2,7 @@ import { setupHardware, countCycles } from "./utils";
 
 describe("CPU - TRANSFERS", () => {
 
-    test("0x8A - TXA (IMP)", () => {
+    test("0x8A - TXA (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.x = 0x3D;
 
@@ -12,7 +12,7 @@ describe("CPU - TRANSFERS", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0x98 - TYA (IMP)", () => {
+    test("0x98 - TYA (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.y = 0x3D;
 
@@ -22,7 +22,7 @@ describe("CPU - TRANSFERS", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0x9A - TXS (IMP)", () => {
+    test("0x9A - TXS (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.x = 0x3D;
 
@@ -32,7 +32,7 @@ describe("CPU - TRANSFERS", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0xA8 - TAY (IMP)", () => {
+    test("0xA8 - TAY (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0x3D;
 
@@ -42,7 +42,7 @@ describe("CPU - TRANSFERS", () => {
         expect(cycles).toBe(2);
     })
 
-    test("0xAA - TAX (IMP)", () => {
+    test("0xAA - TAX (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0x3D;
 
@@ -52,7 +52,7 @@ describe("CPU - TRANSFERS", () => {
         expect(cycles).toBe(2);
     })
     
-    test("0xBA - TSX (IMP)", () => {
+    test("0xBA - TSX (Implied)", () => {
         let {cpu, ram} = setupHardware();
         cpu.stkp = 0x3D;
 

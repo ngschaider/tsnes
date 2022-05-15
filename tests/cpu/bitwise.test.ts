@@ -1,15 +1,15 @@
 import { setupHardware, countCycles } from "./utils";
 
 describe("CPU - BITWISE", () => {
-    test("0x01 - ORA (IZX)", () => {
+    test("0x01 - ORA (IND_X)", () => {
     
     });
 
-    test("0x05 - ORA (ZP0)", () => {
+    test("0x05 - ORA (ZP)", () => {
     
     });
 
-    test("0x06 - ASL (ZP0)", () => {
+    test("0x06 - ASL (ZP)", () => {
     
     });
     
@@ -24,7 +24,7 @@ describe("CPU - BITWISE", () => {
         expect(cycles).toBe(2);
     });
 
-    test("0x0A - ASL (IMP)", () => {
+    test("0x0A - ASL (Accum)", () => {
     
     });
 
@@ -37,7 +37,7 @@ describe("CPU - BITWISE", () => {
     
     });
         
-    test("0x11 - ORA (IZY)", () => {
+    test("0x11 - ORA (IND_Y)", () => {
     
     });
         
@@ -49,23 +49,23 @@ describe("CPU - BITWISE", () => {
     
     });
     
-    test("0x19 - ORA (ABY)", () => {
+    test("0x19 - ORA (ABS_Y)", () => {
     
     });
  
-    test("0x1D - ORA (ABX)", () => {
+    test("0x1D - ORA (ABS_X)", () => {
     
     });
     
-    test("0x1E - ASL (ABX)", () => {
+    test("0x1E - ASL (ABS_X)", () => {
     
     });
     
-    test("0x21 - AND (IZX)", () => {
+    test("0x21 - AND (IND_X)", () => {
     
     });
     
-    test("0x25 - AND (ZP0)", () => {
+    test("0x25 - AND (ZP)", () => {
     
     });
 
@@ -80,11 +80,11 @@ describe("CPU - BITWISE", () => {
         expect(cycles).toBe(2);
     });
     
-    test("0x26 - ROL (ZP0)", () => {
+    test("0x26 - ROL (ZP)", () => {
     
     });    
     
-    test("0x2A - ROL (IMP)", () => {
+    test("0x2A - ROL (Accum)", () => {
     
     });
     
@@ -96,7 +96,7 @@ describe("CPU - BITWISE", () => {
     
     });
     
-    test("0x31 - AND (IZY)", () => {
+    test("0x31 - AND (IND_Y)", () => {
     
     });
     
@@ -108,27 +108,27 @@ describe("CPU - BITWISE", () => {
     
     });
 
-    test("0x39 - AND (ABY)", () => {
+    test("0x39 - AND (ABS_Y)", () => {
     
     });
 
-    test("0x3D - AND (ABX)", () => {
+    test("0x3D - AND (ABS_X)", () => {
     
     });
     
-    test("0x3E - ROL (ABX)", () => {
+    test("0x3E - ROL (ABS_X)", () => {
     
     });
     
-    test("0x41 - EOR (IZX)", () => {
-    
-    });
-
-    test("0x45 - EOR (ZP0)", () => {
+    test("0x41 - EOR (IND_X)", () => {
     
     });
 
-    test("0x46 - LSR (ZP0)", () => {
+    test("0x45 - EOR (ZP)", () => {
+    
+    });
+
+    test("0x46 - LSR (ZP)", () => {
     
     });
     
@@ -143,7 +143,7 @@ describe("CPU - BITWISE", () => {
         expect(cycles).toBe(2);
     });
     
-    test("0x4A - LSR (IMP)", () => {
+    test("0x4A - LSR (Accum)", () => {
     
     });
 
@@ -155,7 +155,7 @@ describe("CPU - BITWISE", () => {
     
     });
 
-    test("0x51 - EOR (IZY)", () => {
+    test("0x51 - EOR (IND_Y)", () => {
     
     });
 
@@ -168,23 +168,23 @@ describe("CPU - BITWISE", () => {
     
     });
     
-    test("0x59 - EOR (ABY)", () => {
+    test("0x59 - EOR (ABS_Y)", () => {
     
     });
     
-    test("0x5D - EOR (ABX)", () => {
+    test("0x5D - EOR (ABS_X)", () => {
     
     });
     
-    test("0x5E - LSR (ABX)", () => {
-    
-    });
-
-    test("0x66 - ROR (ZP0)", () => {
+    test("0x5E - LSR (ABS_X)", () => {
     
     });
 
-    test("0x6A - ROR (IMP)", () => {
+    test("0x66 - ROR (ZP)", () => {
+    
+    });
+
+    test("0x6A - ROR (Accum)", () => {
     
     });
 
@@ -196,7 +196,7 @@ describe("CPU - BITWISE", () => {
     
     });
     
-    test("0x7E - ROR (ABX)", () => {
+    test("0x7E - ROR (ABS_X)", () => {
     
     });
     

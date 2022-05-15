@@ -1,4 +1,4 @@
-import RAM from "../src/mos6502/RAM";
+import RAM from "../src/RAM";
 
 const setupRam = (size: number) => {
     let ram = new RAM(size);

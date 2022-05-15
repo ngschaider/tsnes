@@ -1,6 +1,6 @@
-import Bus from "../../src/mos6502/Bus";
-import CPU from "../../src/mos6502/CPU";
-import RAM from "../../src/mos6502/RAM";
+import Bus from "../../src/Bus";
+import CPU from "../../src/cpu/CPU";
+import RAM from "../../src/RAM";
 
 export const setupHardware = () => {
     let cpu = new CPU();

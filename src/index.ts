@@ -1,8 +1,8 @@
 import p5 from "p5";
-import CPU from "./mos6502/CPU";
-import RAM from "./mos6502/RAM";
-import Bus from "./mos6502/Bus";
-import { uint16, uint8 } from "./mos6502/types";
+import CPU from "./cpu/CPU";
+import RAM from "./RAM";
+import Bus from "./Bus";
+import { uint16, uint8 } from "./types";
 import { listenerCount } from "process";
 
 

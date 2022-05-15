@@ -90,40 +90,34 @@ describe("CPU - STORE", () => {
     
     test("0x94 - STY (ZPX)", () => {        
         let {cpu, ram} = setupHardware();
+
         cpu.y = 0x3D; // store this
-
         cpu.x = 0x04; // offset the supplied address with 0x04
-
         ram.load("94 22", 0x8000); // supply 0x22 as address
-        ram.load("DE C0", 0x0022 + 0x04); // write the real addres 0xc0de at the ptr location
 
-        let cycles = countCycles(cpu, () => ram.read(0xC0DE) === 0x3D);
+        let cycles = countCycles(cpu, () => ram.read(0x0022 + 0x04) === 0x3D);
         expect(cycles).toBe(4);
     });
     
     test("0x95 - STA (ZPX)", () => {
         let {cpu, ram} = setupHardware();
+
         cpu.a = 0x3D; // store this
-
         cpu.x = 0x04; // offset the supplied address with 0x04
-
         ram.load("95 22", 0x8000); // supply 0x22 as address
-        ram.load("DE C0", 0x0022 + 0x04); // write the real addres 0xc0de at the ptr location
 
-        let cycles = countCycles(cpu, () => ram.read(0xC0DE) === 0x3D);
+        let cycles = countCycles(cpu, () => ram.read(0x0022 + 0x04) === 0x3D);
         expect(cycles).toBe(4);
     });
     
     test("0x96 - STX (ZPY)", () => {
         let {cpu, ram} = setupHardware();
+        
         cpu.x = 0x3D; // store this
-
         cpu.y = 0x04; // offset the supplied address with 0x04
-
         ram.load("96 22", 0x8000); // supply 0x22 as address
-        ram.load("DE C0", 0x0022 + 0x04); // write the real addres 0xc0de at the ptr location
 
-        let cycles = countCycles(cpu, () => ram.read(0xC0DE) === 0x3D);
+        let cycles = countCycles(cpu, () => ram.read(0x0022 + 0x04) === 0x3D);
         expect(cycles).toBe(4);
     });
     

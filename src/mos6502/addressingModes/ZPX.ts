@@ -9,15 +9,14 @@ import { uint16, uint8 } from "../types";
 // ranges within the first page.
 
 // From the Datasheet:
-// Zero page absolute addressing is used in conjunction with
-// the index register and is referred to as "Zero Page, X" or
-// "Zero Page, Y". The effective address is calculated by adding
-// the second byte to the contents of the index register. Since
-// this is a form of "Zero Page" addressing, the contents of the 
-// second byte references a location in page zero. Additionally,
-// due to the "Zero Page" addressing nature of this mode, no
-// carry is added to the high-order eight bits of memory, and
-// crossing of page boundaries does not occur.
+// This form of addressing is used with the index register and is referred 
+// to as "Zero Page, X" or "Zero Page, Y". The effective address 
+// is calculated by adding the second byte to the contents of the 
+// index register. Since this is a form of "Zero Page" addressing, 
+// the contents of the second byte references a location in page zero. 
+// Additionally, due to the "Zero Page" addressing nature of this 
+// mode, no carry is added to the high-order eight bits of memory, 
+// and crossing of page boundaries does not occur.
 export default class ZPX extends AddressingMode {
     constructor() {
         super("ZPX");
@@ -27,7 +26,9 @@ export default class ZPX extends AddressingMode {
         let address: uint16 = cpu.bus.read(cpu.pc);
         cpu.pc++;
 
-        return address + cpu.x;
+        let effectiveAddress = (address + cpu.x) & 0x00FF;
+
+        return effectiveAddress;
     }
 
 }

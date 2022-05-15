@@ -1,57 +1,60 @@
 import RAM from "../src/mos6502/RAM";
 
-let ram: RAM;
+const setupRam = (size: number) => {
+    let ram = new RAM(size);
 
-const getRandomByte = () => {
-    return Math.floor(Math.random() * 0xFF);
+    return ram;
 }
 
-describe("RAM", () => {
+describe("RAM", () => {   
 
-    const setupHardware = () => {
-        ram = new RAM();
-        ram.reset();
-    }
+    test("constructor", () => {
+        let ram = setupRam(5);
+        expect(ram.bytes).toStrictEqual([0, 0, 0, 0, 0])
+    })
 
-    test("write() and read()", () => {
-        setupHardware();
+    test("write()", () => {
+        let ram = setupRam(5);
 
-        ram.write(0x1234, 0x1337);
-        expect(ram.read(0x1234)).toBe(0x1337);
+        ram.write(0, 5);
+        expect(ram.bytes).toStrictEqual([5, 0, 0, 0, 0]);
+        ram.write(3, 12);
+        expect(ram.bytes).toStrictEqual([5, 0, 0, 12, 0]);
+        ram.write(2, 7);
+        expect(ram.bytes).toStrictEqual([5, 0, 7, 12, 0]);
+        ram.write(4, 88);
+        expect(ram.bytes).toStrictEqual([5, 0, 7, 12, 88]);
+        ram.write(1, 32);
+        expect(ram.bytes).toStrictEqual([5, 32, 7, 12, 88]);
+    })
 
-        ram.write(0x8000, 0x2020);
-        expect(ram.read(0x8000)).toBe(0x2020);
+    test("read()", () => {
+        let ram = setupRam(5);
+        ram.bytes = [5, 32, 7, 12, 88]; 
 
-        ram.write(0x0000, 0x5454);
-        expect(ram.read(0x0000)).toBe(0x5454);
+        expect(ram.read(0)).toBe(5);
+        expect(ram.read(1)).toBe(32);
+        expect(ram.read(2)).toBe(7);
+        expect(ram.read(3)).toBe(12);
+        expect(ram.read(4)).toBe(88);
+        expect(ram.bytes).toStrictEqual([5, 32, 7, 12, 88]); // bytes should not change when reading
     })
 
     test("reset()", () => { 
-        setupHardware();
-
-        ram.write(0x1234, 0x1337);
-        ram.write(0x8000, 0x2020);
-        ram.write(0x0000, 0x5454);
+        let ram = setupRam(5);
+        ram.bytes = [5, 32, 7, 12, 88];
 
         ram.reset();
 
-        expect(ram.read(0x1234)).toBe(0x0000);
-        expect(ram.read(0x8000)).toBe(0x0000);
-        expect(ram.read(0x0000)).toBe(0x0000);
+        expect(ram.bytes).toStrictEqual([0, 0, 0, 0, 0]);
     });
 
     test("load()", () => {
-        setupHardware();
+        let ram = setupRam(5);
 
-        ram.write(0x7FFF, 0x3D);
-        ram.load("AB CD EF 37", 0x8000);
+        ram.load("AB CD EF 13 37", 0);
 
-        expect(ram.read(0x7FFF)).toBe(0x3D);
-        expect(ram.read(0x8000)).toBe(0xAB);
-        expect(ram.read(0x8001)).toBe(0xCD);
-        expect(ram.read(0x8002)).toBe(0xEF);
-        expect(ram.read(0x8003)).toBe(0x37);
+        expect(ram.bytes).toStrictEqual([0xAB, 0xCD, 0xEF, 0x13, 0x37]);
     });
-
 
 })

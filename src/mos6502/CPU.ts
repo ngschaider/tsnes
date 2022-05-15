@@ -85,6 +85,24 @@ export default class CPU implements IBusDevice {
         this.cycles--;
     }
 
+    completed() {
+        return this.cycles === 0;
+    }
+
+    workInstruction() {
+        if(this.cycles === 0) {
+            return 0;
+        }
+
+        let counter = 0;
+        do {
+            this.clock();
+            counter++;
+        } while(this.cycles > 0);
+
+        return counter;
+    }
+
     reset() {
         // Get address to set the program counter to
         let low = this.bus.read(RESET_VECTOR);

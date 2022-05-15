@@ -13,11 +13,9 @@ export const setupHardware = () => {
     bus.connectDevice(ram);
 
     cpu.reset();
-    for(let i = 0; i < 8; i++) {
-        cpu.clock();
-    }
+    cpu.workInstruction();
 
-    return {cpu, bus, ram}
+    return {cpu, bus, ram};
 }
 
 export const countCycles = (cpu: CPU, until: () => boolean, max: number = 100) => {

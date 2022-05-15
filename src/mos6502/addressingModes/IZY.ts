@@ -25,14 +25,14 @@ export default class IZY extends AddressingMode {
         let ptr: uint8 = cpu.bus.read(cpu.pc);
         cpu.pc++;
 
+        ptr += cpu.y;
+
         let lowAddress: uint16 = ptr & 0x00FF;
         let highAddress: uint16 = (ptr + 1) & 0x00FF;
 
         let low: uint8 = cpu.bus.read(lowAddress);
         let high: uint8 = cpu.bus.read(highAddress);
         let address: uint16 = (high << 8) | low;
-
-        address += cpu.y;
 
         this.pageBoundaryCrossed = (address >> 8) !== (ptr >> 8);
 

@@ -27,7 +27,9 @@ export default class ZPY extends AddressingMode {
         let address: uint16 = cpu.bus.read(cpu.pc);
         cpu.pc++;
 
-        return address + cpu.y;
+        let effectiveAddress = (address + cpu.y) & 0x00FF;
+
+        return effectiveAddress;
     }
 
 }

@@ -10,7 +10,18 @@ describe("CPU - BITWISE", () => {
     });
 
     test("0x06 - ASL (ZP)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let result = 0b10011000;
+
+        ram.load(0x8000, "06 22");
+        ram.write(0x0022, a);
+        
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(5);
+        expect(ram.read(0x0022)).toBe(result);
+        expect(cpu.status.C).toBe(true);
     });
     
     test("0x09 - ORA (IMM)", () => {

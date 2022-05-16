@@ -601,23 +601,75 @@ describe("CPU - BITWISE", () => {
     });
 
     test("0x66 - ROR (ZP)", () => {
-    
+        let {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        ram.load(0x8000, "66 22");
+        ram.write(0x0022, 0b11001100);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(5);
+        expect(ram.read(0x0022)).toBe(0b11100110);
+        expect(cpu.status.C).toBe(false);
     });
 
     test("0x6A - ROR (Accum)", () => {
-    
+        let {cpu, ram} = setup();
+
+        cpu.status.C = false;
+
+        ram.load(0x8000, "6A");
+        cpu.a = 0b11001100;
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.a).toBe(0b01100110);
+        expect(cpu.status.C).toBe(false);
     });
 
     test("0x6E - ROR (ABS)", () => {
-    
+        let {cpu, ram} = setup();
+
+        cpu.status.C = false;
+
+        ram.load(0x8000, "6E DE C0");
+        ram.write(0xC0DE, 0b01001101);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(ram.read(0xC0DE)).toBe(0b00100110);
+        expect(cpu.status.C).toBe(true);
     });
 
     test("0x76 - ROR (ZP_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        ram.load(0x8000, "76 22");
+        cpu.x = 0x04;
+        ram.write(0x0022 + 0x04, 0b01001101);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(ram.read(0x0022 + 0x04)).toBe(0b10100110);
+        expect(cpu.status.C).toBe(true); 
     });
     
     test("0x7E - ROR (ABS_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        ram.load(0x8000, "7E DE C0");
+        cpu.x = 0x04;
+        ram.write(0xC0DE + 0x04, 0b11001101);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(7);
+        expect(ram.read(0xC0DE + 0x04)).toBe(0b11100110);
+        expect(cpu.status.C).toBe(true);
     });
     
 });

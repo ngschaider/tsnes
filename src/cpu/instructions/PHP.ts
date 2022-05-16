@@ -13,10 +13,11 @@ export default class PHP extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        cpu.status.B = true;
-        cpu.status.U = true;
-        cpu.pushStack(cpu.status.toUint8());
-        cpu.status.B = false;
-        cpu.status.U = false;
+        //cpu.status.B = true;
+        //cpu.status.U = true;
+        let status = cpu.status.toUint8();
+        cpu.pushStack(status);
+        //cpu.status.B = false;
+        //cpu.status.U = false;
     }
 }

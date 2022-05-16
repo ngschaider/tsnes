@@ -3,7 +3,7 @@ import ABS_X from "./addressingModes/ABS_X";
 import ABS_Y from "./addressingModes/ABS_Y";
 import IMM from "./addressingModes/IMM";
 import Implied from "./addressingModes/Implied";
-import IND from "./addressingModes/IND";
+import Indirect from "./addressingModes/Indirect";
 import IND_X from "./addressingModes/IND_X";
 import IND_Y from "./addressingModes/IND_Y";
 import Relative from "./addressingModes/Relative";
@@ -445,7 +445,7 @@ const getInstructionByOpcode = (opcode: number) => {
         case 0x69: return new ADC(0x69, new IMM(), 2);
         case 0x6A: return new ROR(0x6A, new Accum(), 2);
         case 0x6B: return new XXX(0x6B);
-        case 0x6C: return new JMP(0x6C, new IND(), 5);
+        case 0x6C: return new JMP(0x6C, new Indirect(), 5);
         case 0x6D: return new ADC(0x6D, new ABS(), 4);
         case 0x6E: return new ROR(0x6E, new ABS(), 6);
         case 0x6F: return new XXX(0x6F);

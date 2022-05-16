@@ -19,7 +19,7 @@ export default class AND extends Instruction {
         cpu.status.Z = cpu.a === 0x00;
         cpu.status.N = (cpu.a & 0x80) !== 0x00;
 
-        if(this.addressingMode.pageBoundaryCrossed) {
+        if(this.addressingMode.pageBoundaryCrossed && this.addressingMode.name !== "IND_X") {
             cpu.cycles++;
         }
     }

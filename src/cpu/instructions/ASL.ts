@@ -22,10 +22,6 @@ export default class ASL extends Instruction {
         cpu.status.Z = (temp & 0x00FF) == 0x00;
         cpu.status.N = (temp & 0x80) > 0;
 
-        if(this.addressingMode.name === "Implied") {
-            cpu.a = temp & 0x00FF;
-        } else {
-            this.addressingMode.setData(cpu, temp & 0x00FF);
-        }
+        this.addressingMode.setData(cpu, temp & 0x00FF);
     }
 }

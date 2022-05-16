@@ -26,7 +26,7 @@ describe("CPU - ARITHMETIC", () => {
     
     });
     
-    test("0x75 - ADC (ZPX)", () => {
+    test("0x75 - ADC (ZP_X)", () => {
     
     });
     
@@ -62,7 +62,7 @@ describe("CPU - ARITHMETIC", () => {
     
     });
     
-    test("0xF5 - SBC (ZPX)", () => {
+    test("0xF5 - SBC (ZP_X)", () => {
     
     });
     

@@ -2,16 +2,22 @@ import { countCycles, setupHardware } from "../utils";
 
 describe("CPU - STACK", () => {
     test("0x08 - PHP (Implied)", () => {
-    
+        let {cpu, ram} = setupHardware();
+
+        cpu.status.fromUint8(0b10101101);
+        ram.load("08", 0x8000);
+
+        let cycles = countCycles(cpu, () => ram.read(0x01FD) === 0b10101101);
+        expect(cycles).toBe(3);
     });
     
     test("0x28 - PLP (Implied)", () => {
         let {cpu, ram} = setupHardware();
 
-        cpu.pushStack(0b11100011);
+        cpu.pushStack(0b10101101);
         ram.load("28", 0x8000);
 
-        let cycles = countCycles(cpu, () => cpu.status.toUint8() === 0b11100011);
+        let cycles = countCycles(cpu, () => cpu.status.toUint8() === 0b10101101);
         expect(cycles).toBe(4);
     });
 

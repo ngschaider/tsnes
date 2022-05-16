@@ -35,12 +35,12 @@ let p = new p5((p: p5) => {
 
         p.push();
         p.translate(800, 40);
-        dumpRam(ram, 0x8000);
+        dumpRam(ram, 0x1D0);
         p.pop();
     
         p.push();
         p.translate(1400, 40)
-        dumpRam(ram, 0xFF00);
+        dumpRam(ram, 0x1D0);
         p.pop();
 
         p.push()
@@ -73,12 +73,8 @@ let p = new p5((p: p5) => {
         } else if(p.key == "r") {
             cpu.reset();
         } else if(p.key == "l") {
-            ram.write(0xC0DE, 0x3D); // load this
-    
-            cpu.x = 0x04; // offset the supplied address with 0x04
-    
-            ram.load("A1 22", 0x8000); // supply 0x22 as address
-            ram.load("DE C0", 0x0026); // write the real address 0xC0DE at the ptr location
+            cpu.status.fromUint8(0b11100011);
+            ram.load("08", 0x8000);
 
             ram.bytes[0xFFCC] = 0x00;
             ram.bytes[0xFFCD] = 0x80;

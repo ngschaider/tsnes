@@ -2,10 +2,8 @@ import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
 import { uint16, uint8 } from "../../types";
 
-// Address Mode: Absolute 
-// A full 16-bit address is loaded and used
-
 // From the Datasheet:
+// ABSOLUTE ADDRESSING [Absolute]
 // For absolute adressing, the second byte of the instruction
 // specifies the eight low-order bits of the effective address,
 // while the third byte specifies the eight high-order bits.

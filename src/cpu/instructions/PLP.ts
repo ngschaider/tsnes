@@ -12,7 +12,9 @@ export default class PLP extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        cpu.status.fromUint8(cpu.popStack());
-        cpu.status.U = true;
+
+        let status = cpu.popStack();
+        cpu.status.fromUint8(status);
+        //cpu.status.U = true;
     }
 }

@@ -2,24 +2,22 @@ import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
 import { uint16, uint8 } from "../../types";
 
-// Address Mode: Indirect
-// The supplied 16-bit address is read to get the actual 16-bit address. This is
-// instruction is unusual in that it has a bug in the hardware! To emulate its
-// function accurately, we also need to emulate this bug. If the low byte of the
-// supplied address is 0xFF, then to read the high byte of the actual address
-// we need to cross a page boundary. This doesnt actually work on the chip as 
-// designed, instead it wraps back around in the same page, yielding an 
-// invalid actual address
-
 // From the Datasheet:
-// In the zero page indirect addressing mode, the second byte
-// of the instruction points to a memory location on page zero
-// containing the low-order byte of the effective address. The
-// next location on page zero contains the high-order byte of
-// the effective address.
-export default class IND extends AddressingMode {
+// ABSOLUTE INDIRECT [Indirect]
+// The second byte of the instruction contains 
+// the low order byte of a memory location. 
+// The high order eight bits of that memory 
+// location are contained in the third byte 
+// of the instruction. The contents of the 
+// fully specified memory location are the 
+// low order byte of the effective address. 
+// The next memory location contains the high 
+// order byte of the effective address which 
+// is loaded into the sixteen bits of the 
+// program counter. (JMP (IND) only)
+export default class Indirect extends AddressingMode {
     constructor() {
-        super("IND");
+        super("Indirect");
     }
 
     private address: uint16;

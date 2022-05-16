@@ -2,12 +2,8 @@ import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
 import { uint16, uint8 } from "../../types";
 
-// Address Mode: Indirect X
-// The supplied 8-bit address is offset by X Register to index
-// a location in page 0x00. The actual 16-bit address is read 
-// from this location
-
 // From the Datasheet:
+// INDEXED INDIRECT ADDRESSING [(IND, X)]
 // In indexed indirect addressing (referred to as (Indirect, X)), the second byte
 // of the instruction is added to the contents of index register X
 // discarding the carry. The result of this addition points to a 

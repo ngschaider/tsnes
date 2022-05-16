@@ -36,7 +36,7 @@ describe("CPU - COMPARE", () => {
     
     });
     
-    test("0xD5 - CMP (ZPX)", () => {
+    test("0xD5 - CMP (ZP_X)", () => {
     
     });
     

@@ -32,8 +32,6 @@ export default class IND_X extends AddressingMode {
             let low: uint8 = cpu.bus.read(lowAddress);
             let high: uint8 = cpu.bus.read(highAddress);
             this.address = (high << 8) | low;
-
-            this.pageBoundaryCrossed = (this.address >> 8) !== (ptr >> 8);
         }
         
         return this.address;

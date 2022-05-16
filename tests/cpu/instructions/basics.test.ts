@@ -2,22 +2,24 @@ import Bus from "../../../src/Bus";
 import CPU from "../../../src/cpu/CPU";
 import RAM from "../../../src/RAM";
 
-let bus: Bus;
-let ram: RAM;
-let cpu: CPU;
-
 describe("CPU - BASICS", () => {
     const setup = () => {
-        cpu = new CPU();
-        bus = new Bus();
-        ram = new RAM();
+        let cpu = new CPU();
+        let bus = new Bus();
+        let ram = new RAM();
 
         bus.connectDevice(cpu);
         bus.connectDevice(ram);
+
+        return {
+            cpu, 
+            ram, 
+            bus
+        };
     }
 
     test("reset()", () => {
-        setup();
+        let {ram, cpu} = setup();
         
         ram.load(0xFFCC, "DE C0");
         cpu.reset();
@@ -32,17 +34,19 @@ describe("CPU - BASICS", () => {
     });
 
     test("pushStack()", () => {
-        setup();
+        let {ram, cpu} = setup();
 
         cpu.pushStack(0x3D);
         expect(cpu.stkp).toBe(0xFD - 1);
-        expect(ram.read(0x0100 + 0xFD)).toBe(0x3D);
+        expect(ram.read(0x01FD)).toBe(0x3D);
     })
 
     test("popStack()", () => {
-        setup();
+        let {ram, cpu} = setup();
 
-        cpu.pushStack(0x3D);
+        ram.write(0x01FD, 0x3D);
+        cpu.stkp = 0xFC;
+
         let popped = cpu.popStack();
         expect(cpu.stkp).toBe(0xFD);
         expect(popped).toBe(0x3D);

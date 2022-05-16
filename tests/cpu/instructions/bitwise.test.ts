@@ -1,4 +1,4 @@
-import { setup, countCycles } from "../utils";
+import { setup } from "../utils";
 
 describe("CPU - BITWISE", () => {
     test("0x01 - ORA (IND_X)", () => {
@@ -275,11 +275,31 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x26 - ROL (ZP)", () => {
-    
+        let {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        ram.load(0x8000, "26 22");
+        ram.write(0x0022, 0b11001100);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(5);
+        expect(ram.read(0x0022)).toBe(0b10011001);
+        expect(cpu.status.C).toBe(true);
     });    
     
     test("0x2A - ROL (Accum)", () => {
-    
+        let {cpu, ram} = setup();
+
+        cpu.status.C = false;
+
+        ram.load(0x8000, "2A");
+        cpu.a = 0b11001100;
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.a).toBe(0b10011000);
+        expect(cpu.status.C).toBe(true);
     });
     
     test("0x2D - AND (ABS)", () => {
@@ -287,7 +307,17 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x2E - ROL (ABS)", () => {
-    
+        let {cpu, ram} = setup();
+
+        cpu.status.C = false;
+
+        ram.load(0x8000, "2E DE C0");
+        ram.write(0xC0DE, 0b01001100);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(ram.read(0xC0DE)).toBe(0b10011000);
+        expect(cpu.status.C).toBe(false);
     });
     
     test("0x31 - AND (IND_Y)", () => {
@@ -299,7 +329,18 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x36 - ROL (ZP_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        ram.load(0x8000, "36 22");
+        cpu.x = 0x04;
+        ram.write(0x0022 + 0x04, 0b01001100);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(ram.read(0x0022 + 0x04)).toBe(0b10011001);
+        expect(cpu.status.C).toBe(false);
     });
 
     test("0x39 - AND (ABS_Y)", () => {
@@ -311,7 +352,18 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x3E - ROL (ABS_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        ram.load(0x8000, "3E DE C0");
+        cpu.x = 0x04;
+        ram.write(0xC0DE + 0x04, 0b11001100);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(7);
+        expect(ram.read(0xC0DE + 0x04)).toBe(0b10011001);
+        expect(cpu.status.C).toBe(true);
     });
     
     test("0x41 - EOR (IND_X)", () => {
@@ -333,8 +385,9 @@ describe("CPU - BITWISE", () => {
         ram.load(0x8000, "49");
         ram.write(0x8001, 0b10101010);
 
-        let cycles = countCycles(cpu, () => cpu.a === 0b01100110);
-        expect(cycles).toBe(2);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.a).toBe(0b01100110);
     });
     
     test("0x4A - LSR (Accum)", () => {

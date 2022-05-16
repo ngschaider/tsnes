@@ -1,5 +1,4 @@
-import RAM from "../../../src/RAM";
-import { setup, countCycles } from "../utils";
+import { setup } from "../utils";
 
 describe("CPU - INCREMENT", () => {
     test("0xE8 - INX (Implied)", () => {

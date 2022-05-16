@@ -1,4 +1,4 @@
-import { setup, countCycles } from "../utils";
+import { setup } from "../utils";
 
 describe("CPU - DECREMENT", () => {
     test("0x88 - DEY (Implied)", () => {

@@ -1,4 +1,4 @@
-import {countCycles, setup} from "../utils";
+import { setup } from "../utils";
 
 describe("CPU - COMPARE", () => {
 

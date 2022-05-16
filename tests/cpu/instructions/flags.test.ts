@@ -1,4 +1,4 @@
-import { setup, countCycles } from "../utils";
+import { setup } from "../utils";
 
 describe("CPU - FLAGS", () => {
 

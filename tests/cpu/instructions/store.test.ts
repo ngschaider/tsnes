@@ -1,4 +1,4 @@
-import { countCycles, setup } from "../utils";
+import { setup } from "../utils";
 
 describe("CPU - STORE", () => {
     test("0x81 - STA (IND_X)", () => {

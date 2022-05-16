@@ -1,4 +1,4 @@
-import { setup, countCycles } from "../utils";
+import { setup } from "../utils";
 
 describe("CPU - LOAD", () => {
 
@@ -55,8 +55,9 @@ describe("CPU - LOAD", () => {
         ram.load(0x8000, "A5 AB"); // supply 0xDE as address
         ram.load(0x00AB, "3D"); // load this
 
-        let cycles = countCycles(cpu, () => cpu.a === 0x3D);
-        expect(cycles).toBe(3);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.a).toBe(0x3D);
     });
     
     test("0xA6 - LDX (ZP)", () => {

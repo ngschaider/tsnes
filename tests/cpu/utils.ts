@@ -18,15 +18,3 @@ export const setup = () => {
 
     return {cpu, bus, ram}
 }
-
-export const countCycles = (cpu: CPU, until: () => boolean, max: number = 100) => {
-    let cycles = 0;
-    while(!until() || cpu.cycles > 0) {
-        if(cycles > max) {
-            throw new Error("Maximum amount of cycles reached when counting cycles");
-        }
-        cycles++;
-        cpu.clock();
-    }
-    return cycles;
-};

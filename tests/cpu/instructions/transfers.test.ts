@@ -1,4 +1,4 @@
-import { setup, countCycles } from "../utils";
+import { setup } from "../utils";
 
 describe("CPU - TRANSFERS", () => {
     test("0x8A - TXA (Implied)", () => {
@@ -7,8 +7,9 @@ describe("CPU - TRANSFERS", () => {
 
         ram.load(0x8000, "8A");
 
-        let cycles = countCycles(cpu, () => cpu.a === 0x3D);
-        expect(cycles).toBe(2);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.a).toBe(0x3D);
     });
 
     test("0x98 - TYA (Implied)", () => {
@@ -17,8 +18,9 @@ describe("CPU - TRANSFERS", () => {
 
         ram.load(0x8000, "98");
 
-        let cycles = countCycles(cpu, () => cpu.a === 0x3D);
-        expect(cycles).toBe(2);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.a).toBe(0x3D);
     });
 
     test("0x9A - TXS (Implied)", () => {
@@ -26,9 +28,10 @@ describe("CPU - TRANSFERS", () => {
         cpu.x = 0x3D;
 
         ram.load(0x8000, "9A");
-
-        let cycles = countCycles(cpu, () => cpu.stkp === 0x3D);
-        expect(cycles).toBe(2);
+        
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.stkp).toBe(0x3D);
     });
 
     test("0xA8 - TAY (Implied)", () => {
@@ -37,8 +40,9 @@ describe("CPU - TRANSFERS", () => {
 
         ram.load(0x8000, "A8");
 
-        let cycles = countCycles(cpu, () => cpu.y === 0x3D);
-        expect(cycles).toBe(2);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.y).toBe(0x3D);
     })
 
     test("0xAA - TAX (Implied)", () => {
@@ -47,8 +51,9 @@ describe("CPU - TRANSFERS", () => {
 
         ram.load(0x8000, "AA");
 
-        let cycles = countCycles(cpu, () => cpu.x === 0x3D);
-        expect(cycles).toBe(2);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.x).toBe(0x3D);
     })
     
     test("0xBA - TSX (Implied)", () => {
@@ -57,7 +62,8 @@ describe("CPU - TRANSFERS", () => {
 
         ram.load(0x8000, "BA");
 
-        let cycles = countCycles(cpu, () => cpu.x === 0x3D);
-        expect(cycles).toBe(2);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.x).toBe(0x3D);
     })
 });

@@ -52,7 +52,7 @@ describe("RAM", () => {
     test("load()", () => {
         let ram = setupRam(5);
 
-        ram.load("AB CD EF 13 37", 0);
+        ram.load(0, "AB CD EF 13 37");
 
         expect(ram.bytes).toStrictEqual([0xAB, 0xCD, 0xEF, 0x13, 0x37]);
     });

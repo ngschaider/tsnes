@@ -7,7 +7,7 @@ export const setupHardware = () => {
     let bus = new Bus();
 
     let ram = new RAM();
-    ram.load("00 80", 0xFFCC); // set reset vector
+    ram.load(0xFFCC, "00 80"); // set reset vector
 
     bus.connectDevice(cpu);
     bus.connectDevice(ram);

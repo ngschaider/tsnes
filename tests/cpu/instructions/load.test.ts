@@ -6,7 +6,7 @@ describe("CPU - LOAD", () => {
         let {cpu, ram} = setupHardware();
 
         // LDY #$3D
-        ram.load("A0 3D", 0x8000);
+        ram.load(0x8000, "A0 3D");
 
         let cycles = countCycles(cpu, () => cpu.y === 0x3D);
         expect(cycles).toBe(2);
@@ -18,8 +18,8 @@ describe("CPU - LOAD", () => {
 
         cpu.x = 0x04; // offset the supplied address with 0x04
 
-        ram.load("A1 22", 0x8000); // supply 0x22 as address
-        ram.load("DE C0", 0x0022 + 0x04); // write the real address 0xC0DE at the ptr location
+        ram.load(0x8000, "A1 22"); // supply 0x22 as address
+        ram.load(0x0022 + 0x04, "DE C0"); // write the real address 0xC0DE at the ptr location
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
         expect(cycles).toBe(6);
@@ -29,7 +29,7 @@ describe("CPU - LOAD", () => {
         let {cpu, ram} = setupHardware();
 
         // LDX #$3D
-        ram.load("A2 3D", 0x8000);
+        ram.load(0x8000, "A2 3D");
 
         let cycles = countCycles(cpu, () => cpu.x === 0x3D);
         expect(cycles).toBe(2);
@@ -38,8 +38,8 @@ describe("CPU - LOAD", () => {
     test("0xA4 - LDY (ZP)", () => {
         let {cpu, ram} = setupHardware();
 
-        ram.load("A4 AB", 0x8000); // supply 0xDE as address
-        ram.load("3D", 0x00AB); // load this
+        ram.load(0x8000, "A4 AB"); // supply 0xDE as address
+        ram.load(0x00AB, "3D"); // load this
 
         let cycles = countCycles(cpu, () => cpu.y === 0x3D);
         expect(cycles).toBe(3);
@@ -48,8 +48,8 @@ describe("CPU - LOAD", () => {
     test("0xA5 - LDA (ZP)", () => {
         let {cpu, ram} = setupHardware();
 
-        ram.load("A5 AB", 0x8000); // supply 0xDE as address
-        ram.load("3D", 0x00AB); // load this
+        ram.load(0x8000, "A5 AB"); // supply 0xDE as address
+        ram.load(0x00AB, "3D"); // load this
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
         expect(cycles).toBe(3);
@@ -58,8 +58,8 @@ describe("CPU - LOAD", () => {
     test("0xA6 - LDX (ZP)", () => {
         let {cpu, ram} = setupHardware();
 
-        ram.load("A6 AB", 0x8000); // supply 0xDE as address
-        ram.load("3D", 0x00AB); // load this
+        ram.load(0x8000, "A6 AB"); // supply 0xDE as address
+        ram.load(0x00AB, "3D"); // load this
 
         let cycles = countCycles(cpu, () => cpu.x === 0x3D);
         expect(cycles).toBe(3);
@@ -68,7 +68,7 @@ describe("CPU - LOAD", () => {
     test("0xA9 - LDA (IMM)", () => {
         let {cpu, ram} = setupHardware();
         
-        ram.load("A9 3D", 0x8000);
+        ram.load(0x8000, "A9 3D");
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D); 
         expect(cycles).toBe(2);
@@ -77,8 +77,8 @@ describe("CPU - LOAD", () => {
     test("0xAC - LDY (ABS)", () => {
         let {cpu, ram} = setupHardware();
 
-        ram.load("AC DE C0", 0x8000); // supply 0xDE as address
-        ram.load("3D", 0xC0DE); // load this
+        ram.load(0x8000, "AC DE C0"); // supply 0xDE as address
+        ram.load(0xC0DE, "3D"); // load this
 
         let cycles = countCycles(cpu, () => cpu.y === 0x3D);
         expect(cycles).toBe(4);
@@ -87,8 +87,8 @@ describe("CPU - LOAD", () => {
     test("0xAD - LDA (ABS)", () => {
         let {cpu, ram} = setupHardware();
 
-        ram.load("AD DE C0", 0x8000); // supply 0xDE as address
-        ram.load("3D", 0xC0DE); // load this
+        ram.load(0x8000, "AD DE C0"); // supply 0xDE as address
+        ram.load(0xC0DE, "3D"); // load this
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
         expect(cycles).toBe(4);
@@ -97,8 +97,8 @@ describe("CPU - LOAD", () => {
     test("0xAE - LDX (ABS)", () => {
         let {cpu, ram} = setupHardware();
 
-        ram.load("AE DE C0", 0x8000); // supply 0xC0DE as address
-        ram.load("3D", 0xC0DE); // load this
+        ram.load(0x8000, "AE DE C0"); // supply 0xC0DE as address
+        ram.load(0xC0DE, "3D"); // load this
 
         let cycles = countCycles(cpu, () => cpu.x === 0x3D);
         expect(cycles).toBe(4);
@@ -109,9 +109,9 @@ describe("CPU - LOAD", () => {
         
         cpu.y = 0x04; // offset the supplied address with 0x04
 
-        ram.load("B1 22", 0x8000); // supply 0x22 as address
-        ram.load("88 00", 0x0022); // write the real address 0xC0DE at the ptr location
-        ram.load("3D", 0x0088 + 0x04); // load this
+        ram.load(0x8000, "B1 22"); // supply 0x22 as address
+        ram.load(0x0022, "88 00"); // write the real address 0xC0DE at the ptr location
+        ram.load(0x0088 + 0x04, "3D"); // load this
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
         expect(cycles).toBe(5);
@@ -122,8 +122,8 @@ describe("CPU - LOAD", () => {
 
         cpu.y = 0xFF; // offset the supplied address with 0x04
 
-        ram.load("B1 22", 0x8000); // supply 0x22 as address
-        ram.load("DE C0", 0x0022); // write the real address 0xC0DE at the ptr location
+        ram.load(0x8000, "B1 22"); // supply 0x22 as address
+        ram.load(0x0022, "DE C0"); // write the real address 0xC0DE at the ptr location
         ram.write(0xC0DE + 0xFF, 0x3D); // load this
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
@@ -135,8 +135,8 @@ describe("CPU - LOAD", () => {
 
         cpu.x = 0x04; // offset the supplied address with 0x04
 
-        ram.load("B4 22", 0x8000); // supply 0x22 as address
-        ram.load("3D", 0x0022 + 0x04); // load this
+        ram.load(0x8000, "B4 22"); // supply 0x22 as address
+        ram.load(0x0022 + 0x04, "3D"); // load this
 
         let cycles = countCycles(cpu, () => cpu.y === 0x3D);
         expect(cycles).toBe(4);
@@ -146,8 +146,8 @@ describe("CPU - LOAD", () => {
         let {cpu, ram} = setupHardware();
         cpu.x = 0x04; // offset the supplied address with 0x04
 
-        ram.load("B5 22", 0x8000); // supply 0x22 as address
-        ram.load("3D", 0x0022 + 0x04); // write the real address 0xC0DE at the ptr location
+        ram.load(0x8000, "B5 22"); // supply 0x22 as address
+        ram.load(0x0022 + 0x04, "3D"); // write the real address 0xC0DE at the ptr location
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
         expect(cycles).toBe(4);
@@ -157,8 +157,8 @@ describe("CPU - LOAD", () => {
         let {cpu, ram} = setupHardware();
         cpu.y = 0x04; // offset the supplied address with 0x04
 
-        ram.load("B6 22", 0x8000); // supply 0x22 as address
-        ram.load("3D", 0x0022 + 0x04); // write the real address 0xC0DE at the ptr location
+        ram.load(0x8000, "B6 22"); // supply 0x22 as address
+        ram.load(0x0022 + 0x04, "3D"); // write the real address 0xC0DE at the ptr location
 
         let cycles = countCycles(cpu, () => cpu.x === 0x3D);
         expect(cycles).toBe(4);
@@ -169,8 +169,8 @@ describe("CPU - LOAD", () => {
         
         cpu.y = 0x04; // offset the supplied address with 0x04
 
-        ram.load("B9 DE C0", 0x8000); // supply 0xC0DE as address
-        ram.load("3D", 0xC0DE + 0x04); // write value at target address
+        ram.load(0x8000, "B9 DE C0"); // supply 0xC0DE as address
+        ram.load(0xC0DE + 0x04, "3D"); // write value at target address
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
         expect(cycles).toBe(4);
@@ -181,8 +181,8 @@ describe("CPU - LOAD", () => {
         
         cpu.x = 0x04; // offset the supplied address with 0x04
 
-        ram.load("BC DE C0", 0x8000); // supply 0xC0DE as address
-        ram.load("3D", 0xC0DE + 0x04); // write value at target address
+        ram.load(0x8000, "BC DE C0"); // supply 0xC0DE as address
+        ram.load(0xC0DE + 0x04, "3D"); // write value at target address
 
         let cycles = countCycles(cpu, () => cpu.y === 0x3D);
         expect(cycles).toBe(4);
@@ -193,8 +193,8 @@ describe("CPU - LOAD", () => {
         
         cpu.x = 0x04; // offset the supplied address with 0x04
 
-        ram.load("BD DE C0", 0x8000); // supply 0xC0DE as address
-        ram.load("3D", 0xC0DE + 0x04); // write value at target address
+        ram.load(0x8000, "BD DE C0"); // supply 0xC0DE as address
+        ram.load(0xC0DE + 0x04, "3D"); // write value at target address
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
         expect(cycles).toBe(4);
@@ -205,8 +205,8 @@ describe("CPU - LOAD", () => {
         
         cpu.y = 0x04; // offset the supplied address with 0x04
 
-        ram.load("BE DE C0", 0x8000); // supply 0xC0DE as address
-        ram.load("3D", 0xC0DE + 0x04); // write value at target address
+        ram.load(0x8000, "BE DE C0"); // supply 0xC0DE as address
+        ram.load(0xC0DE + 0x04, "3D"); // write value at target address
 
         let cycles = countCycles(cpu, () => cpu.x === 0x3D);
         expect(cycles).toBe(4);

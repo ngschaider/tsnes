@@ -21,7 +21,7 @@ describe("CPU - BITWISE", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = a;
 
-        ram.load("09", 0x8000);
+        ram.load(0x8000, "09");
         ram.write(0x8001, b);
 
         let cycles = countCycles(cpu, () => cpu.a === result);
@@ -35,7 +35,7 @@ describe("CPU - BITWISE", () => {
         let result = 0b10011000;
 
         cpu.a = a;
-        ram.load("0A", 0x8000);
+        ram.load(0x8000, "0A");
         
         let cycles = countCycles(cpu, () => cpu.a === result);
         expect(cycles).toBe(2);
@@ -50,7 +50,7 @@ describe("CPU - BITWISE", () => {
 
         cpu.a = a;
         ram.write(0xC0DE, b);
-        ram.load("0D DE C0", 0x8000);
+        ram.load(0x8000, "0D DE C0");
         
         let cycles = countCycles(cpu, () => cpu.a === result);
         expect(cycles).toBe(4);
@@ -63,7 +63,7 @@ describe("CPU - BITWISE", () => {
         let result = 0b10011000;
 
         ram.write(0xC0DE, a);
-        ram.load("0E DE C0", 0x8000);
+        ram.load(0x8000, "0E DE C0");
         
         let cycles = countCycles(cpu, () => ram.read(0xC0DE) === result);
         expect(cycles).toBe(6);
@@ -76,8 +76,8 @@ describe("CPU - BITWISE", () => {
         let b = 0b10101010;
         let result = a | b;
 
-        ram.load("11 22", 0x8000);
-        ram.load("CD AB", 0x0022);
+        ram.load(0x8000, "11 22");
+        ram.load(0x0022, "CD AB");
         cpu.y = 0x04;
         ram.write(0xABCD + 0x04, a);
         cpu.a = b;
@@ -93,8 +93,8 @@ describe("CPU - BITWISE", () => {
         let b = 0b10101010;
         let result = a | b;
 
-        ram.load("11 22", 0x8000);
-        ram.load("CD AB", 0x0022);
+        ram.load(0x8000, "11 22");
+        ram.load(0x0022, "CD AB");
         cpu.y = 0xFF;
         ram.write(0xABCD + 0xFF, a);
         cpu.a = b;
@@ -110,7 +110,7 @@ describe("CPU - BITWISE", () => {
         let b = 0b10101010;
         let result = a | b;
 
-        ram.load("15 22", 0x8000);
+        ram.load(0x8000, "15 22");
         cpu.x = 0x04;
         ram.write(0x0022 + 0x04, a);
         cpu.a = b;
@@ -125,7 +125,7 @@ describe("CPU - BITWISE", () => {
         let a = 0b11001100;
         let result = 0b10011000;
 
-        ram.load("16 22", 0x8000);
+        ram.load(0x8000, "16 22");
         cpu.x = 0x04;
         ram.write(0x0022 + 0x04, a);
         
@@ -140,7 +140,7 @@ describe("CPU - BITWISE", () => {
         let b = 0b10101010;
         let result = a | b;
 
-        ram.load("19 DE C0", 0x8000);
+        ram.load(0x8000, "19 DE C0");
         cpu.y = 0x04;
         ram.write(0xC0DE + 0x04, a);
         cpu.a = b;
@@ -156,7 +156,7 @@ describe("CPU - BITWISE", () => {
         let b = 0b10101010;
         let result = a | b;
 
-        ram.load("19 DE C0", 0x8000);
+        ram.load(0x8000, "19 DE C0");
         cpu.y = 0xFF;
         ram.write(0xC0DE + 0xFF, a);
         cpu.a = b;
@@ -172,7 +172,7 @@ describe("CPU - BITWISE", () => {
         let b = 0b10101010;
         let result = a | b;
 
-        ram.load("1D DE C0", 0x8000);
+        ram.load(0x8000, "1D DE C0");
         cpu.x = 0x04;
         ram.write(0xC0DE + 0x04, a);
         cpu.a = b;
@@ -188,7 +188,7 @@ describe("CPU - BITWISE", () => {
         let b = 0b10101010;
         let result = a | b;
 
-        ram.load("1D DE C0", 0x8000);
+        ram.load(0x8000, "1D DE C0");
         cpu.x = 0xFF;
         ram.write(0xC0DE + 0xFF, a);
         cpu.a = b;
@@ -203,7 +203,7 @@ describe("CPU - BITWISE", () => {
         let a = 0b11001100;
         let result = 0b10011000;
 
-        ram.load("1E DE C0", 0x8000);
+        ram.load(0x8000, "1E DE C0");
         cpu.x = 0x04;
         ram.write(0xC0DE + 0x04, a);
         
@@ -218,9 +218,9 @@ describe("CPU - BITWISE", () => {
         let b = 0b10101010;
         let result = a & b;
 
-        ram.load("21 AB", 0x8000);
+        ram.load(0x8000, "21 AB");
         cpu.x = 0x04;
-        ram.load("DE C0", 0x00AB + 0x04);
+        ram.load(0x00AB + 0x04, "DE C0");
         ram.write(0xC0DE, a);
         cpu.a = b;
         
@@ -235,7 +235,7 @@ describe("CPU - BITWISE", () => {
         let b = 0b10101010;
         let result = a & b;
 
-        ram.load("25 AB", 0x8000);
+        ram.load(0x8000, "25 AB");
         ram.write(0x00AB, a);
         cpu.a = b;
         
@@ -250,7 +250,7 @@ describe("CPU - BITWISE", () => {
         let b = 0b10101010;
         let result = a & b;
 
-        ram.load("29", 0x8000);
+        ram.load(0x8000, "29");
         ram.write(0x8001, a);
         cpu.a = b;
 
@@ -314,7 +314,7 @@ describe("CPU - BITWISE", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0b11001100;
 
-        ram.load("49", 0x8000);
+        ram.load(0x8000, "49");
         ram.write(0x8001, 0b10101010);
 
         let cycles = countCycles(cpu, () => cpu.a === 0b01100110);

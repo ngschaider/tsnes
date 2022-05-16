@@ -29,11 +29,11 @@ export default class RAM implements IBusDevice {
         return this.bytes[address];
     }
 
-    write(address: uint16, data: uint8) {
+    write(address: uint16, data: uint8): void {
         this.bytes[address] = data;
     }
 
-    load(payload: string, address: uint16) {
+    load(address: uint16, payload: string): void {
         let bytesAsString = payload.split(" ");
         for(let i = 0; i < bytesAsString.length; i++) {
             let byte = parseInt(bytesAsString[i], 16);
@@ -41,7 +41,7 @@ export default class RAM implements IBusDevice {
         }
     }
 
-    reset() {
+    reset(): void {
         for(let i = 0; i < this.size; i++) {
             this.bytes[i] = 0x00;
         }

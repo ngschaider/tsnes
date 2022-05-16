@@ -6,7 +6,7 @@ describe("CPU - TRANSFERS", () => {
         let {cpu, ram} = setupHardware();
         cpu.x = 0x3D;
 
-        ram.load("8A", 0x8000);
+        ram.load(0x8000, "8A");
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
         expect(cycles).toBe(2);
@@ -16,7 +16,7 @@ describe("CPU - TRANSFERS", () => {
         let {cpu, ram} = setupHardware();
         cpu.y = 0x3D;
 
-        ram.load("98", 0x8000);
+        ram.load(0x8000, "98");
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
         expect(cycles).toBe(2);
@@ -26,7 +26,7 @@ describe("CPU - TRANSFERS", () => {
         let {cpu, ram} = setupHardware();
         cpu.x = 0x3D;
 
-        ram.load("9A", 0x8000);
+        ram.load(0x8000, "9A");
 
         let cycles = countCycles(cpu, () => cpu.stkp === 0x3D);
         expect(cycles).toBe(2);
@@ -36,7 +36,7 @@ describe("CPU - TRANSFERS", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0x3D;
 
-        ram.load("A8", 0x8000);
+        ram.load(0x8000, "A8");
 
         let cycles = countCycles(cpu, () => cpu.y === 0x3D);
         expect(cycles).toBe(2);
@@ -46,7 +46,7 @@ describe("CPU - TRANSFERS", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0x3D;
 
-        ram.load("AA", 0x8000);
+        ram.load(0x8000, "AA");
 
         let cycles = countCycles(cpu, () => cpu.x === 0x3D);
         expect(cycles).toBe(2);
@@ -56,7 +56,7 @@ describe("CPU - TRANSFERS", () => {
         let {cpu, ram} = setupHardware();
         cpu.stkp = 0x3D;
 
-        ram.load("BA", 0x8000);
+        ram.load(0x8000, "BA");
 
         let cycles = countCycles(cpu, () => cpu.x === 0x3D);
         expect(cycles).toBe(2);

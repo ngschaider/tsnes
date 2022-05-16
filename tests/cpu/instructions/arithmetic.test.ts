@@ -15,7 +15,7 @@ describe("CPU - ARITHMETIC", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0b01001101;
 
-        ram.load("69", 0x8000);
+        ram.load(0x8000, "69");
         ram.write(0x8001, 0b00110101);
 
         let cycles = countCycles(cpu, () => cpu.a === 0b10000010);

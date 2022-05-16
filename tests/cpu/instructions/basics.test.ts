@@ -19,7 +19,7 @@ describe("CPU - BASICS", () => {
     test("reset()", () => {
         setupHardware();
         
-        ram.load("DE C0", 0xFFCC);
+        ram.load(0xFFCC, "DE C0");
         cpu.reset();
 
         expect(cpu.cycles).toBe(8);

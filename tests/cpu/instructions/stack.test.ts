@@ -5,7 +5,7 @@ describe("CPU - STACK", () => {
         let {cpu, ram} = setupHardware();
 
         cpu.status.fromUint8(0b10101101);
-        ram.load("08", 0x8000);
+        ram.load(0x8000, "08");
 
         let cycles = countCycles(cpu, () => ram.read(0x01FD) === 0b10101101);
         expect(cycles).toBe(3);
@@ -15,7 +15,7 @@ describe("CPU - STACK", () => {
         let {cpu, ram} = setupHardware();
 
         cpu.pushStack(0b10101101);
-        ram.load("28", 0x8000);
+        ram.load(0x8000, "28");
 
         let cycles = countCycles(cpu, () => cpu.status.toUint8() === 0b10101101);
         expect(cycles).toBe(4);
@@ -25,7 +25,7 @@ describe("CPU - STACK", () => {
         let {cpu, ram} = setupHardware();
         cpu.a = 0x3D;
 
-        ram.load("48", 0x8000);
+        ram.load(0x8000, "48");
 
         let cycles = countCycles(cpu, () => ram.read(0x01FD) === 0x3D);
         expect(cycles).toBe(3);
@@ -35,7 +35,7 @@ describe("CPU - STACK", () => {
         let {cpu, ram} = setupHardware();
         cpu.pushStack(0x3D);
 
-        ram.load("68", 0x8000);
+        ram.load(0x8000, "68");
 
         let cycles = countCycles(cpu, () => cpu.a === 0x3D);
         expect(cycles).toBe(4);

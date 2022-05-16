@@ -74,7 +74,7 @@ let p = new p5((p: p5) => {
             cpu.reset();
         } else if(p.key == "l") {
             cpu.status.fromUint8(0b11100011);
-            ram.load("08", 0x8000);
+            ram.load(0x8000, "08");
 
             ram.bytes[0xFFCC] = 0x00;
             ram.bytes[0xFFCD] = 0x80;

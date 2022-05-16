@@ -33,5 +33,5 @@ describe("CPU - BASICS", () => {
         expect(status.U).toBe(true);
         expect(status.V).toBe(true);
         expect(status.N).toBe(true);
-    })
+    });
 });

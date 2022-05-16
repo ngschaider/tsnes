@@ -1,4 +1,4 @@
-import { countCycles, setupHardware } from "../utils";
+import { countCycles, setup } from "../utils";
 
 describe("CPU - NOP", () => {    
     test("0x04 - NOP (Implied)", () => {
@@ -114,7 +114,7 @@ describe("CPU - NOP", () => {
     });
 
     test("0xEA - NOP (Implied)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
         cpu.status.fromUint8(0x3D);
         cpu.a = 0xAB;
         cpu.x = 0xCD;
@@ -125,8 +125,7 @@ describe("CPU - NOP", () => {
         // NOP takes 2 cycles
         ram.write(0x8000, 0x9C);
 
-        cpu.clock();
-        cpu.clock();
+        cpu.stepInstruction();
         
         expect(cpu.status.toUint8()).toBe(0x3D);
         expect(cpu.a).toBe(0xAB);

@@ -1,43 +1,47 @@
-import { countCycles, setupHardware } from "../utils";
+import { countCycles, setup } from "../utils";
 
 describe("CPU - STACK", () => {
     test("0x08 - PHP (Implied)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         cpu.status.fromUint8(0b10101101);
         ram.load(0x8000, "08");
 
-        let cycles = countCycles(cpu, () => ram.read(0x01FD) === 0b10101101);
-        expect(cycles).toBe(3);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(ram.read(0x01FD)).toBe(0b10101101);
     });
     
     test("0x28 - PLP (Implied)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         cpu.pushStack(0b10101101);
         ram.load(0x8000, "28");
 
-        let cycles = countCycles(cpu, () => cpu.status.toUint8() === 0b10101101);
-        expect(cycles).toBe(4);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.status.toUint8()).toBe(0b10101101);
     });
 
     test("0x48 - PHA (Implied)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
         cpu.a = 0x3D;
 
         ram.load(0x8000, "48");
 
-        let cycles = countCycles(cpu, () => ram.read(0x01FD) === 0x3D);
-        expect(cycles).toBe(3);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(ram.read(0x01FD)).toBe(0x3D);
     });
 
     test("0x68 - PLA (Implied)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
         cpu.pushStack(0x3D);
 
         ram.load(0x8000, "68");
-
-        let cycles = countCycles(cpu, () => cpu.a === 0x3D);
-        expect(cycles).toBe(4);
+        
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(0x3D);
     });
 });

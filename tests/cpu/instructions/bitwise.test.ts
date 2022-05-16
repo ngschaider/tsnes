@@ -1,4 +1,4 @@
-import { setupHardware, countCycles } from "../utils";
+import { setup, countCycles } from "../utils";
 
 describe("CPU - BITWISE", () => {
     test("0x01 - ORA (IND_X)", () => {
@@ -18,18 +18,19 @@ describe("CPU - BITWISE", () => {
         let b = 0b10101010;
         let result = a | b;
 
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
         cpu.a = a;
 
         ram.load(0x8000, "09");
         ram.write(0x8001, b);
 
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(2);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.a).toBe(result);
     });
 
     test("0x0A - ASL (Accum)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let result = 0b10011000;
@@ -37,12 +38,13 @@ describe("CPU - BITWISE", () => {
         cpu.a = a;
         ram.load(0x8000, "0A");
         
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(2);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.a).toBe(result);
     });
         
     test("0x0D - ORA (ABS)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let b = 0b10101010;
@@ -51,13 +53,14 @@ describe("CPU - BITWISE", () => {
         cpu.a = a;
         ram.write(0xC0DE, b);
         ram.load(0x8000, "0D DE C0");
-        
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(4);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
 
     test("0x0E - ASL (ABS)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let result = 0b10011000;
@@ -65,12 +68,13 @@ describe("CPU - BITWISE", () => {
         ram.write(0xC0DE, a);
         ram.load(0x8000, "0E DE C0");
         
-        let cycles = countCycles(cpu, () => ram.read(0xC0DE) === result);
-        expect(cycles).toBe(6);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(ram.read(0xC0DE)).toBe(result);
     });
         
     test("0x11 - ORA (IND_Y)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let b = 0b10101010;
@@ -82,12 +86,13 @@ describe("CPU - BITWISE", () => {
         ram.write(0xABCD + 0x04, a);
         cpu.a = b;
         
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(5);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(5);
+        expect(cpu.a).toBe(result);
     });
 
     test("0x11 - ORA (IND_Y) - PAGE BOUNDARY CROSSING", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let b = 0b10101010;
@@ -99,12 +104,13 @@ describe("CPU - BITWISE", () => {
         ram.write(0xABCD + 0xFF, a);
         cpu.a = b;
         
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(6);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(cpu.a).toBe(result);
     });
         
     test("0x15 - ORA (ZP_X)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let b = 0b10101010;
@@ -115,12 +121,13 @@ describe("CPU - BITWISE", () => {
         ram.write(0x0022 + 0x04, a);
         cpu.a = b;
         
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(4);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x16 - ASL (ZP_X)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let result = 0b10011000;
@@ -129,12 +136,13 @@ describe("CPU - BITWISE", () => {
         cpu.x = 0x04;
         ram.write(0x0022 + 0x04, a);
         
-        let cycles = countCycles(cpu, () => ram.read(0x0022 + 0x04) === result);
-        expect(cycles).toBe(6);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(ram.read(0x0022 + 0x04)).toBe(result);
     });
     
     test("0x19 - ORA (ABS_Y)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let b = 0b10101010;
@@ -145,12 +153,13 @@ describe("CPU - BITWISE", () => {
         ram.write(0xC0DE + 0x04, a);
         cpu.a = b;
 
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(4);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
 
     test("0x19 - ORA (ABS_Y) - PAGE BOUNDARY CROSSING)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let b = 0b10101010;
@@ -161,12 +170,13 @@ describe("CPU - BITWISE", () => {
         ram.write(0xC0DE + 0xFF, a);
         cpu.a = b;
         
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(5);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(5);
+        expect(cpu.a).toBe(result);
     });
 
     test("0x1D - ORA (ABS_X)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let b = 0b10101010;
@@ -177,12 +187,13 @@ describe("CPU - BITWISE", () => {
         ram.write(0xC0DE + 0x04, a);
         cpu.a = b;
         
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(4);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
  
     test("0x1D - ORA (ABS_X) - PAGE BOUNDARY CROSSING", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let b = 0b10101010;
@@ -193,12 +204,13 @@ describe("CPU - BITWISE", () => {
         ram.write(0xC0DE + 0xFF, a);
         cpu.a = b;
         
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(5);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(5);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x1E - ASL (ABS_X)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let result = 0b10011000;
@@ -207,12 +219,13 @@ describe("CPU - BITWISE", () => {
         cpu.x = 0x04;
         ram.write(0xC0DE + 0x04, a);
         
-        let cycles = countCycles(cpu, () => ram.read(0xC0DE + 0x04) === result);
-        expect(cycles).toBe(7);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(7);
+        expect(ram.read(0xC0DE + 0x04)).toBe(result);
     });
     
     test("0x21 - AND (IND_X)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let b = 0b10101010;
@@ -224,12 +237,13 @@ describe("CPU - BITWISE", () => {
         ram.write(0xC0DE, a);
         cpu.a = b;
         
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(6);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x25 - AND (ZP)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let b = 0b10101010;
@@ -239,12 +253,13 @@ describe("CPU - BITWISE", () => {
         ram.write(0x00AB, a);
         cpu.a = b;
         
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(3);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.a).toBe(result);
     });
 
     test("0x29 - AND (IMM)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
 
         let a = 0b11001100;
         let b = 0b10101010;
@@ -254,8 +269,9 @@ describe("CPU - BITWISE", () => {
         ram.write(0x8001, a);
         cpu.a = b;
 
-        let cycles = countCycles(cpu, () => cpu.a === result);
-        expect(cycles).toBe(2);
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x26 - ROL (ZP)", () => {
@@ -311,7 +327,7 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x49 - EOR (IMM)", () => {
-        let {cpu, ram} = setupHardware();
+        let {cpu, ram} = setup();
         cpu.a = 0b11001100;
 
         ram.load(0x8000, "49");

@@ -2,7 +2,7 @@ import Bus from "../../src/Bus";
 import CPU from "../../src/cpu/CPU";
 import RAM from "../../src/RAM";
 
-export const setupHardware = () => {
+export const setup = () => {
     let cpu = new CPU();
     let bus = new Bus();
 
@@ -13,7 +13,8 @@ export const setupHardware = () => {
     bus.connectDevice(ram);
 
     cpu.reset();
-    cpu.workInstruction();
+    cpu.complete();
+    cpu.totalCycles = 0; // tests use this variable to measure time
 
     return {cpu, bus, ram}
 }

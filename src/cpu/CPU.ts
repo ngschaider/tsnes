@@ -49,6 +49,7 @@ export default class CPU implements IBusDevice {
     pc: uint16 = 0x0000;
 
     cycles: number = 0;
+    totalCycles: number = 0;
     
     // Perform one clock cycles worth of emulation
     clock() {
@@ -82,28 +83,31 @@ export default class CPU implements IBusDevice {
             this.status.U = true;
         }
 
+        this.totalCycles++;
         this.cycles--;
     }
 
-    completed() {
+    completed(): boolean {
         return this.cycles === 0;
     }
 
-    workInstruction() {
-        if(this.cycles === 0) {
-            return 0;
-        }
-
+    complete(): number {
         let counter = 0;
-        do {
+        while(this.cycles > 0) {
             this.clock();
             counter++;
-        } while(this.cycles > 0);
-
+        }
         return counter;
     }
 
+    stepInstruction(): number {
+        this.clock();
+        return this.complete() + 1;
+    }
+
     reset() {
+        this.totalCycles = 0;
+
         // Get address to set the program counter to
         let low = this.bus.read(RESET_VECTOR);
         let high = this.bus.read(RESET_VECTOR + 1);

@@ -7,7 +7,7 @@ let ram: RAM;
 let cpu: CPU;
 
 describe("CPU - BASICS", () => {
-    const setupHardware = () => {
+    const setup = () => {
         cpu = new CPU();
         bus = new Bus();
         ram = new RAM();
@@ -17,16 +17,14 @@ describe("CPU - BASICS", () => {
     }
 
     test("reset()", () => {
-        setupHardware();
+        setup();
         
         ram.load(0xFFCC, "DE C0");
         cpu.reset();
 
         expect(cpu.cycles).toBe(8);
 
-        for(let i = 0; i < 8; i++) {
-            cpu.clock();
-        }
+        cpu.complete();
 
         expect(cpu.cycles).toBe(0);
         expect(cpu.pc).toBe(0xC0DE);
@@ -34,7 +32,7 @@ describe("CPU - BASICS", () => {
     });
 
     test("pushStack()", () => {
-        setupHardware();
+        setup();
 
         cpu.pushStack(0x3D);
         expect(cpu.stkp).toBe(0xFD - 1);
@@ -42,7 +40,7 @@ describe("CPU - BASICS", () => {
     })
 
     test("popStack()", () => {
-        setupHardware();
+        setup();
 
         cpu.pushStack(0x3D);
         let popped = cpu.popStack();

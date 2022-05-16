@@ -303,7 +303,20 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x2D - AND (ABS)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b10001000;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "2D DE C0");
+        ram.write(0xC0DE, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x2E - ROL (ABS)", () => {
@@ -321,11 +334,40 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x31 - AND (IND_Y)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b10001000;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "31 22");
+        ram.load(0x0022, "DE C0");
+        cpu.y = 0x04;
+        ram.write(0xC0DE + 0x04, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(5);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x35 - AND (ZP_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b10001000;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "35 22");
+        cpu.x = 0x04;
+        ram.write(0x0022 + 0x04, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x36 - ROL (ZP_X)", () => {
@@ -344,11 +386,39 @@ describe("CPU - BITWISE", () => {
     });
 
     test("0x39 - AND (ABS_Y)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b10001000;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "39 DE C0");
+        cpu.y = 0x04;
+        ram.write(0xC0DE + 0x04, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
 
     test("0x3D - AND (ABS_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b10001000;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "3D DE C0");
+        cpu.x = 0x04;
+        ram.write(0xC0DE + 0x04, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x3E - ROL (ABS_X)", () => {

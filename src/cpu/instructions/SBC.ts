@@ -36,17 +36,17 @@ export default class SBC extends Instruction {
     execute(cpu: CPU): void {
 		super.execute(cpu);
         let data: uint8 = this.addressingMode.getData(cpu);
-        
-        // We can invert the bottom 8 bits with bitwise xor
-        let value: uint16 = data ^ 0x00FF;
 
-        // Notice this is exactly the same as addition from here!
-        let temp: uint16 = cpu.a + value + (cpu.status.C ? 1 : 0);
-        cpu.status.C = (temp & 0xFF00) !== 0x0000;
-        cpu.status.Z = (temp & 0x00FF) === 0x0000;
-        cpu.status.V = ((temp ^ cpu.a) & (temp ^ value) & 0x0080) !== 0x0000;
-        cpu.status.N = (temp & 0x0080) !== 0x0000;
-        cpu.a = temp & 0x00FF;
+        const sum = cpu.a - data - (cpu.status.C ? 1 : 0);
+        let result = sum & 0xFF;
+
+        cpu.status.C = sum > 0xFF;
+        cpu.status.Z = result === 0;
+
+        cpu.status.V = (((result ^ data) ^ 0xFF) & (result ^ sum) & 0x0080) !== 0;
+        cpu.status.N = (cpu.a >> 7) ? true : false;
+
+        cpu.a = result;
 
         if(this.addressingMode.pageBoundaryCrossed) {
             cpu.cycles++;

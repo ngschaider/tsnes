@@ -367,11 +367,39 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x41 - EOR (IND_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b01100110;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "41 22");
+        cpu.x = 0x04;
+        ram.load(0x0022 + 0x04, "DE C0");
+        ram.write(0xC0DE, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(cpu.a).toBe(result);
     });
 
     test("0x45 - EOR (ZP)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b01100110;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "45 22");
+        ram.write(0x0022, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.a).toBe(result);
     });
 
     test("0x46 - LSR (ZP)", () => {
@@ -380,14 +408,19 @@ describe("CPU - BITWISE", () => {
     
     test("0x49 - EOR (IMM)", () => {
         let {cpu, ram} = setup();
-        cpu.a = 0b11001100;
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b01100110;
+
+        cpu.a = a;
 
         ram.load(0x8000, "49");
-        ram.write(0x8001, 0b10101010);
+        ram.write(0x8001, b);
 
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);
-        expect(cpu.a).toBe(0b01100110);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x4A - LSR (Accum)", () => {
@@ -395,7 +428,20 @@ describe("CPU - BITWISE", () => {
     });
 
     test("0x4D - EOR (ABS)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b01100110;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "4D DE C0");
+        ram.write(0xC0DE, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x4E - LSR (ABS)", () => {
@@ -403,12 +449,41 @@ describe("CPU - BITWISE", () => {
     });
 
     test("0x51 - EOR (IND_Y)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b01100110;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "51 22");
+        ram.load(0x0022, "DE C0");
+        cpu.y = 0x04;
+        ram.write(0xC0DE + 0x04, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(5);
+        expect(cpu.a).toBe(result);
     });
 
         
     test("0x55 - EOR (ZP_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b01100110;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "55 22");
+        cpu.x = 0x04;
+        ram.write(0x0022 + 0x04, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x56 - LSR (ZP_X)", () => {
@@ -416,11 +491,39 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x59 - EOR (ABS_Y)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b01100110;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "59 DE C0");
+        cpu.y = 0x04;
+        ram.write(0xC0DE + 0x04, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x5D - EOR (ABS_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b01100110;
+
+        cpu.a = a;
+
+        ram.load(0x8000, "5D DE C0");
+        cpu.x = 0x04;
+        ram.write(0xC0DE + 0x04, b);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.a).toBe(result);
     });
     
     test("0x5E - LSR (ABS_X)", () => {

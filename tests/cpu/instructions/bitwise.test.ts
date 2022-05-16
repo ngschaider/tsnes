@@ -510,7 +510,18 @@ describe("CPU - BITWISE", () => {
     });
 
     test("0x46 - LSR (ZP)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let result = 0b01100110;
+
+        ram.load(0x8000, "46 22");
+        ram.write(0x0022, a);
+        
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(5);
+        expect(ram.read(0x0022)).toBe(result);
+        expect(cpu.status.C).toBe(false);
     });
     
     test("0x49 - EOR (IMM)", () => {
@@ -531,7 +542,18 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x4A - LSR (Accum)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let result = 0b01100110;
+
+        cpu.a = a;
+        ram.load(0x8000, "4A");
+        
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.a).toBe(result);
+        expect(cpu.status.C).toBe(false);
     });
 
     test("0x4D - EOR (ABS)", () => {
@@ -552,7 +574,18 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x4E - LSR (ABS)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let result = 0b01100110;
+
+        ram.write(0xC0DE, a);
+        ram.load(0x8000, "4E DE C0");
+        
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(ram.read(0xC0DE)).toBe(result);
+        expect(cpu.status.C).toBe(false);
     });
 
     test("0x51 - EOR (IND_Y)", () => {
@@ -594,7 +627,19 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x56 - LSR (ZP_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let result = 0b01100110;
+
+        ram.load(0x8000, "56 22");
+        cpu.x = 0x04;
+        ram.write(0x0022 + 0x04, a);
+        
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(ram.read(0x0022 + 0x04)).toBe(result);
+        expect(cpu.status.C).toBe(false);
     });
     
     test("0x59 - EOR (ABS_Y)", () => {
@@ -634,7 +679,19 @@ describe("CPU - BITWISE", () => {
     });
     
     test("0x5E - LSR (ABS_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let result = 0b01100110;
+
+        ram.load(0x8000, "5E DE C0");
+        cpu.x = 0x04;
+        ram.write(0xC0DE + 0x04, a);
+        
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(7);
+        expect(ram.read(0xC0DE + 0x04)).toBe(result);
+        expect(cpu.status.C).toBe(false);
     });
 
     test("0x66 - ROR (ZP)", () => {

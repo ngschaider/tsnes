@@ -2,11 +2,37 @@ import { setup } from "../utils";
 
 describe("CPU - BITWISE", () => {
     test("0x01 - ORA (IND_X)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b11101110;
+
+        ram.load(0x8000, "01 AB");
+        cpu.x = 0x04;
+        ram.load(0x00AB + 0x04, "DE C0");
+        ram.write(0xC0DE, a);
+        cpu.a = b;
+        
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(cpu.a).toBe(result);    
     });
 
     test("0x05 - ORA (ZP)", () => {
-    
+        let {cpu, ram} = setup();
+
+        let a = 0b11001100;
+        let b = 0b10101010;
+        let result = 0b11101110;
+
+        ram.load(0x8000, "05 AB");
+        ram.write(0x00AB, a);
+        cpu.a = b;
+        
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.a).toBe(result);    
     });
 
     test("0x06 - ASL (ZP)", () => {

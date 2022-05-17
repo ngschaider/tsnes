@@ -1,7 +1,6 @@
 import { setup } from "../utils";
 
 describe("CPU - COMPARE", () => {
-
     test("0xE0 - CPX (IMM) - TRUE", () => {
         const {cpu, ram} = setup();
 
@@ -428,6 +427,5 @@ describe("CPU - COMPARE", () => {
         expect(cpu.totalCycles).toBe(4);
         expect(cpu.status.C).toBe(false);
         expect(cpu.status.Z).toBe(false);
-    });
-    
+    });  
 })

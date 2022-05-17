@@ -153,7 +153,13 @@ describe("CPU - BRANCHING", () => {
     });
 
     test("0x4C - JMP (ABS)", () => {
-    
+        let {cpu, ram} = setup();
+
+        ram.load(0x8000, "4C DE C0");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.pc).toBe(0xC0DE);
     });
     
     test("0x50 - BVC (Relative)", () => {
@@ -165,7 +171,14 @@ describe("CPU - BRANCHING", () => {
     });  
         
     test("0x6C - JMP (IND)", () => {
-    
+        let {cpu, ram} = setup();
+
+        ram.load(0x8000, "6C 34 12");
+        ram.load(0x1234, "DE C0");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(5);
+        expect(cpu.pc).toBe(0xC0DE);
     });
     
     test("0x70 - BVS (Relative)", () => {

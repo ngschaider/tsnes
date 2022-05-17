@@ -13,11 +13,11 @@ export default class BVC extends Instruction {
     execute(cpu: CPU): void {
 		super.execute(cpu);
         let address = this.addressingMode.getAddress(cpu);
+
         if(!cpu.status.V) {
             cpu.cycles++;
-
             if(this.addressingMode.pageBoundaryCrossed) {
-                cpu.cycles++;  // Add 2 to N if branch occurs to different page
+                cpu.cycles++;
             }
 
             cpu.pc = address;

@@ -293,16 +293,112 @@ describe("CPU - BRANCHING", () => {
         expect(cpu.pc).toBe(0x8002);
     });
     
-    test("0xB0 - BCS (Relative)", () => {
-    
-    });
-    
-    test("0xD0 - BNE (Relative)", () => {
-    
+    test("0xB0 - BCS (Relative) - TRUE", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.C = true;
+
+        ram.load(0x8000, "B0 AA");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.pc).toBe(0x8002 + 0xAA);
     });
 
-    test("0xF0 - BEQ (Relative)", () => {
+    test("0xB0 - BCS (Relative) - PAGE BOUNDARY CROSSING", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.C = true;
+
+        ram.load(0x8000, "B0 FF");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.pc).toBe(0x8002 + 0xFF);
+    });
+
+    test("0xB0 - BCS (Relative) - FALSE", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.C = false;
+
+        ram.load(0x8000, "B0 AA");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.pc).toBe(0x8002);
+    });
     
+    test("0xD0 - BNE (Relative) - TRUE", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.Z = false;
+
+        ram.load(0x8000, "D0 AA");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.pc).toBe(0x8002 + 0xAA);
+    });
+
+    test("0xD0 - BNE (Relative) - PAGE BOUNDARY CROSSING", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.Z = false;
+
+        ram.load(0x8000, "D0 FF");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.pc).toBe(0x8002 + 0xFF);
+    });
+
+    test("0xD0 - BNE (Relative) - FALSE", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.Z = true;
+
+        ram.load(0x8000, "D0 AA");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.pc).toBe(0x8002);
+    });
+
+    test("0xF0 - BEQ (Relative) - TRUE", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.Z = true;
+
+        ram.load(0x8000, "F0 AA");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.pc).toBe(0x8002 + 0xAA);
+    });
+
+    test("0xF0 - BEQ (Relative) - PAGE BOUNDARY CROSSING", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.Z = true;
+
+        ram.load(0x8000, "F0 FF");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.pc).toBe(0x8002 + 0xFF);
+    });
+
+    test("0xF0 - BEQ (Relative) - FALSE", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.Z = false;
+
+        ram.load(0x8000, "F0 AA");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.pc).toBe(0x8002);
     });
     
 });

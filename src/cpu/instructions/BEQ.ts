@@ -12,13 +12,12 @@ export default class BEQ extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        if(cpu.status.Z) {
-            let address = this.addressingMode.getAddress(cpu);
+        let address = this.addressingMode.getAddress(cpu);
 
-            if((address & 0xFF00) === (cpu.pc & 0xFF00)) {
-                cpu.cycles += 1; // Add 1 to N if branch occurs to same page
-            } else {
-                cpu.cycles += 2;  // Add 2 to N if branch occurs to different page
+        if(cpu.status.Z) {
+            cpu.cycles++;
+            if(this.addressingMode.pageBoundaryCrossed) {
+                cpu.cycles++;
             }
 
             cpu.pc = address;

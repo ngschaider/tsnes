@@ -11,9 +11,9 @@ export default class BMI extends Instruction {
     }
 
     execute(cpu: CPU): void {
+        super.execute(cpu);
         let address = this.addressingMode.getAddress(cpu);
-
-		super.execute(cpu);
+		
         if(cpu.status.N) {
             cpu.cycles++;
             if(this.addressingMode.pageBoundaryCrossed) {

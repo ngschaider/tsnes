@@ -12,12 +12,10 @@ export default class BVS extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-
         let address = this.addressingMode.getAddress(cpu);
-        
+
         if(cpu.status.V) {
             cpu.cycles++;
-
             if(this.addressingMode.pageBoundaryCrossed) {
                 cpu.cycles++;
             }

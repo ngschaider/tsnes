@@ -23,52 +23,54 @@ describe("CPU - INCREMENT", () => {
         expect(cpu.y).toBe(0x3E);
     })
     
-    test("0xE6 - INC (ZP)", () => {
-        let {cpu, ram} = setup();
-
-        ram.load(0x0022, "3D");
-        ram.load(0x8000, "E6 22");
-
-        cpu.stepInstruction();
-        expect(cpu.totalCycles).toBe(5);
-        expect(ram.read(0x0022)).toBe(0x3E);
-    });
+    describe("INC", () => {
+        test("0xE6 - INC (ZP)", () => {
+            let {cpu, ram} = setup();
     
-    test("0xEE - INC (ABS)", () => {
-        let {cpu, ram} = setup();
-
-        ram.load(0xC0DE, "3D");
-        ram.load(0x8000, "EE DE C0");
-
-        cpu.stepInstruction();
-        expect(cpu.totalCycles).toBe(6);
-        expect(ram.read(0xC0DE)).toBe(0x3E);
-    });
+            ram.load(0x0022, "3D");
+            ram.load(0x8000, "E6 22");
     
-    test("0xF6 - INC (ZP_X)", () => {
-        let {cpu, ram} = setup();
-
-        cpu.x = 0x04;
-
-        ram.load(0x0022 + 0x04, "3D");
-        ram.load(0x8000, "F6 22");
+            cpu.stepInstruction();
+            expect(cpu.totalCycles).toBe(5);
+            expect(ram.read(0x0022)).toBe(0x3E);
+        });
         
-        cpu.stepInstruction();
-        expect(cpu.totalCycles).toBe(6);
-        expect(ram.read(0x0022 + 0x04)).toBe(0x3E);
-    });
+        test("0xEE - INC (ABS)", () => {
+            let {cpu, ram} = setup();
+    
+            ram.load(0xC0DE, "3D");
+            ram.load(0x8000, "EE DE C0");
+    
+            cpu.stepInstruction();
+            expect(cpu.totalCycles).toBe(6);
+            expect(ram.read(0xC0DE)).toBe(0x3E);
+        });
         
-    test("0xFE - INC (ABS_X)", () => {
-        let {cpu, ram} = setup();
-
-        cpu.x = 0x04;
-
-        ram.load(0x8000, "FE DE C0");
-        ram.load(0xC0DE + 0x04, "3D");
-
-        cpu.stepInstruction();
-        expect(cpu.totalCycles).toBe(7);
-        expect(ram.read(0xC0DE + 0x04)).toBe(0x3E);
+        test("0xF6 - INC (ZP_X)", () => {
+            let {cpu, ram} = setup();
+    
+            cpu.x = 0x04;
+    
+            ram.load(0x0022 + 0x04, "3D");
+            ram.load(0x8000, "F6 22");
+            
+            cpu.stepInstruction();
+            expect(cpu.totalCycles).toBe(6);
+            expect(ram.read(0x0022 + 0x04)).toBe(0x3E);
+        });
+            
+        test("0xFE - INC (ABS_X)", () => {
+            let {cpu, ram} = setup();
+    
+            cpu.x = 0x04;
+    
+            ram.load(0x8000, "FE DE C0");
+            ram.load(0xC0DE + 0x04, "3D");
+    
+            cpu.stepInstruction();
+            expect(cpu.totalCycles).toBe(7);
+            expect(ram.read(0xC0DE + 0x04)).toBe(0x3E);
+        });
     });
 
 });

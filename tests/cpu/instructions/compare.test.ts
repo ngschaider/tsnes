@@ -2,20 +2,124 @@ import { setup } from "../utils";
 
 describe("CPU - COMPARE", () => {
 
-    test("0xE0 - CPX (IMM)", () => {
+    test("0xE0 - CPX (IMM) - TRUE", () => {
+        const {cpu, ram} = setup();
 
+        cpu.status.C = false;
+
+        cpu.x = 0xDD;
+        ram.load(0x8000, "E0 3D");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.status.C).toBe(true);
+        expect(cpu.status.Z).toBe(false);
     });
 
-    test("0xC0 - CPY (IMM)", () => {
+    test("0xE0 - CPX (IMM) - FALSE", () => {
+        const {cpu, ram} = setup();
 
+        cpu.status.C = true;
+
+        cpu.x = 0x3D;
+        ram.load(0x8000, "E0 AA");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.status.C).toBe(false);
+        expect(cpu.status.Z).toBe(false);
     });
 
-    test("0xC1 - CMP (IND_X)", () => {
-    
+    test("0xC0 - CPY (IMM) - TRUE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = false;
+
+        cpu.y = 0xDD;
+        ram.load(0x8000, "C0 3D");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.status.C).toBe(true);
+        expect(cpu.status.Z).toBe(false);
+    });
+
+    test("0xC0 - CPY (IMM) - FALSE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        cpu.y = 0x3D;
+        ram.load(0x8000, "C0 AA");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.status.C).toBe(false);
+        expect(cpu.status.Z).toBe(false);
+    });
+
+    test("0xC1 - CMP (IND_X) - TRUE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = false;
+
+        cpu.a = 0xAA;
+        ram.load(0x8000, "C1 22");        
+        cpu.x = 0x04;
+        ram.load(0x0022 + 0x04, "DE C0");
+        ram.write(0xC0DE, 0x3D);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(cpu.status.C).toBe(true);
+        expect(cpu.status.Z).toBe(false);
+    });
+
+    test("0xC1 - CMP (IND_X) - FALSE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        cpu.a = 0x3D;
+        ram.load(0x8000, "C1 22");
+        cpu.x = 0x04;
+        ram.load(0x0022 + 0x04, "DE C0");
+        ram.write(0xC0DE, 0xAA);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(cpu.status.C).toBe(false);
+        expect(cpu.status.Z).toBe(false);
     });
     
-    test("0xC4 - CPY (ZP)", () => {
-    
+    test("0xC4 - CPY (ZP) - TRUE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = false;
+
+        cpu.y = 0xDD;
+        ram.load(0x8000, "C4 22");
+        ram.write(0x0022, 0x3D);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.status.C).toBe(true);
+        expect(cpu.status.Z).toBe(false);
+    });
+
+    test("0xC4 - CPY (ZP) - FALSE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        cpu.y = 0x3D;
+        ram.load(0x8000, "C4 22");
+        ram.write(0x0022, 0xAA);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.status.C).toBe(false);
+        expect(cpu.status.Z).toBe(false);
     });
     
     test("0xC5 - CMP (ZP) - TRUE", () => {
@@ -76,8 +180,34 @@ describe("CPU - COMPARE", () => {
         expect(cpu.status.Z).toBe(false);
     });
 
-    test("0xCC - CPY (ABS)", () => {
-    
+    test("0xCC - CPY (ABS) - TRUE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = false;
+
+        cpu.y = 0xDD;
+        ram.load(0x8000, "CC DE C0");
+        ram.write(0xC0DE, 0x3D);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.status.C).toBe(true);
+        expect(cpu.status.Z).toBe(false);
+    });
+
+    test("0xCC - CPY (ABS) - FALSE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        cpu.y = 0x3D;
+        ram.load(0x8000, "CC DE C0");
+        ram.write(0xC0DE, 0xAA);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.status.C).toBe(false);
+        expect(cpu.status.Z).toBe(false);
     });
     
     test("0xCD - CMP (ABS) - TRUE", () => {
@@ -240,12 +370,64 @@ describe("CPU - COMPARE", () => {
         expect(cpu.status.Z).toBe(false);
     });
         
-    test("0xE4 - CPX (ZP)", () => {
-    
+    test("0xE4 - CPX (ZP) - TRUE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = false;
+
+        cpu.x = 0xDD;
+        ram.load(0x8000, "E4 22");
+        ram.write(0x0022, 0x3D);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.status.C).toBe(true);
+        expect(cpu.status.Z).toBe(false);
+    });
+
+    test("0xE4 - CPX (ZP) - FALSE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        cpu.x = 0x3D;
+        ram.load(0x8000, "E4 22");
+        ram.write(0x0022, 0xAA);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.status.C).toBe(false);
+        expect(cpu.status.Z).toBe(false);
     });
     
-    test("0xEC - CPX (ABS)", () => {
-    
+    test("0xEC - CPX (ABS) - TRUE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = false;
+
+        cpu.x = 0xDD;
+        ram.load(0x8000, "EC DE C0");
+        ram.write(0xC0DE, 0x3D);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.status.C).toBe(true);
+        expect(cpu.status.Z).toBe(false);
+    });
+
+    test("0xEC - CPX (ABS) - FALSE", () => {
+        const {cpu, ram} = setup();
+
+        cpu.status.C = true;
+
+        cpu.x = 0x3D;
+        ram.load(0x8000, "EC DE C0");
+        ram.write(0xC0DE, 0xAA);
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.status.C).toBe(false);
+        expect(cpu.status.Z).toBe(false);
     });
     
 })

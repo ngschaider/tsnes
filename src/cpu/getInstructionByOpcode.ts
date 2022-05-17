@@ -337,7 +337,7 @@ FF,XXX,IMP,7
 
 const getInstructionByOpcode = (opcode: number) => {
     switch(opcode) {
-        case 0x00: return new BRK(0x00, new IMM(), 7);
+        case 0x00: return new BRK(0x00, new Implied(), 7);
         case 0x01: return new ORA(0x01, new IND_X(), 6);
         case 0x02: return new XXX(0x02);
         case 0x03: return new XXX(0x03);

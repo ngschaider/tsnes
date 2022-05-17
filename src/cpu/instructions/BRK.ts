@@ -20,7 +20,7 @@ export default class BRK extends Instruction {
 
         cpu.status.B = true;
         cpu.pushStack(cpu.status.toUint8());
-        cpu.status.B = false;
+        //cpu.status.B = false;
 
         cpu.pc = cpu.bus.read(0xFFFE) | (cpu.bus.read(0xFFFF) << 8);
     }

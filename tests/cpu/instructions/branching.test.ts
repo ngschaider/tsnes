@@ -199,7 +199,15 @@ describe("CPU - BRANCHING", () => {
     });
 
     test("0x60 - RTS (Implied)", () => {
+        let {cpu, ram} = setup();
 
+        cpu.pushStack(0xC0);
+        cpu.pushStack(0xDE);
+        ram.load(0x8000, "60");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(6);
+        expect(cpu.pc).toBe(0xC0DD);
     });  
         
     test("0x6C - JMP (IND)", () => {

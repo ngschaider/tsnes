@@ -11,14 +11,13 @@ export default class BPL extends Instruction {
     }
 
     execute(cpu: CPU): void {
+        let address = this.addressingMode.getAddress(cpu);
+
 		super.execute(cpu);
         if(!cpu.status.N) {
-            let address = this.addressingMode.getAddress(cpu);
-
-            if((address & 0xFF00) === (cpu.pc & 0xFF00)) {
-                cpu.cycles += 1; // Add 1 to N if branch occurs to same page
-            } else {
-                cpu.cycles += 2;  // Add 2 to N if branch occurs to different page
+            cpu.cycles++;
+            if(this.addressingMode.pageBoundaryCrossed) {
+                cpu.cycles++;
             }
 
             cpu.pc = address;

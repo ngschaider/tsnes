@@ -24,6 +24,8 @@ export default class Relative extends AddressingMode {
 
         let address: uint16 = cpu.pc + offset;
 
+        this.pageBoundaryCrossed = (cpu.pc >> 8) !== (address >> 8);
+
         return address;
     }
 

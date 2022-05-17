@@ -162,8 +162,40 @@ describe("CPU - BRANCHING", () => {
         expect(cpu.pc).toBe(0xC0DE);
     });
     
-    test("0x50 - BVC (Relative)", () => {
-    
+    test("0x50 - BVC (Relative) - TRUE", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.V = false;
+
+        ram.load(0x8000, "50 AA");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(3);
+        expect(cpu.pc).toBe(0x8002 + 0xAA);
+    });
+
+    test("0x50 - BVC (Relative) - PAGE BOUNDARY CROSSING", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.V = false;
+
+        ram.load(0x8000, "50 FF");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(4);
+        expect(cpu.pc).toBe(0x8002 + 0xFF);
+    });
+
+    test("0x50 - BVC (Relative) - FALSE", () => {
+        const {ram, cpu} = setup();
+
+        cpu.status.V = true;
+
+        ram.load(0x8000, "50 AA");
+
+        cpu.stepInstruction();
+        expect(cpu.totalCycles).toBe(2);
+        expect(cpu.pc).toBe(0x8002);
     });
 
     test("0x60 - RTS (Implied)", () => {

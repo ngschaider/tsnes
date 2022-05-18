@@ -1,4 +1,4 @@
-import Bus from "../../src/Bus";
+import Bus from "../../src/NES";
 import CPU from "../../src/cpu/CPU";
 import RAM from "../../src/RAM";
 

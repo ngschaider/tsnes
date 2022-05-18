@@ -1,10 +1,14 @@
 import IBusDevice from "./IBusDevice";
-import { uint16, uint8 } from "./types";
+import { uint8, uint16 } from "./types";
 
-type BusConnection = {
+export default abstract class IBusConnection {
+
     device: IBusDevice;
-    from: uint16;
-    to: uint16;
-};
 
-export default BusConnection
+    constructor(device: IBusDevice) {
+        this.device = device;
+    }
+
+    abstract mapAddress(input: uint16): uint16;
+
+}

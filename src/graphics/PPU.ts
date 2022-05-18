@@ -1,4 +1,5 @@
 import Color from "./Color"
+import {uint8, uint16} from "../types"
 
 export default class PPU {
 

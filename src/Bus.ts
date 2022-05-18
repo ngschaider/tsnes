@@ -1,20 +1,21 @@
 import IBusDevice from "./IBusDevice";
-import BusConnection from "./BusConnection";
+import IBusConnection from "./IBusConnection";
 import { uint16, uint8 } from "./types";
 
 export default class Bus {
 
-    private devices: IBusDevice[] = [];
+    private connections: IBusConnection[] = [];
 
-    connectDevice(device: IBusDevice) {
-        this.devices.push(device);
-        device.connectBus(this);
+    addConnection(connection: IBusConnection) {
+        this.connections.push(connection);
+        connection.device.connectBus(this);
     }
 
     read(address: uint16): uint8 {
-        for(let device of this.devices) {
-            if(device.canRead(address)) {
-                return device.read(address);
+        for(let connection of this.connections) {
+            let mapped: uint16 = connection.mapAddress(address);
+            if(connection.device.canRead(mapped)) {
+                return connection.device.read(mapped);
             }
         }
 
@@ -22,9 +23,10 @@ export default class Bus {
     }
 
     write(address: uint16, data: uint8): void {
-        for(let device of this.devices) {
-            if(device.canWrite(address)) {
-                device.write(address, data);
+        for(let connection of this.connections) {
+            let mapped: uint16 = connection.mapAddress(address);
+            if(connection.device.canWrite(mapped)) {
+                connection.device.write(mapped, data);
             }
         }
     }

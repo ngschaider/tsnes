@@ -1,18 +1,17 @@
 import p5 from "p5";
 import CPU from "./cpu/CPU";
 import RAM from "./RAM";
-import Bus from "./Bus";
 import { uint16, uint8 } from "./types";
-import { listenerCount } from "process";
-
-
+import CustomBusConnection from "./bus_connections/CustomBusConnection";
+import MirrorBusConnection from "./bus_connections/MirrorBusConnection";
+import Bus from "./Bus";
 
 let cpu: CPU = new CPU();
-let ram: RAM = new RAM();
+let ram: RAM = new RAM(2 * 1024);
 
 let bus: Bus = new Bus();
-bus.connectDevice(cpu);
-bus.connectDevice(ram);
+bus.addConnection(new MirrorBusConnection(ram, [0x0000, 0x08000, 0x1000, 0x1800]));
+bus.addConnection(new CustomBusConnection(cpu, address => address));
 
 cpu.reset();
 

@@ -2,13 +2,20 @@ import StatusRegister from "./StatusRegister";
 import { uint16, uint8 } from "../types";
 import { Instruction } from "./Instruction";
 import getInstructionByOpcode from "./getInstructionByOpcode";
-import BusDevice from "../bus/BusDevice";
+import BusDevice from "../bus/IBusDevice";
+import IBusDevice from "../bus/IBusDevice";
 import Bus from "../bus/Bus";
 
 const INITIAL_STKP: uint8 = 0xFD;
 const RESET_VECTOR: uint16 = 0xFFCC;
 
-export default class CPU extends BusDevice {
+export default class CPU implements IBusDevice {
+
+    bus: Bus;
+
+    connectBus(bus: Bus): void {
+        this.bus = bus;
+    }
 
     pushStack(data: uint8) {
         this.bus.write(0x0100 + this.stkp, data);

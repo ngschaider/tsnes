@@ -7,13 +7,24 @@ import PPU from "./graphics/PPU";
 import RepeatingBusDevice from "./bus/RepeatingBusDevice";
 
 let cpu: CPU = new CPU();
-//let ram: RAM = new RAM(2 * 1024);
-let ram: RAM = new RAM(64 * 1024);
+let ram: RAM = new RAM(2 * 1024);
+let ppu: PPU = new PPU();
 
-let bus: Bus = new Bus();
-bus.connectDevice(ram);
-bus.connectDevice(cpu);
-//bus.connectDevice(new RepeatingBusDevice(0x0000, 0x07FF, 3));
+let cpuBus: Bus = new Bus("CPU");
+cpuBus.connectDevice(cpu);
+cpuBus.connectDevice(ram);
+cpuBus.connectDevice(new RepeatingBusDevice(0x0000, 0x07FF, 3));
+
+let ppuBus: Bus = new Bus("PPU");
+ppuBus.connectDevice(ppu);
+cpuBus.connectDevice(ppu);
+cpuBus.connectDevice(new RepeatingBusDevice(0x2000, 0x2007, 1023));
+
+
+
+
+
+
 
 cpu.reset();
 

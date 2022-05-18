@@ -1,15 +1,29 @@
 import { uint16, uint8 } from "../types";
 import ReadOrWrite from "./ReadOrWrite";
-import BusDevice from "./BusDevice";
+import IBusDevice from "./IBusDevice";
 import Event from "../Event";
+
+type BusType = "CPU" | "PPU";
 
 export default class Bus {
 
-    private devices: BusDevice[] = [];
+    private _type: BusType;
+    private set type(value: BusType) {
+        this._type = value;
+    }
+    public get type() {
+        return this._type;
+    }
 
-    connectDevice(device: BusDevice) {
+    private devices: IBusDevice[] = [];
+
+    connectDevice(device: IBusDevice) {
         this.devices.push(device);
         device.connectBus(this);
+    }
+
+    constructor(type: BusType) {
+        this.type = type;
     }
 
     public onAddressChanged: Event = new Event();

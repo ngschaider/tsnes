@@ -1,26 +1,27 @@
 import { uint16 } from "../types";
 import Bus from "./Bus";
-import BusDevice from "./BusDevice";
+import BusDevice from "./IBusDevice";
 
-export default class RepeatingBusDevice extends BusDevice {
+export default class RepeatingBusDevice implements BusDevice {
 
     private repeatNum: number;
     private start: uint16;
     private end: number;
 
     constructor(start: uint16, end: number, repeatNum: number) {
-        super();
         this.repeatNum = repeatNum;
         this.start = start;
         this.end = end;
     }
 
+    bus: Bus;
+
     connectBus(bus: Bus): void {
-        super.connectBus(bus);
-        bus.onAddressChanged.on(this.addressChanged.bind(this));
+        this.bus = bus;
+        this.bus.onAddressChanged.on(this.onAddressChanged.bind(this));
     }
 
-    addressChanged(address: uint16) {
+    onAddressChanged(address: uint16) {
         // address is below range or is in the target range
         if(address < this.end) {
             return;

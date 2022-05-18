@@ -1,17 +1,18 @@
 import {uint8, uint16} from "./types";
-import BusDevice from  "./bus/BusDevice";
+import IBusDevice from  "./bus/IBusDevice";
 import Bus from "./bus/Bus";
 import ReadOrWrite from "./bus/ReadOrWrite";
 
-export default class RAM extends BusDevice {
+export default class RAM implements IBusDevice {
 
     clock(): void {
         
     }
 
-    connectBus(bus: Bus): void {
-        super.connectBus(bus);        
+    bus: Bus;
 
+    connectBus(bus: Bus): void {
+        this.bus = bus;
         bus.onAddressChanged.on(this.addressChanged.bind(this));
     }
 
@@ -47,7 +48,6 @@ export default class RAM extends BusDevice {
     size: number;
 
     constructor(size: number = 64 * 1024) {
-        super();
         this.size = size;
         for(let i = 0; i < this.size; i++) {
             this.bytes.push(0x00);

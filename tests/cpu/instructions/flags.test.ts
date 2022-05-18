@@ -61,7 +61,6 @@ describe("CPU - FLAGS", () => {
         cpu.status.D = true;
 
         ram.load(0x8000, "D8");
-
         
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);
@@ -73,7 +72,6 @@ describe("CPU - FLAGS", () => {
         cpu.status.D = false;
 
         ram.load(0x8000, "F8");
-
         
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);

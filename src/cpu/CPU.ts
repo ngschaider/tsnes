@@ -2,26 +2,13 @@ import StatusRegister from "./StatusRegister";
 import { uint16, uint8 } from "../types";
 import { Instruction } from "./Instruction";
 import getInstructionByOpcode from "./getInstructionByOpcode";
-import IBusDevice from "../IBusDevice";
-import Bus from "../Bus";
+import BusDevice from "../bus/BusDevice";
+import Bus from "../bus/Bus";
 
 const INITIAL_STKP: uint8 = 0xFD;
 const RESET_VECTOR: uint16 = 0xFFCC;
 
-export default class CPU implements IBusDevice {
-    
-    canRead(address: number): boolean {
-        return false;
-    }
-    canWrite(address: number): boolean {
-        return false;
-    }
-    read(address: number): number {
-        throw new Error("Method not implemented.");
-    }
-    write(address: number, data: number): void {
-        throw new Error("Method not implemented.");
-    }
+export default class CPU extends BusDevice {
 
     pushStack(data: uint8) {
         this.bus.write(0x0100 + this.stkp, data);
@@ -36,12 +23,6 @@ export default class CPU implements IBusDevice {
     a: uint8 = 0x00;
     x: uint8 = 0x00;
     y: uint8 = 0x00;
-
-    bus: Bus;
-
-    connectBus(bus: Bus): void {
-        this.bus = bus;
-    }
 
     status: StatusRegister = new StatusRegister();
 

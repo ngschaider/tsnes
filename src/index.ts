@@ -2,16 +2,17 @@ import p5 from "p5";
 import CPU from "./cpu/CPU";
 import RAM from "./RAM";
 import { uint16, uint8 } from "./types";
-import CustomBusConnection from "./bus_connections/CustomBusConnection";
-import MirrorBusConnection from "./bus_connections/MirrorBusConnection";
-import Bus from "./Bus";
+import Bus from "./bus/Bus";
+import PPU from "./graphics/PPU";
+import RepeatingBusDevice from "./bus/RepeatingBusDevice";
 
 let cpu: CPU = new CPU();
 let ram: RAM = new RAM(2 * 1024);
 
 let bus: Bus = new Bus();
-bus.addConnection(new MirrorBusConnection(ram, [0x0000, 0x08000, 0x1000, 0x1800]));
-bus.addConnection(new CustomBusConnection(cpu, address => address));
+bus.connectDevice(ram);
+bus.connectDevice(cpu);
+bus.connectDevice(new RepeatingBusDevice(0x0000, 0x07FF, 3));
 
 cpu.reset();
 
@@ -115,7 +116,7 @@ const dumpRam = (ram: RAM, start: uint16, columns: number = 16, rows: number = 2
                 p.fill(255);
             }
 
-            let data: uint8 = ram.read(address);
+            let data: uint8 = ram.bytes[address];
 
             let hex = data.toString(16);
             if(hex.length < 2) {

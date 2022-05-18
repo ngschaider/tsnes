@@ -1,13 +1,14 @@
-import Bus from "../src/Bus";
+import Bus from "../src/bus/Bus";
+import RepeatingBusDevice from "../src/bus/RepeatingBusDevice";
 import RAM from "../src/RAM"
-import MirrorBusConnection from "../src/bus_connections/MirrorBusConnection";
 
 describe("BUS", () => {
     test("MIRROR MAPPING", () => {
         let ram = new RAM(2 * 1024);
         let bus = new Bus();
         
-        bus.addConnection(new MirrorBusConnection(ram, [0x0000, 0x0800, 0x1000, 0x1800]));
+        bus.connectDevice(ram);
+        bus.connectDevice(new RepeatingBusDevice(0x0000, 0x07FF, 3));
         ram.reset();
 
         bus.write(0x00CD, 0x3D);

@@ -12,11 +12,11 @@ export default class RAM extends BusDevice {
     connectBus(bus: Bus): void {
         super.connectBus(bus);        
 
-        bus.onAddressChanged.on(this.addressChanged);
+        bus.onAddressChanged.on(this.addressChanged.bind(this));
     }
 
     addressChanged(address: uint16) {
-        if(address < 0x0000 || address > 0x07FF) {
+        if(address < 0x0000 || address > this.size) {
             return;
         }
 
@@ -29,7 +29,7 @@ export default class RAM extends BusDevice {
 
     read(address: uint16): uint8 {
         if(address < 0 || address > this.size) {
-            return
+            return;
         }
         
         return this.bytes[address];

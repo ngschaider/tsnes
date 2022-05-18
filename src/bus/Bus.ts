@@ -14,7 +14,7 @@ export default class Bus {
 
     public onAddressChanged: Event = new Event();
     
-    private _address: uint16;
+    private _address: uint16 = 0x0000;
     public get address(): uint16 {
         return this._address;
     }
@@ -25,7 +25,7 @@ export default class Bus {
     
     public onDataChanged: Event = new Event();
 
-    private _data: uint16;
+    private _data: uint16 = 0x00;
     public get data(): uint16 {
         return this._data;
     }
@@ -38,13 +38,13 @@ export default class Bus {
 
     read(address: uint16): uint8 {
         this.readOrWrite = ReadOrWrite.Read;
-        this.address = address;;
+        this.address = address;
         return this.data;
     }
 
-    write(address: uint16, data: uint8): void {
+    write(address: uint16, value: uint8): void {
         this.readOrWrite = ReadOrWrite.Write;
-        this.data = data;
+        this.data = value;
         this.address = address;
     }
 

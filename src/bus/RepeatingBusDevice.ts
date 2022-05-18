@@ -17,7 +17,7 @@ export default class RepeatingBusDevice extends BusDevice {
 
     connectBus(bus: Bus): void {
         super.connectBus(bus);
-        bus.onAddressChanged.on(this.addressChanged);
+        bus.onAddressChanged.on(this.addressChanged.bind(this));
     }
 
     addressChanged(address: uint16) {

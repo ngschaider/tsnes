@@ -54,7 +54,7 @@ export default class CPU extends BusDevice {
             // Is this line even needed?
             // It seems that the unused flag is never cleared
             this.status.U = true;
-
+            
             let instruction: Instruction = getInstructionByOpcode(opcode);
             instruction.execute(this);
 

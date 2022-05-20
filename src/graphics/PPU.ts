@@ -10,7 +10,7 @@ export default class PPU implements IBusDevice {
     clock(): void {
     }
 
-    framebuffer: Color[];
+    framebuffer: Color[] = [];
 
     width: number;
     height: number;

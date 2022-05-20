@@ -5,21 +5,27 @@ import { uint16, uint8 } from "./types";
 import Bus from "./bus/Bus";
 import PPU from "./graphics/PPU";
 import RepeatingBusDevice from "./bus/RepeatingBusDevice";
+import Cartridge from "./Cartridge";
 
-let cpu: CPU = new CPU();
-let ram: RAM = new RAM(2 * 1024);
-let ppu: PPU = new PPU();
+
+
 
 let cpuBus: Bus = new Bus("CPU");
-cpuBus.connectDevice(cpu);
+
+let cpu: CPU = new CPU();
+cpuBus.connectDevice(cpu)
+
+let ram: RAM = new RAM(2 * 1024);;
 cpuBus.connectDevice(ram);
 cpuBus.connectDevice(new RepeatingBusDevice(0x0000, 0x07FF, 3));
 
+
 let ppuBus: Bus = new Bus("PPU");
+
+let ppu: PPU = new PPU();
 ppuBus.connectDevice(ppu);
 cpuBus.connectDevice(ppu);
 cpuBus.connectDevice(new RepeatingBusDevice(0x2000, 0x2007, 1023));
-
 
 
 
@@ -139,3 +145,13 @@ const dumpRam = (ram: RAM, start: uint16, columns: number = 16, rows: number = 2
         }
     }
 }
+
+
+
+document.getElementById("rom").addEventListener("change", (ev: Event) => {
+    let inputElement = <HTMLInputElement> ev.target;
+    let file: File = inputElement.files[0];
+    Cartridge.loadFromFile(file, (cartridge) => {
+        console.log(cartridge);
+    });
+});

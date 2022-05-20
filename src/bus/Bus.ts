@@ -8,9 +8,6 @@ type BusType = "CPU" | "PPU";
 export default class Bus {
 
     private _type: BusType;
-    private set type(value: BusType) {
-        this._type = value;
-    }
     public get type() {
         return this._type;
     }
@@ -23,7 +20,7 @@ export default class Bus {
     }
 
     constructor(type: BusType) {
-        this.type = type;
+        this._type = type;
     }
 
     public onAddressChanged: Event = new Event();

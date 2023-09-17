@@ -1,64 +1,44 @@
-import {uint8, uint16} from "./types";
-import IBusDevice from  "./bus/IBusDevice";
+import {uint8, uint16, Address} from "./types";
 import Bus from "./bus/Bus";
-import ReadOrWrite from "./bus/ReadOrWrite";
 
-export default class RAM implements IBusDevice {
-
-    clock(): void {
-        
-    }
-
-    bus: Bus;
-
-    connectBus(bus: Bus): void {
-        this.bus = bus;
-        bus.onAddressChanged.on(this.addressChanged.bind(this));
-    }
-
-    addressChanged(address: uint16) {
-        if(address < 0x0000 || address > this.size) {
-            return;
-        }
-
-        if(this.bus.readOrWrite === ReadOrWrite.Read) {
-            this.bus.data = this.read(address)
-        } else if(this.bus.readOrWrite === ReadOrWrite.Write) {
-            this.write(address, this.bus.data);
-        }
-    }
-
-    read(address: uint16): uint8 {
-        if(address < 0 || address > this.size) {
-            return;
-        }
-        
-        return this.bytes[address];
-    }
-
-    write(address: uint16, data: uint8) {
-        if(address < 0 || address > this.size) {
-            return;
-        }
-
-        this.bytes[address] = data;
-    }
+export default class RAM {
 
     bytes: uint8[] = [];
     size: number;
 
-    constructor(size: number = 64 * 1024) {
+    constructor(bus: Bus, size: number) {
         this.size = size;
+
         for(let i = 0; i < this.size; i++) {
             this.bytes.push(0x00);
         }
+
+        bus.onRead.on(this.read.bind(this));
+        bus.onWrite.on(this.write.bind(this));
     }
 
+    read(address: Address): uint8|undefined {
+        if(address < 0 || address >= this.size) {
+            return;
+        }
+
+        return this.bytes[address];
+    };
+    write(address: Address, value: uint8): void {
+        if(address < 0 || address >= this.size) {
+            return;
+        }
+
+        this.bytes[address] = value;
+    };
+
+    /**
+     * Loads a string of bytes in the format of "AB CD EF 01 02 03 C0 DE BE EF" into the ram starting at the given address
+     */
     load(address: uint16, payload: string): void {
         let bytesAsString = payload.split(" ");
         for(let i = 0; i < bytesAsString.length; i++) {
-            let byte = parseInt(bytesAsString[i], 16);
-            this.bytes[address + i] = byte;
+            this.bytes[address + i] = parseInt(bytesAsString[i], 16);
         }
     }
 

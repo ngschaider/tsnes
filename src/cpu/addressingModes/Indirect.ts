@@ -1,6 +1,6 @@
 import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
-import { uint16, uint8 } from "../../types";
+import { Address, uint16, uint8 } from "../../types";
 
 // From the Datasheet:
 // ABSOLUTE INDIRECT [Indirect]
@@ -20,7 +20,7 @@ export default class Indirect extends AddressingMode {
         super("Indirect");
     }
 
-    private address: uint16;
+    private address?: Address;
 
     getAddress(cpu: CPU): uint16 {
         if(!this.address) {

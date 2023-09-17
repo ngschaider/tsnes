@@ -12,6 +12,6 @@ export default class PHA extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        cpu.pushStack(cpu.a);
+        cpu.pushStack(cpu.A);
     }
 }

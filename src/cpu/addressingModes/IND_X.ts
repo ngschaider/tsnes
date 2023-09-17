@@ -1,6 +1,6 @@
 import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
-import { uint16, uint8 } from "../../types";
+import { Address, uint16, uint8 } from "../../types";
 
 // From the Datasheet:
 // INDEXED INDIRECT ADDRESSING [(IND, X)]
@@ -17,14 +17,14 @@ export default class IND_X extends AddressingMode {
         super("IND_X");
     }
 
-    private address: uint16;
+    private address?: Address;
 
     getAddress(cpu: CPU): uint16 {
         if(!this.address) {
             let ptr: uint8 = cpu.bus.read(cpu.pc);
             cpu.pc++;
 
-            ptr += cpu.x;
+            ptr += cpu.X;
 
             let lowAddress: uint16 = ptr & 0x00FF;
             let highAddress: uint16 = (ptr + 1) & 0x00FF;

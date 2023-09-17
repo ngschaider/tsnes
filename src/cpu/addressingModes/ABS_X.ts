@@ -1,6 +1,6 @@
 import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
-import { uint16, uint8 } from "../../types";
+import { Address, uint16, uint8 } from "../../types";
 
 // From the Datasheet:
 // INDEXED ABSOLUTE ADDRESSING [ABS, X or Y]
@@ -20,7 +20,7 @@ export default class ABS_X extends AddressingMode {
         super("ABS_X");
     }
 
-    private address: uint16;
+    private address?: Address;
     getAddress(cpu: CPU): uint16 {
         if(!this.address) {
             let low: uint8 = cpu.bus.read(cpu.pc);
@@ -30,7 +30,7 @@ export default class ABS_X extends AddressingMode {
 
             let provided = (high << 8) | low;
     
-            this.address = provided + cpu.x;
+            this.address = provided + cpu.X;
 
             this.pageBoundaryCrossed = (provided >> 8) !== (this.address >> 8);
         }

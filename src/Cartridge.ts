@@ -1,4 +1,5 @@
 import { uint8 } from "./types";
+import Mapper from "./Mapper";
 
 enum MirroringDirection {
     Vertical,
@@ -9,7 +10,7 @@ export default class Cartridge {
 
     prgRomSize: number;
     chrRomSize: number;
-    mapper: number;
+    //mapper: Mapper;
     mirroring: MirroringDirection;
     containsPersistentMemory: boolean;
     containsTrainer: boolean;
@@ -33,15 +34,16 @@ export default class Cartridge {
         this.containsTrainer = (bytes[6] >> 2) & 0x01 ? true : false;
         this.disableMirroring = (bytes[6] >> 3) & 0x01 ? true : false;
 
-        this.mapper = (bytes[7] & 0xF0) | (bytes[6] >> 4);
+        const mapperId = (bytes[7] & 0xF0) | (bytes[6] >> 4);
     }
 
     static loadFromFile(file: File, cb: (cartridge: Cartridge) => void) {
         let reader: FileReader = new FileReader();
         reader.onloadend = (ev: ProgressEvent<FileReader>) => {
-            if(typeof(ev.target.result) !== "string") {
+            if(!ev.target || typeof(ev.target.result) !== "string") {
                 return;
             }
+
             let bytes = [];
             for(let a of ev.target.result.split("")) {
                 bytes.push(a.charCodeAt(0));

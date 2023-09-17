@@ -15,9 +15,9 @@ export default class ORA extends Instruction {
 		super.execute(cpu);
         let data: uint8 = this.addressingMode.getData(cpu);
 
-        cpu.a |= data;
-        cpu.status.Z = cpu.a === 0x00;
-        cpu.status.N = (cpu.a & 0x80) !== 0x00;
+        cpu.A |= data;
+        cpu.status.Z = cpu.A === 0x00;
+        cpu.status.N = (cpu.A & 0x80) !== 0x00;
 
         if(this.addressingMode.pageBoundaryCrossed) {
             cpu.cycles++;

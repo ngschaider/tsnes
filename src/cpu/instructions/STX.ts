@@ -12,6 +12,6 @@ export default class STX extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        this.addressingMode.setData(cpu, cpu.x);
+        this.addressingMode.setData(cpu, cpu.X);
     }
 }

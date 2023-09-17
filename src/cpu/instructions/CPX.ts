@@ -15,9 +15,9 @@ export default class CPX extends Instruction {
 		super.execute(cpu);
         let data: uint8 = this.addressingMode.getData(cpu);
 
-        let temp: uint16 = cpu.x - data;
+        let temp: uint16 = cpu.X - data;
 
-        cpu.status.C = cpu.x >= data;
+        cpu.status.C = cpu.X >= data;
         cpu.status.Z = (temp & 0x00FF) === 0x0000;
         cpu.status.N = (temp & 0x0080) !== 0x0000;
     }

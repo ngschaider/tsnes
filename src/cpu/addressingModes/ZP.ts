@@ -1,6 +1,6 @@
 import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
-import { uint16, uint8 } from "../../types";
+import { Address, uint16, uint8 } from "../../types";
 
 // From the Datasheet:
 // ZERO PAGE ADDRESSING [ZP]
@@ -14,7 +14,7 @@ export default class ZP extends AddressingMode {
         super("ZP");
     }
 
-    private address: uint16;
+    private address?: Address;
 
     getAddress(cpu: CPU): uint16 {
         if(!this.address) {

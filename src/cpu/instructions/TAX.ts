@@ -13,8 +13,8 @@ export default class TAX extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        cpu.x = cpu.a;
-        cpu.status.Z = cpu.x == 0x00;
-        cpu.status.N = (cpu.x & 0x80) !== 0x00;
+        cpu.X = cpu.A;
+        cpu.status.Z = cpu.X == 0x00;
+        cpu.status.N = (cpu.X & 0x80) !== 0x00;
     }
 }

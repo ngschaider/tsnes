@@ -25,7 +25,7 @@ describe("CPU - STACK", () => {
 
     test("0x48 - PHA (Implied)", () => {
         let {cpu, ram} = setup();
-        cpu.a = 0x3D;
+        cpu.A = 0x3D;
 
         ram.load(0x8000, "48");
 
@@ -42,6 +42,6 @@ describe("CPU - STACK", () => {
         
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(4);
-        expect(cpu.a).toBe(0x3D);
+        expect(cpu.A).toBe(0x3D);
     });
 });

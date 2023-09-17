@@ -7,7 +7,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.x = 0xDD;
+            cpu.X = 0xDD;
             ram.load(0x8000, "E0 3D");
     
             cpu.stepInstruction();
@@ -21,7 +21,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.x = 0x3D;
+            cpu.X = 0x3D;
             ram.load(0x8000, "E0 AA");
     
             cpu.stepInstruction();
@@ -35,7 +35,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.x = 0xDD;
+            cpu.X = 0xDD;
             ram.load(0x8000, "E4 22");
             ram.write(0x0022, 0x3D);
     
@@ -50,7 +50,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.x = 0x3D;
+            cpu.X = 0x3D;
             ram.load(0x8000, "E4 22");
             ram.write(0x0022, 0xAA);
     
@@ -65,7 +65,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.x = 0xDD;
+            cpu.X = 0xDD;
             ram.load(0x8000, "EC DE C0");
             ram.write(0xC0DE, 0x3D);
     
@@ -80,7 +80,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.x = 0x3D;
+            cpu.X = 0x3D;
             ram.load(0x8000, "EC DE C0");
             ram.write(0xC0DE, 0xAA);
     
@@ -97,7 +97,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.y = 0xDD;
+            cpu.Y = 0xDD;
             ram.load(0x8000, "C0 3D");
     
             cpu.stepInstruction();
@@ -111,7 +111,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.y = 0x3D;
+            cpu.Y = 0x3D;
             ram.load(0x8000, "C0 AA");
     
             cpu.stepInstruction();
@@ -125,7 +125,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.y = 0xDD;
+            cpu.Y = 0xDD;
             ram.load(0x8000, "C4 22");
             ram.write(0x0022, 0x3D);
     
@@ -140,7 +140,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.y = 0x3D;
+            cpu.Y = 0x3D;
             ram.load(0x8000, "C4 22");
             ram.write(0x0022, 0xAA);
     
@@ -155,7 +155,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.y = 0xDD;
+            cpu.Y = 0xDD;
             ram.load(0x8000, "CC DE C0");
             ram.write(0xC0DE, 0x3D);
     
@@ -170,7 +170,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.y = 0x3D;
+            cpu.Y = 0x3D;
             ram.load(0x8000, "CC DE C0");
             ram.write(0xC0DE, 0xAA);
     
@@ -189,9 +189,9 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.a = 0xAA;
+            cpu.A = 0xAA;
             ram.load(0x8000, "C1 22");        
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.load(0x0022 + 0x04, "DE C0");
             ram.write(0xC0DE, 0x3D);
     
@@ -206,9 +206,9 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.a = 0x3D;
+            cpu.A = 0x3D;
             ram.load(0x8000, "C1 22");
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.load(0x0022 + 0x04, "DE C0");
             ram.write(0xC0DE, 0xAA);
     
@@ -223,7 +223,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.a = 0xDD;
+            cpu.A = 0xDD;
             ram.load(0x8000, "C5 22");
             ram.write(0x0022, 0x3D);
     
@@ -238,7 +238,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.a = 0x3D;
+            cpu.A = 0x3D;
             ram.load(0x8000, "C5 22");
             ram.write(0x0022, 0xAA);
     
@@ -253,7 +253,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.a = 0xDD;
+            cpu.A = 0xDD;
             ram.load(0x8000, "C9 3D");
     
             cpu.stepInstruction();
@@ -267,7 +267,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.a = 0x3D;
+            cpu.A = 0x3D;
             ram.load(0x8000, "C9 DD");
     
             cpu.stepInstruction();
@@ -281,7 +281,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.a = 0xDD;
+            cpu.A = 0xDD;
             ram.load(0x8000, "CD DE C0");
             ram.write(0xC0DE, 0x3D);
     
@@ -296,7 +296,7 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.a = 0x3D;
+            cpu.A = 0x3D;
             ram.load(0x8000, "CD DE C0");
             ram.write(0xC0DE, 0xAA);
     
@@ -311,10 +311,10 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.a = 0xAA;
+            cpu.A = 0xAA;
             ram.load(0x8000, "D1 22");
             ram.load(0x0022, "DE C0");
-            cpu.y = 0x04;
+            cpu.Y = 0x04;
             ram.write(0xC0DE + 0x04, 0x3D);
     
             cpu.stepInstruction();
@@ -328,10 +328,10 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.a = 0x3D;
+            cpu.A = 0x3D;
             ram.load(0x8000, "D1 22");
             ram.load(0x0022, "DE C0");
-            cpu.y = 0x04;
+            cpu.Y = 0x04;
             ram.write(0xC0DE + 0x04, 0xAA);
     
             cpu.stepInstruction();
@@ -345,9 +345,9 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.a = 0x44;
+            cpu.A = 0x44;
             ram.load(0x8000, "D5 22");
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.write(0x0022 + 0x04, 0x3D);
     
             cpu.stepInstruction();
@@ -361,9 +361,9 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.a = 0x3D;
+            cpu.A = 0x3D;
             ram.load(0x8000, "D5 22");
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.write(0x0022 + 0x04, 0xAA);
     
             cpu.stepInstruction();
@@ -377,9 +377,9 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.a = 0xAD;
+            cpu.A = 0xAD;
             ram.load(0x8000, "D9 DE C0");
-            cpu.y = 0x04;
+            cpu.Y = 0x04;
             ram.write(0xC0DE + 0x04, 0x3D);        
     
             cpu.stepInstruction();
@@ -393,9 +393,9 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.a = 0x3D;
+            cpu.A = 0x3D;
             ram.load(0x8000, "D9 DE C0");
-            cpu.y = 0x04;
+            cpu.Y = 0x04;
             ram.write(0xC0DE + 0x04, 0xAA);
     
             cpu.stepInstruction();
@@ -409,9 +409,9 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = false;
     
-            cpu.a = 0xAD;
+            cpu.A = 0xAD;
             ram.load(0x8000, "DD DE C0");
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.write(0xC0DE + 0x04, 0x3D);        
     
             cpu.stepInstruction();
@@ -425,9 +425,9 @@ describe("CPU - COMPARE", () => {
     
             cpu.status.C = true;
     
-            cpu.a = 0x3D;
+            cpu.A = 0x3D;
             ram.load(0x8000, "DD DE C0");
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.write(0xC0DE + 0x04, 0xAA);
     
             cpu.stepInstruction();

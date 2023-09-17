@@ -594,5 +594,7 @@ const getInstructionByOpcode = (opcode: number) => {
         case 0xFE: return new INC(0xFE, new ABS_X(), 7);
         case 0xFF: return new XXX(0xFF);
     }
+
+    throw new Error("Encountered opcode out of range");
 }
 export default getInstructionByOpcode;

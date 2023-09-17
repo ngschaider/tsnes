@@ -15,9 +15,9 @@ export default class CMP extends Instruction {
 		super.execute(cpu);
         let data: uint8 = this.addressingMode.getData(cpu);
 
-        let temp: uint16 = cpu.a - data;
+        let temp: uint16 = cpu.A - data;
 
-        cpu.status.C = cpu.a >= data;
+        cpu.status.C = cpu.A >= data;
         cpu.status.Z = (temp & 0x00FF) === 0x0000;
         cpu.status.N = (temp & 0x0080) !== 0x0000;
 

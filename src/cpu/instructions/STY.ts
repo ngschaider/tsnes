@@ -12,6 +12,6 @@ export default class STY extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        this.addressingMode.setData(cpu, cpu.y);
+        this.addressingMode.setData(cpu, cpu.Y);
     }
 }

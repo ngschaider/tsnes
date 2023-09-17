@@ -21,7 +21,7 @@ export default class IMM extends AddressingMode {
         return address;*/
     }
 
-    private data: uint8;
+    private data?: uint8;
     getData(cpu: CPU): uint8 {
         if(!this.data) {
             this.data = cpu.bus.read(cpu.pc);

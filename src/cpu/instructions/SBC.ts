@@ -37,16 +37,16 @@ export default class SBC extends Instruction {
 		super.execute(cpu);
         let data: uint8 = this.addressingMode.getData(cpu);
 
-        const sum = cpu.a - data - (cpu.status.C ? 1 : 0);
+        const sum = cpu.A - data - (cpu.status.C ? 1 : 0);
         let result = sum & 0xFF;
 
         cpu.status.C = sum > 0xFF;
         cpu.status.Z = result === 0;
 
         cpu.status.V = (((result ^ data) ^ 0xFF) & (result ^ sum) & 0x0080) !== 0;
-        cpu.status.N = (cpu.a >> 7) ? true : false;
+        cpu.status.N = (cpu.A >> 7) ? true : false;
 
-        cpu.a = result;
+        cpu.A = result;
 
         if(this.addressingMode.pageBoundaryCrossed) {
             cpu.cycles++;

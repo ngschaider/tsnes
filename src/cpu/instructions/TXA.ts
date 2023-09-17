@@ -13,8 +13,8 @@ export default class TXA extends Instruction {
 
     execute(cpu: CPU): void {
         super.execute(cpu);
-        cpu.a = cpu.x;
-        cpu.status.Z = cpu.a == 0x00;
-        cpu.status.N = (cpu.a & 0x80) !== 0x00;
+        cpu.A = cpu.X;
+        cpu.status.Z = cpu.A == 0x00;
+        cpu.status.N = (cpu.A & 0x80) !== 0x00;
     }
 }

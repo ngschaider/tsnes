@@ -14,8 +14,8 @@ export default class DEY extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        cpu.y--;
-        cpu.status.Z = cpu.y === 0x00;
-        cpu.status.N = (cpu.y & 0x80) !== 0x00;
+        cpu.Y--;
+        cpu.status.Z = cpu.Y === 0x00;
+        cpu.status.N = (cpu.Y & 0x80) !== 0x00;
     }
 }

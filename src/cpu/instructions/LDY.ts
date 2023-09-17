@@ -15,9 +15,9 @@ export default class LDY extends Instruction {
 		super.execute(cpu);
         let data: uint8 = this.addressingMode.getData(cpu);
 
-        cpu.y = data;
-        cpu.status.Z = cpu.y === 0x00;
-        cpu.status.N = (cpu.y & 0x80) !== 0x00;
+        cpu.Y = data;
+        cpu.status.Z = cpu.Y === 0x00;
+        cpu.status.N = (cpu.Y & 0x80) !== 0x00;
 
         if(this.addressingMode.pageBoundaryCrossed) {
             cpu.cycles++;

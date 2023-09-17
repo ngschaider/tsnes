@@ -12,7 +12,7 @@ export default class BIT extends Instruction {
 		super.execute(cpu);
         let data: uint8 = this.addressingMode.getData(cpu);
 
-        let temp: uint8 = cpu.a & data;
+        let temp: uint8 = cpu.A & data;
         
         cpu.status.Z = (temp & 0x00FF) == 0x00;
         cpu.status.N = (data & (1 << 7)) > 0;

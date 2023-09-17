@@ -3,29 +3,29 @@ import { setup } from "../utils";
 describe("CPU - TRANSFERS", () => {
     test("0x8A - TXA (Implied)", () => {
         let {cpu, ram} = setup();
-        cpu.x = 0x3D;
+        cpu.X = 0x3D;
 
         ram.load(0x8000, "8A");
 
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);
-        expect(cpu.a).toBe(0x3D);
+        expect(cpu.A).toBe(0x3D);
     });
 
     test("0x98 - TYA (Implied)", () => {
         let {cpu, ram} = setup();
-        cpu.y = 0x3D;
+        cpu.Y = 0x3D;
 
         ram.load(0x8000, "98");
 
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);
-        expect(cpu.a).toBe(0x3D);
+        expect(cpu.A).toBe(0x3D);
     });
 
     test("0x9A - TXS (Implied)", () => {
         let {cpu, ram} = setup();
-        cpu.x = 0x3D;
+        cpu.X = 0x3D;
 
         ram.load(0x8000, "9A");
         
@@ -36,24 +36,24 @@ describe("CPU - TRANSFERS", () => {
 
     test("0xA8 - TAY (Implied)", () => {
         let {cpu, ram} = setup();
-        cpu.a = 0x3D;
+        cpu.A = 0x3D;
 
         ram.load(0x8000, "A8");
 
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);
-        expect(cpu.y).toBe(0x3D);
+        expect(cpu.Y).toBe(0x3D);
     })
 
     test("0xAA - TAX (Implied)", () => {
         let {cpu, ram} = setup();
-        cpu.a = 0x3D;
+        cpu.A = 0x3D;
 
         ram.load(0x8000, "AA");
 
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);
-        expect(cpu.x).toBe(0x3D);
+        expect(cpu.X).toBe(0x3D);
     })
     
     test("0xBA - TSX (Implied)", () => {
@@ -64,6 +64,6 @@ describe("CPU - TRANSFERS", () => {
 
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);
-        expect(cpu.x).toBe(0x3D);
+        expect(cpu.X).toBe(0x3D);
     })
 });

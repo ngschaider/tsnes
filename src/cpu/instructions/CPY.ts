@@ -15,9 +15,9 @@ export default class CPY extends Instruction {
 		super.execute(cpu);
         let data: uint8 = this.addressingMode.getData(cpu);
 
-        let temp: uint16 = cpu.y - data;
+        let temp: uint16 = cpu.Y - data;
 
-        cpu.status.C = cpu.y >= data;
+        cpu.status.C = cpu.Y >= data;
         cpu.status.Z = (temp & 0x00FF) === 0x0000;
         cpu.status.N = (temp & 0x0080) !== 0x0000;
     }

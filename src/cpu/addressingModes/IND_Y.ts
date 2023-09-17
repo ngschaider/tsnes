@@ -1,6 +1,6 @@
 import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
-import { uint16, uint8 } from "../../types";
+import { Address, uint16, uint8 } from "../../types";
 
 // From the Datasheet:
 // INDIRECT INDEXED ADDRESSING [(IND), Y]
@@ -16,7 +16,7 @@ export default class IND_Y extends AddressingMode {
         super("IND_Y");
     }
 
-    private address: uint16;
+    private address?: Address;
 
     getAddress(cpu: CPU): uint16 {
         if(!this.address) {
@@ -29,7 +29,7 @@ export default class IND_Y extends AddressingMode {
             let low: uint8 = cpu.bus.read(lowAddress);
             let high: uint8 = cpu.bus.read(highAddress);
             this.address = (high << 8) | low;
-            this.address += cpu.y;
+            this.address += cpu.Y;
 
             this.pageBoundaryCrossed = (this.address >> 8) !== high;
         }

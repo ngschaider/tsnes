@@ -3,13 +3,13 @@ import { setup } from "../utils";
 describe("CPU - DECREMENT", () => {
     test("0x88 - DEY (Implied)", () => {
         let {cpu, ram} = setup();
-        cpu.y = 0x3D;
+        cpu.Y = 0x3D;
 
         ram.load(0x8000, "88");
 
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);
-        expect(cpu.y).toBe(0x3C);
+        expect(cpu.Y).toBe(0x3C);
     });
 
     describe("DEC", () => {
@@ -38,7 +38,7 @@ describe("CPU - DECREMENT", () => {
         test("0xD6 - DEC (ZP_X)", () => {
             let {cpu, ram} = setup();
     
-            cpu.x = 0x04;
+            cpu.X = 0x04;
     
             ram.load(0x0022 + 0x04, "3D");
             ram.load(0x8000, "D6 22");
@@ -51,7 +51,7 @@ describe("CPU - DECREMENT", () => {
         test("0xDE - DEC (ABS_X)", () => {
             let {cpu, ram} = setup();
     
-            cpu.x = 0x04;
+            cpu.X = 0x04;
     
             ram.load(0xC0DE + 0x04, "3D");
             ram.load(0x8000, "DE DE C0");
@@ -64,12 +64,12 @@ describe("CPU - DECREMENT", () => {
     
     test("0xCA - DEX (Implied)", () => {
         let {cpu, ram} = setup();
-        cpu.x = 0x3D;
+        cpu.X = 0x3D;
 
         ram.load(0x8000, "CA");
 
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);
-        expect(cpu.x).toBe(0x3C);
+        expect(cpu.X).toBe(0x3C);
     });
 });

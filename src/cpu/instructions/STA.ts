@@ -12,6 +12,6 @@ export default class STA extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        this.addressingMode.setData(cpu, cpu.a);
+        this.addressingMode.setData(cpu, cpu.A);
     }
 }

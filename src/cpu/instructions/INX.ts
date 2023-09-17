@@ -14,9 +14,9 @@ export default class INX extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        cpu.x++;
+        cpu.X++;
 
-        cpu.status.Z = cpu.x === 0x00;;
-        cpu.status.N = (cpu.x & 0x80) !== 0x00;
+        cpu.status.Z = cpu.X === 0x00;;
+        cpu.status.N = (cpu.X & 0x80) !== 0x00;
     }
 }

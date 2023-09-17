@@ -15,9 +15,9 @@ export default class LDX extends Instruction {
 		super.execute(cpu);
         let data: uint8 = this.addressingMode.getData(cpu);
 
-        cpu.x = data;
-        cpu.status.Z = cpu.x === 0x00;
-        cpu.status.N = (cpu.x & 0x80) !== 0x00;
+        cpu.X = data;
+        cpu.status.Z = cpu.X === 0x00;
+        cpu.status.N = (cpu.X & 0x80) !== 0x00;
 
         if(this.addressingMode.pageBoundaryCrossed) {
             cpu.cycles++;

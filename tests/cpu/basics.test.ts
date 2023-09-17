@@ -1,15 +1,12 @@
-import Bus from "../../../src/bus/Bus";
-import CPU from "../../../src/cpu/CPU";
-import RAM from "../../../src/RAM";
+import Bus from "../../src/bus/Bus";
+import CPU from "../../src/cpu/CPU";
+import RAM from "../../src/RAM";
 
 describe("CPU - BASICS", () => {
     const setup = () => {
-        let cpu = new CPU();
         let bus = new Bus();
-        let ram = new RAM();
-
-        bus.connectDevice(cpu);
-        bus.connectDevice(ram);
+        let cpu = new CPU(bus);
+        let ram = new RAM(bus, 0xFFFF);
 
         return {
             cpu, 

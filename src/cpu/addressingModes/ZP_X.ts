@@ -1,6 +1,6 @@
 import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
-import { uint16, uint8 } from "../../types";
+import { Address, uint16, uint8 } from "../../types";
 
 // From the Datasheet:
 // INDEXED ZERO PAGE ADDRESSING [ZP, X or Y]
@@ -17,14 +17,14 @@ export default class ZP_X extends AddressingMode {
         super("ZP_X");
     }
 
-    private address: uint16;
+    private address?: Address;
 
     getAddress(cpu: CPU): uint16 {
         if(!this.address) {
             let baseAddress: uint16 = cpu.bus.read(cpu.pc);
             cpu.pc++;
     
-            this.address = (baseAddress + cpu.x) & 0x00FF;
+            this.address = (baseAddress + cpu.X) & 0x00FF;
         }
         
         return this.address;

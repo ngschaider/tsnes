@@ -18,7 +18,7 @@ export default class ROR extends Instruction {
         cpu.status.N = (temp & 0x0080) !== 0x0000;
 
         if(this.addressingMode.name === "Implied") {
-            cpu.a = temp & 0x00FF;
+            cpu.A = temp & 0x00FF;
         } else {
             this.addressingMode.setData(cpu, temp & 0x00FF);
         }

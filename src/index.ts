@@ -3,33 +3,19 @@ import CPU from "./cpu/CPU";
 import RAM from "./RAM";
 import { uint16, uint8 } from "./types";
 import Bus from "./bus/Bus";
-import PPU from "./graphics/PPU";
-import RepeatingBusDevice from "./bus/RepeatingBusDevice";
 import Cartridge from "./Cartridge";
+import { AddressShifter } from "./bus/AddressShifter";
+import { Mirrorer } from "./bus/Mirrorer";
 
 
+let cpuBus: Bus = new Bus();
 
+let cpu: CPU = new CPU(cpuBus);
 
-let cpuBus: Bus = new Bus("CPU");
-
-let cpu: CPU = new CPU();
-cpuBus.connectDevice(cpu)
-
-let ram: RAM = new RAM(2 * 1024);;
-cpuBus.connectDevice(ram);
-cpuBus.connectDevice(new RepeatingBusDevice(0x0000, 0x07FF, 3));
-
-
-let ppuBus: Bus = new Bus("PPU");
-
-let ppu: PPU = new PPU();
-ppuBus.connectDevice(ppu);
-cpuBus.connectDevice(ppu);
-cpuBus.connectDevice(new RepeatingBusDevice(0x2000, 0x2007, 1023));
-
-
-
-
+let ram = new RAM(cpuBus, 0x0800);
+let ram2 = new Mirrorer(new AddressShifter(cpuBus, 0x0800), 0x0000, 0x0800);
+let ram3 = new Mirrorer(new AddressShifter(cpuBus, 0x1000), 0x0000, 0x0800);
+let ram4 = new Mirrorer(new AddressShifter(cpuBus, 0x1800), 0x0000, 0x0800);
 
 
 cpu.reset();
@@ -79,9 +65,9 @@ let p = new p5((p: p5) => {
         p.textSize(18);
         p.text("PC: 0x" + cpu.pc.toString(16), 40, 400);
         p.text("STKP: 0x" + cpu.stkp.toString(16), 40, 440);
-        p.text("A: 0x" + cpu.a.toString(16), 40, 480);
-        p.text("X: 0x" + cpu.x.toString(16), 40, 520);
-        p.text("Y: 0x" + cpu.y.toString(16), 40, 560);
+        p.text("A: 0x" + cpu.A.toString(16), 40, 480);
+        p.text("X: 0x" + cpu.X.toString(16), 40, 520);
+        p.text("Y: 0x" + cpu.Y.toString(16), 40, 560);
         p.text("Cycles: " + cpu.cycles, 40, 600);
     };
 
@@ -148,9 +134,12 @@ const dumpRam = (ram: RAM, start: uint16, columns: number = 16, rows: number = 2
 
 
 
-document.getElementById("rom").addEventListener("change", (ev: Event) => {
+document.getElementById("rom")?.addEventListener("change", (ev: Event) => {
     let inputElement = <HTMLInputElement> ev.target;
-    let file: File = inputElement.files[0];
+    let file = inputElement?.files?.[0];
+    if(!file) {
+        return;
+    }
     Cartridge.loadFromFile(file, (cartridge) => {
         console.log(cartridge);
     });

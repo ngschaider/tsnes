@@ -1,6 +1,6 @@
 import AddressingMode from "../AddressingMode";
 import CPU from "../CPU";
-import { uint16, uint8 } from "../../types";
+import { Address, uint16, uint8 } from "../../types";
 
 // From the Datasheet:
 // ABSOLUTE ADDRESSING [Absolute]
@@ -14,7 +14,7 @@ export default class ABS extends AddressingMode {
         super("ABS");
     }
 
-    private address: uint16;
+    private address?: Address;
     getAddress(cpu: CPU): uint16 {
         if(!this.address) {
             let low: uint8 = cpu.bus.read(cpu.pc);

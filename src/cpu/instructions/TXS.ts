@@ -13,6 +13,6 @@ export default class TXS extends Instruction {
 
     execute(cpu: CPU): void {
 		super.execute(cpu);
-        cpu.stkp = cpu.x;
+        cpu.stkp = cpu.X;
     }
 }

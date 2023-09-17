@@ -4,9 +4,9 @@ import { setup } from "../utils";
 const testNop = (opcode: uint8) => {
     let {cpu, ram} = setup();
     cpu.status.fromUint8(0x3D);
-    cpu.a = 0xAB;
-    cpu.x = 0xCD;
-    cpu.y = 0xEF;
+    cpu.A = 0xAB;
+    cpu.X = 0xCD;
+    cpu.Y = 0xEF;
     cpu.stkp = 0x37;
 
     // NOP should do nothing, just check that it does not change any registers
@@ -16,9 +16,9 @@ const testNop = (opcode: uint8) => {
     cpu.stepInstruction();
     
     expect(cpu.status.toUint8()).toBe(0x3D);
-    expect(cpu.a).toBe(0xAB);
-    expect(cpu.x).toBe(0xCD);
-    expect(cpu.y).toBe(0xEF);
+    expect(cpu.A).toBe(0xAB);
+    expect(cpu.X).toBe(0xCD);
+    expect(cpu.Y).toBe(0xEF);
     expect(cpu.stkp).toBe(0x37);
 }
 

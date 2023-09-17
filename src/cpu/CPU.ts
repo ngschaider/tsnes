@@ -2,18 +2,36 @@ import StatusRegister from "./StatusRegister";
 import { uint16, uint8 } from "../types";
 import { Instruction } from "./Instruction";
 import getInstructionByOpcode from "./getInstructionByOpcode";
-import BusDevice from "../bus/IBusDevice";
-import IBusDevice from "../bus/IBusDevice";
 import Bus from "../bus/Bus";
 
 const INITIAL_STKP: uint8 = 0xFD;
 const RESET_VECTOR: uint16 = 0xFFCC;
 
-export default class CPU implements IBusDevice {
+export default class CPU {
+
+    // A Register
+    A: uint8 = 0x00;
+
+    // X Register
+    X: uint8 = 0x00;
+
+    // Y Register
+    Y: uint8 = 0x00;
+
+    status: StatusRegister = new StatusRegister();
+
+    // Stack Pointer
+    stkp: uint8 = INITIAL_STKP;
+
+    // Program Counter
+    pc: uint16 = 0x0000;
+
+    cycles: number = 0;
+    totalCycles: number = 0;
 
     bus: Bus;
 
-    connectBus(bus: Bus): void {
+    constructor(bus: Bus) {
         this.bus = bus;
     }
 
@@ -27,18 +45,6 @@ export default class CPU implements IBusDevice {
         return this.bus.read(0x0100 + this.stkp);
     }
 
-    a: uint8 = 0x00;
-    x: uint8 = 0x00;
-    y: uint8 = 0x00;
-
-    status: StatusRegister = new StatusRegister();
-
-    stkp: uint8 = INITIAL_STKP;
-    pc: uint16 = 0x0000;
-
-    cycles: number = 0;
-    totalCycles: number = 0;
-    
     // Perform one clock cycles worth of emulation
     clock() {
         // Each instruction requires a variable number of clock cycles to execute.
@@ -102,9 +108,9 @@ export default class CPU implements IBusDevice {
         this.pc = (high << 8) | low;
 
         // Reset registers
-        this.a = 0x00;
-        this.x = 0x00;
-        this.y = 0x00;
+        this.A = 0x00;
+        this.X = 0x00;
+        this.Y = 0x00;
 
         this.stkp = INITIAL_STKP;
 

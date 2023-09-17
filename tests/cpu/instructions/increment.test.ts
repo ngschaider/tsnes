@@ -3,24 +3,24 @@ import { setup } from "../utils";
 describe("CPU - INCREMENT", () => {
     test("0xE8 - INX (Implied)", () => {
         let {cpu, ram} = setup();
-        cpu.x = 0x3D;
+        cpu.X = 0x3D;
 
         ram.load(0x8000, "E8");
 
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);
-        expect(cpu.x).toBe(0x3E);
+        expect(cpu.X).toBe(0x3E);
     });
 
     test("0xC8 - INY (Implied)", () => {
         let {cpu, ram} = setup();
-        cpu.y = 0x3D;
+        cpu.Y = 0x3D;
 
         ram.load(0x8000, "C8");
 
         cpu.stepInstruction();
         expect(cpu.totalCycles).toBe(2);
-        expect(cpu.y).toBe(0x3E);
+        expect(cpu.Y).toBe(0x3E);
     })
     
     describe("INC", () => {
@@ -49,7 +49,7 @@ describe("CPU - INCREMENT", () => {
         test("0xF6 - INC (ZP_X)", () => {
             let {cpu, ram} = setup();
     
-            cpu.x = 0x04;
+            cpu.X = 0x04;
     
             ram.load(0x0022 + 0x04, "3D");
             ram.load(0x8000, "F6 22");
@@ -62,7 +62,7 @@ describe("CPU - INCREMENT", () => {
         test("0xFE - INC (ABS_X)", () => {
             let {cpu, ram} = setup();
     
-            cpu.x = 0x04;
+            cpu.X = 0x04;
     
             ram.load(0x8000, "FE DE C0");
             ram.load(0xC0DE + 0x04, "3D");

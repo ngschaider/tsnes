@@ -17,14 +17,14 @@ export default class ZP_Y extends AddressingMode {
         super("ZP_Y");
     }
 
-    private address: uint16;
+    private address?: uint16;
 
     getAddress(cpu: CPU): uint16 {
         if(!this.address) {
             let baseAddress: uint16 = cpu.bus.read(cpu.pc);
             cpu.pc++;
     
-            this.address = (baseAddress + cpu.y) & 0x00FF;
+            this.address = (baseAddress + cpu.Y) & 0x00FF;
         }
         
         return this.address;

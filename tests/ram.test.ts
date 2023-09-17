@@ -1,20 +1,22 @@
 import RAM from "../src/RAM";
+import Bus from "../src/bus/Bus";
 
 const setupRam = (size: number) => {
-    let ram = new RAM(size);
+    let bus = new Bus();
+    let ram = new RAM(bus, size);
 
-    return ram;
+    return {bus, ram};
 }
 
 describe("RAM", () => {   
 
     test("constructor", () => {
-        let ram = setupRam(5);
+        let {bus, ram} = setupRam(5);
         expect(ram.bytes).toStrictEqual([0, 0, 0, 0, 0])
     })
 
     test("write()", () => {
-        let ram = setupRam(5);
+        let {bus, ram} = setupRam(5);
 
         ram.write(0, 5);
         expect(ram.bytes).toStrictEqual([5, 0, 0, 0, 0]);
@@ -29,7 +31,7 @@ describe("RAM", () => {
     })
 
     test("read()", () => {
-        let ram = setupRam(5);
+        let {bus, ram} = setupRam(5);
         ram.bytes = [5, 32, 7, 12, 88]; 
 
         expect(ram.read(0)).toBe(5);
@@ -41,7 +43,7 @@ describe("RAM", () => {
     })
 
     test("reset()", () => { 
-        let ram = setupRam(5);
+        let {bus, ram} = setupRam(5);
         ram.bytes = [5, 32, 7, 12, 88];
 
         ram.reset();
@@ -50,7 +52,7 @@ describe("RAM", () => {
     });
 
     test("load()", () => {
-        let ram = setupRam(5);
+        let {bus, ram} = setupRam(5);
 
         ram.load(0, "AB CD EF 13 37");
 

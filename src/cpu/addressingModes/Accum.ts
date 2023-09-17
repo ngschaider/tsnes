@@ -17,11 +17,11 @@ export default class Accum extends AddressingMode {
     }
 
     getData(cpu: CPU): uint8 {
-        return cpu.a;
+        return cpu.A;
     }
 
     setData(cpu: CPU, data: uint8): void {
-        cpu.a = data;
+        cpu.A = data;
     }
 
 }

@@ -1,19 +1,24 @@
+type EventFn = (...params: any[]) => any;
+
 export default class Event {
 
-    listeners: Function[] = [];
+    callbacks: EventFn[] = [];
 
-    trigger(...params: any[]) {
-        for(let callback of this.listeners) {
-            callback(...params);
+    trigger(...params: any[]): any|undefined {
+        for(const callback of this.callbacks) {
+            const ret = callback(...params);
+            if(ret !== undefined) {
+                return ret;
+            }
         }
     }
 
-    on(cb: Function) {
-        this.listeners.push(cb);
+    on(callback: EventFn) {
+        this.callbacks.push(callback);
     }
 
-    off(cb: Function) {
-        this.listeners = this.listeners.filter(f => f !== cb);
+    off(callback: EventFn) {
+        this.callbacks = this.callbacks.filter(cb => cb !== callback);
     }
 
 }

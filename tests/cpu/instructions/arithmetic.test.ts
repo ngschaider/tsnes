@@ -10,14 +10,14 @@ describe("CPU - ARITHMETIC", () => {
             let result = 0b01110000;
     
             ram.load(0x8000, "61 22");
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.load(0x0022 + 0x04, "DE C0");
             ram.write(0xC0DE, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(6);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
         
             
@@ -30,11 +30,11 @@ describe("CPU - ARITHMETIC", () => {
     
             ram.load(0x8000, "65 22");
             ram.write(0x0022, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(3);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
     
         test("0x69 - ADC (IMM)", () => {
@@ -46,11 +46,11 @@ describe("CPU - ARITHMETIC", () => {
     
             ram.load(0x8000, "69");
             ram.write(0x8001, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(2);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
     
         test("0x71 - ADC (IND_Y)", () => {
@@ -62,13 +62,13 @@ describe("CPU - ARITHMETIC", () => {
     
             ram.load(0x8000, "71 22");
             ram.load(0x0022, "DE C0");
-            cpu.y = 0x04;
+            cpu.Y = 0x04;
             ram.write(0xC0DE + 0x04, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(5);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
     
         test("0x71 - ADC (IND_Y) - PAGE BOUNDARY CROSSING", () => {
@@ -80,13 +80,13 @@ describe("CPU - ARITHMETIC", () => {
     
             ram.load(0x8000, "71 22");
             ram.load(0x0022, "DE C0");
-            cpu.y = 0xFF;
+            cpu.Y = 0xFF;
             ram.write(0xC0DE + 0xFF, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(6);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
         
         test("0x75 - ADC (ZP_X)", () => {
@@ -97,13 +97,13 @@ describe("CPU - ARITHMETIC", () => {
             let result = 0b01110000;
     
             ram.load(0x8000, "75 22");
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.write(0x0022 + 0x04, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
         
         test("0x79 - ADC (ABS_Y)", () => {
@@ -114,13 +114,13 @@ describe("CPU - ARITHMETIC", () => {
             let result = 0b01110000;
     
             ram.load(0x8000, "79 DE C0");
-            cpu.y = 0x04;
+            cpu.Y = 0x04;
             ram.write(0xC0DE + 0x04, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
     
         test("0x79 - ADC (ABS_Y) - PAGE BOUNDARY CROSSING", () => {
@@ -131,13 +131,13 @@ describe("CPU - ARITHMETIC", () => {
             let result = 0b01110000;
     
             ram.load(0x8000, "79 DE C0");
-            cpu.y = 0xFF;
+            cpu.Y = 0xFF;
             ram.write(0xC0DE + 0xFF, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(5);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
         
         test("0x7D - ADC (ABS_X)", () => {
@@ -148,13 +148,13 @@ describe("CPU - ARITHMETIC", () => {
             let result = 0b01110000;
     
             ram.load(0x8000, "7D DE C0");
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.write(0xC0DE + 0x04, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
     
         test("0x7D - ADC (ABS_X) - PAGE BOUNDARY CROSSING", () => {
@@ -165,13 +165,13 @@ describe("CPU - ARITHMETIC", () => {
             let result = 0b01110000;
     
             ram.load(0x8000, "7D DE C0");
-            cpu.x = 0xFF;
+            cpu.X = 0xFF;
             ram.write(0xC0DE + 0xFF, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(5);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
     });
 
@@ -184,14 +184,14 @@ describe("CPU - ARITHMETIC", () => {
             let result = 0b00011100;
     
             ram.load(0x8000, "E1 22");
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.load(0x0022 + 0x04, "DE C0");
             ram.write(0xC0DE, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(6);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
     
         test("0xE5 - SBC (ZP)", () => {
@@ -203,11 +203,11 @@ describe("CPU - ARITHMETIC", () => {
     
             ram.load(0x8000, "E5 22");
             ram.write(0x0022, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(3);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
     
         test("0xE9 - SBC (IMM)", () => {
@@ -219,11 +219,11 @@ describe("CPU - ARITHMETIC", () => {
     
             ram.load(0x8000, "E9");
             ram.write(0x8001, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(2);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
     
         /*test("0xEB - SBC (Implied)", () => {
@@ -239,11 +239,11 @@ describe("CPU - ARITHMETIC", () => {
     
             ram.load(0x8000, "ED DE C0");
             ram.write(0xC0DE, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
         
         test("0xF1 - SBC (IND_Y)", () => {
@@ -255,13 +255,13 @@ describe("CPU - ARITHMETIC", () => {
     
             ram.load(0x8000, "F1 22");
             ram.load(0x0022, "DE C0");
-            cpu.y = 0x04;
+            cpu.Y = 0x04;
             ram.write(0xC0DE + 0x04, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(5);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
         
         test("0xF5 - SBC (ZP_X)", () => {
@@ -272,13 +272,13 @@ describe("CPU - ARITHMETIC", () => {
             let result = 0b00011100;
     
             ram.load(0x8000, "F5 22");
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.write(0x0022 + 0x04, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
         
         test("0xF9 - SBC (ABS_Y)", () => {
@@ -289,13 +289,13 @@ describe("CPU - ARITHMETIC", () => {
             let result = 0b00011100;
     
             ram.load(0x8000, "F9 DE C0");
-            cpu.y = 0x04;
+            cpu.Y = 0x04;
             ram.write(0xC0DE + 0x04, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
     
         test("0xFD - SBC (ABS_X)", () => {
@@ -306,13 +306,13 @@ describe("CPU - ARITHMETIC", () => {
             let result = 0b00011100;
     
             ram.load(0x8000, "FD DE C0");
-            cpu.x = 0x04;
+            cpu.X = 0x04;
             ram.write(0xC0DE + 0x04, b);
-            cpu.a = a;
+            cpu.A = a;
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.a).toBe(result);
+            expect(cpu.A).toBe(result);
         });
     })
 });

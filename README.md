@@ -1,12 +1,11 @@
 # tsNES
 
-After cloning the repository you can run a dev-server using
+After cloning the repository and executing `npm i` a dev-server can be started using
 ```
 npm run serve
 ```
 
-You can run tests by executing
-
+Tests can be ran by executing
 ```
 npm run test
 ```

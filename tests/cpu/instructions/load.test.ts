@@ -11,7 +11,7 @@ describe("CPU - LOAD", () => {
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(2);
-            expect(cpu.y).toBe(0x3D);
+            expect(cpu.Y).toBe(0x3D);
         });
 
         test("0xA4 - LDY (ZP)", () => {
@@ -22,7 +22,7 @@ describe("CPU - LOAD", () => {
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(3);
-            expect(cpu.y).toBe(0x3D);
+            expect(cpu.Y).toBe(0x3D);
         });
 
         test("0xAC - LDY (ABS)", () => {
@@ -33,33 +33,33 @@ describe("CPU - LOAD", () => {
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.y).toBe(0x3D);
+            expect(cpu.Y).toBe(0x3D);
         });
 
         test("0xB4 - LDY (ZP_X)", () => {
             let {cpu, ram} = setup();
     
-            cpu.x = 0x04; // offset the supplied address with 0x04
+            cpu.X = 0x04; // offset the supplied address with 0x04
     
             ram.load(0x8000, "B4 22"); // supply 0x22 as address
             ram.load(0x0022 + 0x04, "3D"); // load this
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.y).toBe(0x3D);
+            expect(cpu.Y).toBe(0x3D);
         });
 
         test("0xBC - LDY (ABS_X)", () => {
             let {cpu, ram} = setup();
             
-            cpu.x = 0x04; // offset the supplied address with 0x04
+            cpu.X = 0x04; // offset the supplied address with 0x04
     
             ram.load(0x8000, "BC DE C0"); // supply 0xC0DE as address
             ram.load(0xC0DE + 0x04, "3D"); // write value at target address
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.y).toBe(0x3D);
+            expect(cpu.Y).toBe(0x3D);
         });
     });
 
@@ -68,14 +68,14 @@ describe("CPU - LOAD", () => {
             let {cpu, ram} = setup();
             ram.write(0xC0DE, 0x3D); // load this
     
-            cpu.x = 0x04; // offset the supplied address with 0x04
+            cpu.X = 0x04; // offset the supplied address with 0x04
     
             ram.load(0x8000, "A1 22"); // supply 0x22 as address
             ram.load(0x0022 + 0x04, "DE C0"); // write the real address 0xC0DE at the ptr location
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(6);
-            expect(cpu.a).toBe(0x3D);
+            expect(cpu.A).toBe(0x3D);
         });
 
         test("0xA5 - LDA (ZP)", () => {
@@ -86,7 +86,7 @@ describe("CPU - LOAD", () => {
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(3);
-            expect(cpu.a).toBe(0x3D);
+            expect(cpu.A).toBe(0x3D);
         });
 
         test("0xA9 - LDA (IMM)", () => {
@@ -96,7 +96,7 @@ describe("CPU - LOAD", () => {
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(2);
-            expect(cpu.a).toBe(0x3D);
+            expect(cpu.A).toBe(0x3D);
         });
         
         test("0xAD - LDA (ABS)", () => {
@@ -107,13 +107,13 @@ describe("CPU - LOAD", () => {
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.a).toBe(0x3D);
+            expect(cpu.A).toBe(0x3D);
         });
 
         test("0xB1 - LDA (IND_Y)", () => {
             let {cpu, ram} = setup();
             
-            cpu.y = 0x04; // offset the supplied address with 0x04
+            cpu.Y = 0x04; // offset the supplied address with 0x04
     
             ram.load(0x8000, "B1 22"); // supply 0x22 as address
             ram.load(0x0022, "88 00"); // write the real address 0xC0DE at the ptr location
@@ -121,13 +121,13 @@ describe("CPU - LOAD", () => {
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(5);
-            expect(cpu.a).toBe(0x3D);
+            expect(cpu.A).toBe(0x3D);
         });
     
         test("0xB1 - LDA (IND_Y) - PAGE BOUNDARY CROSSING", () => {
             let {cpu, ram} = setup();
     
-            cpu.y = 0xFF; // offset the supplied address with 0x04
+            cpu.Y = 0xFF; // offset the supplied address with 0x04
     
             ram.load(0x8000, "B1 22"); // supply 0x22 as address
             ram.load(0x0022, "DE C0"); // write the real address 0xC0DE at the ptr location
@@ -135,45 +135,45 @@ describe("CPU - LOAD", () => {
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(6);
-            expect(cpu.a).toBe(0x3D);
+            expect(cpu.A).toBe(0x3D);
         });
         
         test("0xB5 - LDA (ZP_X)", () => {
             let {cpu, ram} = setup();
-            cpu.x = 0x04; // offset the supplied address with 0x04
+            cpu.X = 0x04; // offset the supplied address with 0x04
     
             ram.load(0x8000, "B5 22"); // supply 0x22 as address
             ram.load(0x0022 + 0x04, "3D"); // write the real address 0xC0DE at the ptr location
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.a).toBe(0x3D);
+            expect(cpu.A).toBe(0x3D);
         });
 
         test("0xB9 - LDA (ABS_Y)", () => {
             let {cpu, ram} = setup();
             
-            cpu.y = 0x04; // offset the supplied address with 0x04
+            cpu.Y = 0x04; // offset the supplied address with 0x04
     
             ram.load(0x8000, "B9 DE C0"); // supply 0xC0DE as address
             ram.load(0xC0DE + 0x04, "3D"); // write value at target address
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.a).toBe(0x3D);
+            expect(cpu.A).toBe(0x3D);
         });
         
         test("0xBD - LDA (ABS_X)", () => {
             let {cpu, ram} = setup();
             
-            cpu.x = 0x04; // offset the supplied address with 0x04
+            cpu.X = 0x04; // offset the supplied address with 0x04
     
             ram.load(0x8000, "BD DE C0"); // supply 0xC0DE as address
             ram.load(0xC0DE + 0x04, "3D"); // write value at target address
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.a).toBe(0x3D);
+            expect(cpu.A).toBe(0x3D);
         });
     });
 
@@ -186,7 +186,7 @@ describe("CPU - LOAD", () => {
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(2);
-            expect(cpu.x).toBe(0x3D);
+            expect(cpu.X).toBe(0x3D);
         });
         
         test("0xA6 - LDX (ZP)", () => {
@@ -197,7 +197,7 @@ describe("CPU - LOAD", () => {
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(3);
-            expect(cpu.x).toBe(0x3D);
+            expect(cpu.X).toBe(0x3D);
         });
         
         test("0xAE - LDX (ABS)", () => {
@@ -208,32 +208,32 @@ describe("CPU - LOAD", () => {
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.x).toBe(0x3D);
+            expect(cpu.X).toBe(0x3D);
         });
     
         test("0xB6 - LDX (ZP_Y)", () => {
             let {cpu, ram} = setup();
-            cpu.y = 0x04; // offset the supplied address with 0x04
+            cpu.Y = 0x04; // offset the supplied address with 0x04
     
             ram.load(0x8000, "B6 22"); // supply 0x22 as address
             ram.load(0x0022 + 0x04, "3D"); // write the real address 0xC0DE at the ptr location
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.x).toBe(0x3D);
+            expect(cpu.X).toBe(0x3D);
         });
         
         test("0xBE - LDX (ABS_Y)", () => {
             let {cpu, ram} = setup();
             
-            cpu.y = 0x04; // offset the supplied address with 0x04
+            cpu.Y = 0x04; // offset the supplied address with 0x04
     
             ram.load(0x8000, "BE DE C0"); // supply 0xC0DE as address
             ram.load(0xC0DE + 0x04, "3D"); // write value at target address
     
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);
-            expect(cpu.x).toBe(0x3D);
+            expect(cpu.X).toBe(0x3D);
         });
     });    
 })

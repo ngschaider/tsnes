@@ -125,7 +125,7 @@ describe("CPU - BRANCHING", () => {
 
             ram.load(0x8000, "24 77");
             ram.write(0x0077, 0b01000000);
-            cpu.a = 0b11000000;
+            cpu.A = 0b11000000;
 
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(3);
@@ -143,7 +143,7 @@ describe("CPU - BRANCHING", () => {
 
             ram.load(0x8000, "2C DE C0");
             ram.write(0xC0DE, 0b11100110);
-            cpu.a = 0b11000000;
+            cpu.A = 0b11000000;
 
             cpu.stepInstruction();
             expect(cpu.totalCycles).toBe(4);

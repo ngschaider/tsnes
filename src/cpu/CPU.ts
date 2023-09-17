@@ -33,6 +33,8 @@ export default class CPU {
 
     constructor(bus: Bus) {
         this.bus = bus;
+        this.bus.onClock.on(this.clock.bind(this));
+        this.bus.onReset.on(this.reset.bind(this));
     }
 
     pushStack(data: uint8) {

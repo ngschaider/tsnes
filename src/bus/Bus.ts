@@ -6,6 +6,7 @@ export default class Bus {
     public onRead: Event = new Event();
     public onWrite: Event = new Event();
     public onClock: Event = new Event();
+    public onReset: Event = new Event();
 
     // apply the address to the bus and the devices will immediately apply data onto the bus using the onAddressChanged listener
     read(address: uint16): uint8 {
@@ -23,6 +24,10 @@ export default class Bus {
 
     clock() {
         this.onClock.trigger();
+    }
+
+    reset() {
+        this.onReset.trigger();
     }
 
 }

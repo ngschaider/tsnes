@@ -6,8 +6,8 @@ export default class Color {
         this.blue = blue;
     }
 
-    private red: number;
-    private green: number;
-    private blue: number;
+    red: number;
+    green: number;
+    blue: number;
     
 }

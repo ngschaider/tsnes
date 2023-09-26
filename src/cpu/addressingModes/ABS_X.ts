@@ -1,6 +1,8 @@
 import AddressingMode from "../AddressingMode";
-import CPU from "../CPU";
+import CPU_6502 from "../CPU_6502";
 import { Address, uint16, uint8 } from "../../types";
+import { AddressShifter } from "../../bus/AddressShifter";
+import AddressingModeType from "../AddressingModeName";
 
 // From the Datasheet:
 // INDEXED ABSOLUTE ADDRESSING [ABS, X or Y]
@@ -17,11 +19,11 @@ import { Address, uint16, uint8 } from "../../types";
 // resulting in reduced coding and execution time.
 export default class ABS_X extends AddressingMode {
     constructor() {
-        super("ABS_X");
+        super(AddressingModeType.ABS_X);
     }
 
     private address?: Address;
-    getAddress(cpu: CPU): uint16 {
+    getAddress(cpu: CPU_6502): uint16 {
         if(!this.address) {
             let low: uint8 = cpu.bus.read(cpu.pc);
             cpu.pc++;
@@ -38,12 +40,12 @@ export default class ABS_X extends AddressingMode {
         return this.address;
     }
 
-    getData(cpu: CPU): uint8 {
+    getData(cpu: CPU_6502): uint8 {
         let address = this.getAddress(cpu);
         return cpu.bus.read(address);
     }
 
-    setData(cpu: CPU, data: uint8): void {
+    setData(cpu: CPU_6502, data: uint8): void {
         let address = this.getAddress(cpu);
         cpu.bus.write(address, data);
     }

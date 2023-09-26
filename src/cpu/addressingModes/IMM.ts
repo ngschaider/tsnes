@@ -1,6 +1,7 @@
 import AddressingMode from "../AddressingMode";
-import CPU from "../CPU";
+import CPU_6502 from "../CPU_6502";
 import { uint16, uint8 } from "../../types";
+import AddressingModeType from "../AddressingModeName";
 
 // From the datasheet: 
 // IMMEDIATE ADDRESS [IMM]
@@ -9,10 +10,10 @@ import { uint16, uint8 } from "../../types";
 // with no further memory addressing required.
 export default class IMM extends AddressingMode {
     constructor() {
-        super("IMM");
+        super(AddressingModeType.IMM);
     }
 
-    getAddress(cpu: CPU): uint16 {
+    getAddress(cpu: CPU_6502): uint16 {
         throw new Error("Immediate addressing does not support getAddress()");
 
         /*let address: uint16 = cpu.pc;
@@ -22,7 +23,7 @@ export default class IMM extends AddressingMode {
     }
 
     private data?: uint8;
-    getData(cpu: CPU): uint8 {
+    getData(cpu: CPU_6502): uint8 {
         if(!this.data) {
             this.data = cpu.bus.read(cpu.pc);
             cpu.pc++;
@@ -30,7 +31,7 @@ export default class IMM extends AddressingMode {
         return this.data;
     }
 
-    setData(cpu: CPU, data: number): void {
+    setData(cpu: CPU_6502, data: number): void {
         throw new Error("Immediate addressing does not support setData()");
     }
 

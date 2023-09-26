@@ -12,7 +12,8 @@ export default class Bus {
     read(address: uint16): uint8 {
         const value = this.onRead.trigger(address);
         if(value === undefined) {
-            throw new Error("Could not read from address " + address);
+            console.log("Could not read from address 0x" + address.toString(16));
+            return 0x00;
         }
         return value;
     }

@@ -1,6 +1,7 @@
 import AddressingMode from "./AddressingMode";
-import CPU from "./CPU";
+import CPU_6502 from "./CPU_6502";
 import { uint8 } from "../types"
+import AddressingModeType from "./AddressingModeName";
 
 export class Instruction {
     name: string;
@@ -8,7 +9,7 @@ export class Instruction {
     addressingMode: AddressingMode;
     cycles: number;
 
-    execute(cpu: CPU): void {
+    execute(cpu: CPU_6502): void {
         cpu.cycles += this.cycles;
     }
 
@@ -18,5 +19,6 @@ export class Instruction {
         this.addressingMode = addressingMode;
         this.cycles = cycles;
     }
+
 }
 

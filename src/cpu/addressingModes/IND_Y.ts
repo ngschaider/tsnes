@@ -1,6 +1,7 @@
 import AddressingMode from "../AddressingMode";
-import CPU from "../CPU";
+import CPU_6502 from "../CPU_6502";
 import { Address, uint16, uint8 } from "../../types";
+import AddressingModeType from "../AddressingModeName";
 
 // From the Datasheet:
 // INDIRECT INDEXED ADDRESSING [(IND), Y]
@@ -13,12 +14,12 @@ import { Address, uint16, uint8 } from "../../types";
 // form the high order byte of the effective address.
 export default class IND_Y extends AddressingMode {
     constructor() {
-        super("IND_Y");
+        super(AddressingModeType.IND_Y);
     }
 
     private address?: Address;
 
-    getAddress(cpu: CPU): uint16 {
+    getAddress(cpu: CPU_6502): uint16 {
         if(!this.address) {
             let ptr: uint8 = cpu.bus.read(cpu.pc);
             cpu.pc++;
@@ -37,12 +38,12 @@ export default class IND_Y extends AddressingMode {
         return this.address;
     }
     
-    getData(cpu: CPU): uint8 {
+    getData(cpu: CPU_6502): uint8 {
         let address = this.getAddress(cpu);
         return cpu.bus.read(address);
     }
 
-    setData(cpu: CPU, data: uint8): void {
+    setData(cpu: CPU_6502, data: uint8): void {
         let address = this.getAddress(cpu);
         cpu.bus.write(address, data);
     }

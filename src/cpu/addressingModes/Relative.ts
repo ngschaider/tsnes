@@ -1,6 +1,7 @@
 import AddressingMode from "../AddressingMode";
-import CPU from "../CPU";
+import CPU_6502 from "../CPU_6502";
 import { uint16, uint8 } from "../../types";
+import AddressingModeType from "../AddressingModeName";
 
 // From the Datasheet:
 // RELATIVE ADDRESSING [Relative]
@@ -15,10 +16,10 @@ import { uint16, uint8 } from "../../types";
 // -128 to +127 bytes.
 export default class Relative extends AddressingMode {
     constructor() {
-        super("Relative");
+        super(AddressingModeType.Relative);
     }
 
-    getAddress(cpu: CPU): uint16 {
+    getAddress(cpu: CPU_6502): uint16 {
         let offset: uint8 = cpu.bus.read(cpu.pc);
         cpu.pc++;
 
@@ -29,11 +30,11 @@ export default class Relative extends AddressingMode {
         return address;
     }
 
-    getData(cpu: CPU): uint8 {
+    getData(cpu: CPU_6502): uint8 {
         throw new Error("Relative addressing does not support getData()");
     }
 
-    setData(cpu: CPU, data: number): void {
+    setData(cpu: CPU_6502, data: number): void {
         throw new Error("Relative addressing does not support setData()");
     }
 

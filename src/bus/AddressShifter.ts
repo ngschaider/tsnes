@@ -10,7 +10,7 @@ export class AddressShifter extends Bus {
         
         bus.onRead.on(this.onIncomingRead.bind(this));
         bus.onWrite.on(this.onIncomingWrite.bind(this));
-        bus.onClock.on(this.onClock.trigger(this));
+        bus.onClock.on(this.onIncomingClock.bind(this));
 
         this.shift = shift;
     }
@@ -21,6 +21,10 @@ export class AddressShifter extends Bus {
 
     onIncomingWrite(address: Address, value: uint8): void {
         this.onWrite.trigger(address + this.shift, value);
+    }
+
+    onIncomingClock() {
+        this.onClock.trigger();
     }
 
 }

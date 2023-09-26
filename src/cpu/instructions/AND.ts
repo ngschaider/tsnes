@@ -1,7 +1,8 @@
 import AddressingMode from "../AddressingMode";
-import CPU from "../CPU";
+import CPU_6502 from "../CPU_6502";
 import { Instruction } from "../Instruction";
 import { uint8, uint16 } from "../../types";
+import AddressingModeType from "../AddressingModeName";
 
 // Instruction: Bitwise Logic AND
 // Function:    A = A & M
@@ -11,7 +12,7 @@ export default class AND extends Instruction {
         super("AND", opcode, addressingMode, cycles);
     }
 
-    execute(cpu: CPU): void {
+    execute(cpu: CPU_6502): void {
 		super.execute(cpu);
         let data: uint8 = this.addressingMode.getData(cpu);
 
@@ -19,7 +20,7 @@ export default class AND extends Instruction {
         cpu.status.Z = cpu.A === 0x00;
         cpu.status.N = (cpu.A & 0x80) !== 0x00;
 
-        if(this.addressingMode.pageBoundaryCrossed && this.addressingMode.name !== "IND_X") {
+        if(this.addressingMode.pageBoundaryCrossed && this.addressingMode.type !== AddressingModeType.IND_X) {
             cpu.cycles++;
         }
     }

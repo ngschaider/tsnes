@@ -1,5 +1,5 @@
 import AddressingMode from "../AddressingMode";
-import CPU from "../CPU";
+import CPU_6502 from "../CPU_6502";
 import { Instruction } from "../Instruction";
 import { uint8, uint16 } from "../../types";
 
@@ -12,7 +12,7 @@ export default class TYA extends Instruction {
         super("TYA", opcode, addressingMode, cycles);
     }
 
-    execute(cpu: CPU): void {
+    execute(cpu: CPU_6502): void {
 		super.execute(cpu);
         cpu.A = cpu.Y;
         cpu.status.Z = cpu.A == 0x00;

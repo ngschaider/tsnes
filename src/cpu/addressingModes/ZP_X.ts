@@ -1,6 +1,7 @@
 import AddressingMode from "../AddressingMode";
-import CPU from "../CPU";
+import CPU_6502 from "../CPU_6502";
 import { Address, uint16, uint8 } from "../../types";
+import AddressingModeType from "../AddressingModeName";
 
 // From the Datasheet:
 // INDEXED ZERO PAGE ADDRESSING [ZP, X or Y]
@@ -14,12 +15,12 @@ import { Address, uint16, uint8 } from "../../types";
 // and crossing of page boundaries does not occur.
 export default class ZP_X extends AddressingMode {
     constructor() {
-        super("ZP_X");
+        super(AddressingModeType.ZP_X);
     }
 
     private address?: Address;
 
-    getAddress(cpu: CPU): uint16 {
+    getAddress(cpu: CPU_6502): uint16 {
         if(!this.address) {
             let baseAddress: uint16 = cpu.bus.read(cpu.pc);
             cpu.pc++;
@@ -30,12 +31,12 @@ export default class ZP_X extends AddressingMode {
         return this.address;
     }
 
-    getData(cpu: CPU): uint8 {
+    getData(cpu: CPU_6502): uint8 {
         let address = this.getAddress(cpu);
         return cpu.bus.read(address);
     }
 
-    setData(cpu: CPU, data: uint8): void {
+    setData(cpu: CPU_6502, data: uint8): void {
         let address = this.getAddress(cpu);
         return cpu.bus.write(address, data);
     }

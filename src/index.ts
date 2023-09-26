@@ -1,50 +1,18 @@
 import p5 from "p5";
-import CPU from "./cpu/CPU";
-import RAM from "./RAM";
-import { Address, uint16, uint8 } from "./types";
-import Bus from "./bus/Bus";
+import { Address } from "./types";
 import Cartridge from "./Cartridge";
-import { AddressShifter } from "./bus/AddressShifter";
-import { Mirrorer } from "./bus/Mirrorer";
-import PPU from "./graphics/PPU";
+import NES from "./NES";
 
 
-const cpuBus: Bus = new Bus();
+const nes = new NES();
+//nes.reset();
 
-const cpu: CPU = new CPU(cpuBus);
-
-const ram = new RAM(cpuBus, 0x0800);
-const ram2 = new Mirrorer(new AddressShifter(cpuBus, 0x0800), 0x0000, 0x0800);
-const ram3 = new Mirrorer(new AddressShifter(cpuBus, 0x1000), 0x0000, 0x0800);
-const ram4 = new Mirrorer(new AddressShifter(cpuBus, 0x1800), 0x0000, 0x0800);
-
-const ppuBus: Bus = new Bus();
-const ppu = new PPU(ppuBus, cpuBus); // responds on 0x2000 to 0x2007 on the cpu bus
-
-const patternTable0 = new RAM(ppuBus, 0x1000);
-const patternTable1 = new RAM(new AddressShifter(ppuBus, 0x1000), 0x1000);
-const nametable0 = new RAM(new AddressShifter(ppuBus, 0x2000), 1024);
-const nametable1 = new RAM(new AddressShifter(ppuBus, 0x2400), 1024);
-const nametable2 = new RAM(new AddressShifter(ppuBus, 0x2800), 1024);
-const nametable3 = new RAM(new AddressShifter(ppuBus, 0x2C00), 1024);
-const nametableMirror = new Mirrorer(ppuBus, 0x2000, 4096);
-
-const palette = new RAM(new AddressShifter(ppuBus, 0x3F00), 0x0020)
-const paletteMirror1 = new Mirrorer(new AddressShifter(ppuBus, 0x3F20), 0x3F00, 4096);
-const paletteMirror2 = new Mirrorer(new AddressShifter(ppuBus, 0x3F40), 0x3F00, 4096);
-
-// the 8 bytes for the PPU on the CPU bus are mirrored 1023 times (0x2008 - 0x3FFF is the mirror range, repeats every 8 bytes)
-for(let i = 0x2008; i < 0x4000; i += 0x0008) {
-    new Mirrorer(new AddressShifter(cpuBus, i), 0x2000, 0x0008);
-}
-
-cpu.reset();
 
 let running = false;
 
-type Page = StatusPage | MemoryPage;
-type StatusPage = {
-    type: "status";
+type Page = GenericPage | MemoryPage;
+type GenericPage = {
+    type: "status" | "display";
 }
 type MemoryPage = {
     type: "memory";
@@ -54,6 +22,10 @@ type MemoryPage = {
 let currentPage: Page = {type: "status"};
 
 let p = new p5((p: p5) => {
+    p.windowResized = () => {
+        p.resizeCanvas(p.windowWidth, p.windowHeight - 4);
+    }
+
     p.setup = () => {
         p.createCanvas(p.windowWidth, p.windowHeight - 4);
         p.stroke(220);
@@ -80,22 +52,36 @@ let p = new p5((p: p5) => {
             }
             p.pop();
     
-            p.text("PC: 0x" + cpu.pc.toString(16), 20, 140);
-            p.text("STKP: 0x" + cpu.stkp.toString(16), 20, 160);
-            p.text("A: 0x" + cpu.A.toString(16), 20, 200);
-            p.text("X: 0x" + cpu.X.toString(16), 20, 220);
-            p.text("Y: 0x" + cpu.Y.toString(16), 20, 240);
-            p.text("Cycles left for instruction: " + cpu.cycles, 20, 280);
-            p.text("Total Cycles: " + cpu.totalCycles, 20, 300);
+            p.text("PC: 0x" + nes.cpu.pc.toString(16), 20, 140);
+            p.text("STKP: 0x" + nes.cpu.stkp.toString(16), 20, 160);
+            p.text("A: 0x" + nes.cpu.A.toString(16), 20, 200);
+            p.text("X: 0x" + nes.cpu.X.toString(16), 20, 220);
+            p.text("Y: 0x" + nes.cpu.Y.toString(16), 20, 240);
+            p.text("Cycles left for instruction: " + nes.cpu.cycles, 20, 280);
+            p.text("Total Cycles: " + nes.cpu.totalCycles, 20, 300);
 
             p.text("Controls:", 360, 140);
             p.text("S - Show this page", 360, 180);
             p.text("Space - Execute one clock cycle", 360, 200);
-            p.text("P - Halt/Run emulator", 360, 220);
-            p.text("R - Reset CPU", 360, 240);
-            p.text("M - Memory Dump", 360, 260);
-            p.text("C - Set Program Counter", 360, 280);
-            p.text("V - Set Stack Pointer", 360, 300);
+            p.text("F - Execute cycles for 1 frame", 360, 220);
+            p.text("P - Halt/Run emulator", 360, 240);
+            p.text("R - Reset CPU", 360, 260);
+            p.text("M - Memory Dump", 360, 280);
+            p.text("C - Set Program Counter", 360, 300);
+            p.text("V - Set Stack Pointer", 360, 320);
+            p.text("O - Open ROM file", 360, 340);
+            p.text("D - Switch to Display", 360, 360);
+            p.text("G - Execute cycles for 1 instruction", 360, 380);
+
+            p.text("Current Cartridge:", 760, 140);
+            if(nes.cartridge) {
+                p.text("Format Version: " + nes.cartridge.data.header.formatVersion, 760, 180);
+                p.text("Mapper: " + nes.cartridge.data.header.mapperNumber, 760, 200);
+                p.text("Program memory chunks: " + nes.cartridge.data.header.programMemoryChunks, 760, 220);
+                p.text("Pattern memory chunks: " + nes.cartridge.data.header.patternMemoryChunks, 760, 240);
+            } else {
+                p.text("N/A", 760, 180);
+            }
         } else if(currentPage.type == "memory") {
             const xSpacing = 30;
             const width = p.displayWidth - 120;
@@ -135,11 +121,43 @@ let p = new p5((p: p5) => {
                         break;
                     }
 
-                    const byte = cpuBus.read(address).toString(16).padStart(2, "0");
-
+                    const byte = nes.cpuBus.read(address).toString(16).padStart(2, "0");
                     p.text(byte, 100 + 30 * x, 70 + ySpacing * y);
                 }
             }
+        } else if(currentPage.type == "display") {
+            const xOffset = 200;
+            const yOffset = 100;
+            p.push();
+            for(let y = 0; y < nes.ppu.height; y++) {
+                for(let x = 0; x < nes.ppu.width; x++) {
+                    const xDraw = xOffset + x * 3;
+                    const yDraw = yOffset + y * 3;
+                    p.noStroke();
+                    const col = nes.ppu.getPixel(x, y);
+                    p.fill(col.red, col.green, col.blue);
+                    p.rect(xDraw, yDraw, 10, 10);
+                }
+            }
+            p.pop();
+
+            p.push();
+            p.noStroke();
+            p.textSize(20);
+            const x = 1300;
+            let y = 100;
+            for(const [address, line] of nes.cpu.getDisassembly(nes.cpu.pc - 10, nes.cpu.pc + 11)) {
+                if(address == nes.cpu.pc) {
+                    p.fill(200, 200, 255);
+                } else {
+                    p.fill(100, 100, 255);
+                }
+
+                p.text(line, x, y);
+
+                y += 20;
+            }
+            p.pop();
         }
         
         p.text(Math.round(1000/p.deltaTime) + " FPS", 10, p.windowHeight - 30);
@@ -152,9 +170,9 @@ let p = new p5((p: p5) => {
                 type: "status"
             };
         } else if(p.key == "r") {
-            cpu.reset();
+            nes.reset();
         } else if(p.key == " ") {
-            cpu.clock();
+            nes.clock();
         }  else if(p.key == "p") {
             running = !running
         }  else if(p.key == "m") {
@@ -177,7 +195,7 @@ let p = new p5((p: p5) => {
 
             const pc = parseInt(pcStr, 16);
             if(isNaN(pc)) return;
-            cpu.pc = pc;
+            nes.cpu.pc = pc;
         } else if(p.key == "v") {
             const stkpStr = prompt("Input new stack pointer (in hex):");
             if(!stkpStr) {
@@ -186,27 +204,44 @@ let p = new p5((p: p5) => {
 
             const stkp = parseInt(stkpStr, 16);
             if(isNaN(stkp)) return;
-            cpu.stkp = stkp;
+            nes.cpu.stkp = stkp;
+        } else if(p.key == "o") {
+            document.getElementById("rom")?.click();
+        } else if(p.key == "d") {
+            currentPage = {type: "display"};
+        } else if(p.key == "f") {
+            nes.ppu.frameComplete = false;
+            while(!nes.ppu.frameComplete) {
+                nes.clock();
+            }
+            nes.ppu.frameComplete = false;
+        } else if(p.key == "g") {
+            if(nes.cpu.completed) {
+                nes.clock();
+            }
+            while(!nes.cpu.completed) {
+                nes.clock();
+            }
         }
     }
 });
 
 const tick = () => {
     if(running) {
-        cpu.clock();
+        nes.clock();
     }
-    window.requestAnimationFrame(tick);
 }
-window.requestAnimationFrame(tick);
+setInterval(tick, 60/1000);
 
 
-document.getElementById("rom")?.addEventListener("change", (ev: Event) => {
+document.getElementById("rom")?.addEventListener("change", async (ev: Event) => {
     let inputElement = <HTMLInputElement> ev.target;
     let file = inputElement?.files?.[0];
     if(!file) {
         return;
     }
-    Cartridge.loadFromFile(file, cartridge => {
-        console.log(cartridge);
-    });
+
+    const cartridge = await Cartridge.loadFromFile(nes.cpuBus, nes.ppuBus, file);
+    nes.insertCartridge(cartridge);
+    
 });

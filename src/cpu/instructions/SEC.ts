@@ -1,5 +1,5 @@
 import AddressingMode from "../AddressingMode";
-import CPU from "../CPU";
+import CPU_6502 from "../CPU_6502";
 import { Instruction } from "../Instruction";
 import { uint8, uint16 } from "../../types";
 
@@ -10,7 +10,7 @@ export default class SEC extends Instruction {
         super("SEC", opcode, addressingMode, cycles);
     }
 
-    execute(cpu: CPU): void {
+    execute(cpu: CPU_6502): void {
 		super.execute(cpu);
         cpu.status.C = true;
     }

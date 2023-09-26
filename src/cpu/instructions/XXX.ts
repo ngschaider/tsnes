@@ -1,6 +1,6 @@
 import AddressingMode from "../AddressingMode";
 import Implied from "../addressingModes/Implied";
-import CPU from "../CPU";
+import CPU_6502 from "../CPU_6502";
 import { Instruction } from "../Instruction";
 import { uint8, uint16 } from "../../types";
 
@@ -10,7 +10,7 @@ export default class XXX extends Instruction {
         super("???", opcode, new Implied(), 1);
     }
 
-    execute(cpu: CPU): void {
+    execute(cpu: CPU_6502): void {
 		super.execute(cpu);
         throw new Error("Illegal instruction executed (opcode=" + this.opcode.toString(16) + ")");
     }

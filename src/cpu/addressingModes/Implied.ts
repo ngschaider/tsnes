@@ -1,6 +1,7 @@
 import AddressingMode from "../AddressingMode";
-import CPU from "../CPU";
+import CPU_6502 from "../CPU_6502";
 import { uint16, uint8 } from "../../types";
+import AddressingModeType from "../AddressingModeName";
 
 // From the Datasheet:
 // IMPLIED ADDRESSING [Implied]
@@ -10,18 +11,18 @@ import { uint16, uint8 } from "../../types";
 // code of the instruction.
 export default class Implied extends AddressingMode {
     constructor() {
-        super("Implied");
+        super(AddressingModeType.Implied);
     }
 
-    getAddress(cpu: CPU): uint16 {
+    getAddress(cpu: CPU_6502): uint16 {
         throw new Error("Implied addressing does not support getAddress()");
     }
 
-    getData(cpu: CPU): uint8 {
+    getData(cpu: CPU_6502): uint8 {
         throw new Error("Implied addressing does not support getData()");
     }
 
-    setData(cpu: CPU, data: number): void {
+    setData(cpu: CPU_6502, data: number): void {
         throw new Error("Implied addressing does not support setData()");
     }
 

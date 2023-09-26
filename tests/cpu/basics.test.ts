@@ -1,11 +1,11 @@
 import Bus from "../../src/bus/Bus";
-import CPU from "../../src/cpu/CPU";
+import CPU_6502 from "../../src/cpu/CPU_6502";
 import RAM from "../../src/RAM";
 
 describe("CPU - BASICS", () => {
     const setup = () => {
         let bus = new Bus();
-        let cpu = new CPU(bus);
+        let cpu = new CPU_6502(bus);
         let ram = new RAM(bus, 0xFFFF);
 
         return {
